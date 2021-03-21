@@ -72,20 +72,18 @@ namespace Uno_Game
                     this.CentralPile.Add(this.CurrentDeck[index]);
                     this.CurrentDeck.RemoveAt(index);
                     break;
-
                 }
                 else
                 {
                     index++;
                 }
-            }
-                
+            }    
         }
 
         /// <summary>
         /// Draws a card.
         /// </summary>
-        /// <param name="player">The player who is drawing the card</param>
+        /// <param name="player">The player who is drawing the card.</param>
         public void DrawCard(Player player)
         {
             player.PlayerHand.Add(this.CurrentDeck[0]);
@@ -95,8 +93,8 @@ namespace Uno_Game
         /// <summary>
         /// Checks to see if the computer has a card to play and places the first card that works
         /// </summary>
-        /// <param name="hand">The hand that is being looked at</param>
-        /// <returns>The card that the computer plans to play</returns>
+        /// <param name="hand">The hand that is being looked at.</param>
+        /// <returns>The card that the computer plans to play.</returns>
         public Card CheckCompHand(List<Card> hand)
         {
             Card card = null;
@@ -192,7 +190,7 @@ namespace Uno_Game
             foreach (Card c in hand)
             {
                 if ((c.MyNumber == check.MyNumber && (check.MyValue != 20 && check.MyValue != 50) && (c.MyValue != 20)) || c.MyColor == check.MyColor || c.MyType == Card.Type.Wild || 
-                    c.MyType == Card.Type.WildDraw4 || (c.MyType == Card.Type.Skip && check.MyType == Card.Type.Skip)|| (c.MyType == Card.Type.Reverse && check.MyType == Card.Type.Reverse) || 
+                    c.MyType == Card.Type.WildDraw4 || (c.MyType == Card.Type.Skip && check.MyType == Card.Type.Skip) || (c.MyType == Card.Type.Reverse && check.MyType == Card.Type.Reverse) || 
                     (c.MyType == Card.Type.Draw2 && check.MyType == Card.Type.Draw2))
                 {
                     return true;
@@ -202,6 +200,10 @@ namespace Uno_Game
             return false;
         }
 
+        /// <summary>
+        /// Uses the draw two or four method.
+        /// </summary>
+        /// <param name="n">Returns the integer n.</param>
         public void DrawTwoOrFour(int n)
         {
             if (this.PlayerTurn == 1)
@@ -220,10 +222,6 @@ namespace Uno_Game
                     this.CurrentDeck.RemoveAt(0);
                 }
             }
-
-
         }
-
-
     }
 }

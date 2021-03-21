@@ -174,20 +174,21 @@ namespace Uno_Game
 
                     this.X = 70;
 
-                    // recreate Playerhand now that images are updated
+                    //// Recreate Playerhand now that images are updated
                     foreach (Card crd in this.UnoGame.Player1.PlayerHand)
                     {
                         this.CreateViewImageDynamically(crd.MyImagePath);
                     }
 
-                    //Perform the draw two card
-                    if ((path.Substring(0, 4) == "Draw"))
+                    //// Perform the draw two card
+                    //// Else performs the wilddraw4 card
+                    if (path.Substring(0, 4) == "Draw")
                     {
                         int n = int.Parse(path.Substring(4, 1));
                         this.UnoGame.DrawTwoOrFour(n);
                         for (int i = 0; i < n; i++)
                         {
-                            // creates image for new card
+                            //// Creates image for new card
                             Image dynamicImage1 = new Image();
                             dynamicImage1.Width = 150;
                             dynamicImage1.Height = 100;
@@ -207,9 +208,7 @@ namespace Uno_Game
                             //// Add Image to Window  
                             grdMainWindow.Children.Add(dynamicImage1);
                         }
-
                     }
-                    //Perform the wilddraw4 card
                     else if (path.Substring(0, 8) == "WildDraw")
                     {
                         int n = int.Parse(path.Substring(8, 1));
@@ -238,10 +237,8 @@ namespace Uno_Game
                             grdMainWindow.Children.Add(dynamicImage1);
                         }
 
-
                         new Colors(checkCard).ShowDialog();
                         MessageBox.Show(checkCard.MyColor.ToString());
-
                     }
                     else if (path.Substring(0, 4) == "Wild")
                     {
@@ -249,8 +246,7 @@ namespace Uno_Game
                         MessageBox.Show(checkCard.MyColor.ToString());
                     }
 
-
-                    //if the card is Reverse or Skip player stays the same 
+                    //// If the card is Reverse or Skip player stays the same 
                     if ((path.Substring(0, 7) != "Reverse") && (path.Substring(0, 4) != "Skip"))
                     {
                         this.UnoGame.PlayerTurn = 2;
@@ -261,13 +257,12 @@ namespace Uno_Game
                     {
                         this.DrawCardButton.IsEnabled = true;
                     }
-
                 }
             }
 
-            if (UnoGame.Player1.PlayerHand.Count == 0)
+            if (this.UnoGame.Player1.PlayerHand.Count == 0)
             {
-                MessageBox.Show("Congrats! You won");
+                MessageBox.Show("Congrats! You won!");
                 this.DrawCardButton.IsEnabled = false;
                 this.NextPlayerButton.Visibility = Visibility.Hidden;
             }
@@ -301,7 +296,6 @@ namespace Uno_Game
             this.imgDeckPile.Visibility = Visibility.Visible;
             this.DrawCardButton.Visibility = Visibility.Visible;
             this.DrawCardButton.IsEnabled = true;
-
 
             // display player's hand
             foreach (Card crd in this.UnoGame.Player1.PlayerHand)
@@ -343,7 +337,6 @@ namespace Uno_Game
             dynamicImageCentral.Width = 150;
             dynamicImageCentral.Height = 100;
 
-
             // Create a BitmapSource  
             BitmapImage bitmapCentral = new BitmapImage();
             bitmapCentral.BeginInit();
@@ -352,7 +345,6 @@ namespace Uno_Game
             dynamicImageCentral.Source = bitmapCentral;
 
             imgMainPile.Source = dynamicImageCentral.Source;
-
         }
 
         /// <summary>
@@ -398,6 +390,7 @@ namespace Uno_Game
                         }
                     }
                 }
+
                 bool check = false;
                 if (findCard == null)
                 {
@@ -448,11 +441,10 @@ namespace Uno_Game
                         imgMainPile.Source = dynamicImageCentral.Source;
                         check = true;
                         findCard = checkAgain;
-
                     }
+
                     this.LastImage = dynamicImage1;
                     this.DrawCardButton.IsEnabled = true;
-
                 }
                 else
                 {
@@ -475,12 +467,11 @@ namespace Uno_Game
                     this.UnoGame.CentralPile.Add(findCard);
 
                     imgMainPile.Source = dynamicImageCentral.Source;
-                }
-                    
+                }      
                     
                 if (check)
                 {
-                    if ((findCard.MyType == Card.Type.Draw2 || findCard.MyType == Card.Type.WildDraw4))
+                    if (findCard.MyType == Card.Type.Draw2 || findCard.MyType == Card.Type.WildDraw4)
                     {
                         int n = 0;
                         if (findCard.MyType == Card.Type.Draw2)
@@ -522,7 +513,7 @@ namespace Uno_Game
                             }
                             else
                             {
-                                // if element is not an image, we increment index
+                                //// If element is not an image, we increment index
                                 currentIndex++;
                             }
                         }
@@ -530,18 +521,16 @@ namespace Uno_Game
                         this.UnoGame.DrawTwoOrFour(n);
 
                         this.X = 70;
-                        // recreate Playerhand now that images are updated
+                        //// Recreate Playerhand now that images are updated
                         foreach (Card crd in this.UnoGame.Player1.PlayerHand)
                         {
                             this.CreateViewImageDynamically(crd.MyImagePath);
                         }
-
                     }
 
-                    //if the card is Reverse or Skip Player stays the same 
+                    //// If the card is Reverse or Skip Player stays the same 
                     if ((findCard.MyType != Card.Type.Reverse) && (findCard.MyType != Card.Type.Skip))
                     {
-
                         this.NextPlayerButton.Visibility = Visibility.Hidden;
                         this.UnoGame.PlayerTurn = 1;
                         this.DrawCardButton.IsEnabled = true;
@@ -551,7 +540,6 @@ namespace Uno_Game
                         this.UnoGame.PlayerTurn = 2;
                         this.DrawCardButton.IsEnabled = false;
                     }
-
                 }
                 else
                 {
@@ -564,17 +552,14 @@ namespace Uno_Game
                 {
                     MessageBox.Show("The computer has chosen color: " + findCard.MyColor.ToString());
                 }
-
-
             }
 
-            if (UnoGame.Player2.PlayerHand.Count == 0)
+            if (this.UnoGame.Player2.PlayerHand.Count == 0)
             {
                 MessageBox.Show("Game over. Computer won");
                 this.DrawCardButton.IsEnabled = false;
                 this.NextPlayerButton.Visibility = Visibility.Hidden;
             }
-
         }
     }
 }
