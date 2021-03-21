@@ -1,0 +1,16 @@
+﻿<Window x:Class="Uno_Game.Colors"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Uno_Game"
+        mc:Ignorable="d"
+        Title="Colors" Height="230" Width="210">
+    <Grid>
+        <Image x:Name="Yellow" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Margin="0,100,0,-1" Stretch="Fill" Source="pack://siteoforigin:,,,/Resources/Yellow.png" MouseLeftButtonUp="Img_MouseLeftButtonUp"/>
+        <Image x:Name="Green" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Margin="100,99,0,0" Stretch="Fill" Source="pack://siteoforigin:,,,/Resources/Green.jpg" MouseLeftButtonUp="Img_MouseLeftButtonUp"/>
+        <Image x:Name="Red" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Source="pack://siteoforigin:,,,/Resources/Red.jpg" Stretch="Fill" MouseLeftButtonUp="Img_MouseLeftButtonUp"/>
+        <Image x:Name="Blue" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Margin="100,0,0,0" Stretch="Fill" Source="pack://siteoforigin:,,,/Resources/Blue.jpg" MouseLeftButtonUp="Img_MouseLeftButtonUp"/>
+
+    </Grid>
+</Window>
