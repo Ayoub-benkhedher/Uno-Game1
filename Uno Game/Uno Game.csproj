@@ -399,11 +399,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Blue.jfif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Blue.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

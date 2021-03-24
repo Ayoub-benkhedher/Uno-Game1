@@ -250,12 +250,12 @@ namespace Uno_Game
                     if ((path.Substring(0, 7) != "Reverse") && (path.Substring(0, 4) != "Skip"))
                     {
                         this.UnoGame.PlayerTurn = 2;
-                        this.DrawCardButton.IsEnabled = false;
-                        this.NextPlayerButton.Visibility = Visibility.Visible;
+                        this.imgDeckPile.IsEnabled = false;
+                        this.NextPlayerButton_Click(sender, e);
                     }
                     else
                     {
-                        this.DrawCardButton.IsEnabled = true;
+                        this.imgDeckPile.IsEnabled = true;
                     }
                 }
             }
@@ -263,8 +263,8 @@ namespace Uno_Game
             if (this.UnoGame.Player1.PlayerHand.Count == 0)
             {
                 MessageBox.Show("Congrats! You won!");
-                this.DrawCardButton.IsEnabled = false;
-                this.NextPlayerButton.Visibility = Visibility.Hidden;
+                this.imgDeckPile.IsEnabled = false;
+                this.UnoGame.PlayerTurn = 0;
             }
         }
 
@@ -287,15 +287,14 @@ namespace Uno_Game
             this.grdMainWindow.Children.Clear();
             this.grdMainWindow.Children.Add(this.imgMainPile);
             this.grdMainWindow.Children.Add(this.imgDeckPile);
-            this.grdMainWindow.Children.Add(this.DrawCardButton);
             this.grdMainWindow.Children.Add(this.BtnNewGame);
             this.grdMainWindow.Children.Add(this.BtnClose);
             this.grdMainWindow.Children.Add(this.NextPlayerButton);
             this.CompX = 70;
             this.X = 70;
             this.imgDeckPile.Visibility = Visibility.Visible;
-            this.DrawCardButton.Visibility = Visibility.Visible;
-            this.DrawCardButton.IsEnabled = true;
+            this.imgDeckPile.Visibility = Visibility.Visible;
+            this.imgDeckPile.IsEnabled = true;
 
             // display player's hand
             foreach (Card crd in this.UnoGame.Player1.PlayerHand)
@@ -348,33 +347,13 @@ namespace Uno_Game
         }
 
         /// <summary>
-        /// Draws a card for player if clicked.
-        /// </summary>
-        /// <param name="sender">The object that initiated the event.</param>
-        /// <param name="e">The event arguments for the event.</param>
-        private void DrawCardButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.UnoGame.PlayerTurn == 1)
-            {
-                this.UnoGame.DrawCard(this.UnoGame.Player1);
-                Card card = this.UnoGame.Player1.PlayerHand[this.UnoGame.Player1.PlayerHand.Count - 1];
-                this.CreateViewImageDynamically(card.MyImagePath);
-                this.DrawCardButton.IsEnabled = false;
-                if (!this.UnoGame.CheckUserHand(this.UnoGame.Player1.PlayerHand))
-                {
-                    this.UnoGame.PlayerTurn = 2;
-                    this.NextPlayerButton.Visibility = Visibility.Visible;
-                }
-            }
-        }
-
-        /// <summary>
         /// If a user cannot play a card after drawing, 
         /// </summary>
         /// <param name="sender">The object that initiated the event.</param>
         /// <param name="e">The event arguments for the event.</param>
         private async void NextPlayerButton_Click(object sender, RoutedEventArgs e)
         {
+            await Task.Delay(1000);
             if (this.UnoGame.PlayerTurn == 2)
             {
                 Card findCard = this.UnoGame.CheckCompHand(this.UnoGame.Player2.PlayerHand);
@@ -444,7 +423,7 @@ namespace Uno_Game
                     }
 
                     this.LastImage = dynamicImage1;
-                    this.DrawCardButton.IsEnabled = true;
+                    this.imgDeckPile.IsEnabled = true;
                 }
                 else
                 {
@@ -531,21 +510,20 @@ namespace Uno_Game
                     //// If the card is Reverse or Skip Player stays the same 
                     if ((findCard.MyType != Card.Type.Reverse) && (findCard.MyType != Card.Type.Skip))
                     {
-                        this.NextPlayerButton.Visibility = Visibility.Hidden;
                         this.UnoGame.PlayerTurn = 1;
-                        this.DrawCardButton.IsEnabled = true;
+                        this.imgDeckPile.IsEnabled = true;
                     }
                     else
                     {
                         this.UnoGame.PlayerTurn = 2;
-                        this.DrawCardButton.IsEnabled = false;
+                        this.imgDeckPile.IsEnabled = false;
+                        this.NextPlayerButton_Click(sender, e);
                     }
                 }
                 else
                 {
                     this.UnoGame.PlayerTurn = 1;
-                    NextPlayerButton.Visibility = Visibility.Hidden;
-                    this.DrawCardButton.IsEnabled = true;
+                    this.imgDeckPile.IsEnabled = true;
                 }
 
                 if (findCard != null && (findCard.MyType == Card.Type.Wild || findCard.MyType == Card.Type.WildDraw4))
@@ -557,8 +535,29 @@ namespace Uno_Game
             if (this.UnoGame.Player2.PlayerHand.Count == 0)
             {
                 MessageBox.Show("Game over. Computer won");
-                this.DrawCardButton.IsEnabled = false;
-                this.NextPlayerButton.Visibility = Visibility.Hidden;
+                this.imgDeckPile.IsEnabled = false;
+                this.UnoGame.PlayerTurn = 0;
+            }
+        }
+
+        /// <summary>
+        /// Draws a card for player if clicked.
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void ImgDeckPile_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.UnoGame.PlayerTurn == 1 && !this.UnoGame.CheckUserHand(this.UnoGame.Player1.PlayerHand))
+            {
+                this.UnoGame.DrawCard(this.UnoGame.Player1);
+                Card card = this.UnoGame.Player1.PlayerHand[this.UnoGame.Player1.PlayerHand.Count - 1];
+                this.CreateViewImageDynamically(card.MyImagePath);
+                this.imgDeckPile.IsEnabled = false;
+                if (!this.UnoGame.CheckUserHand(this.UnoGame.Player1.PlayerHand))
+                {
+                    this.UnoGame.PlayerTurn = 2;
+                    this.NextPlayerButton_Click(sender, e);
+                }
             }
         }
     }
