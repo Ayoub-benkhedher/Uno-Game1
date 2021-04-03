@@ -33,6 +33,11 @@ namespace Uno_Game
         public Player Player2;
 
         /// <summary>
+        /// A computer opponent.
+        /// </summary>
+        public Player Player3;
+
+        /// <summary>
         /// The current deck as cards are removed.
         /// </summary>
         public List<Card> CurrentDeck;
@@ -47,19 +52,40 @@ namespace Uno_Game
         /// </summary>
         public int PlayerTurn;
 
+        public Mode GameMode;
+
+        public bool Clockwise;
+
         /// <summary>
         /// The method used to deal cards to the players.
         /// </summary>
-        public void DealCards()
+        public void DealCards(Mode mode)
         {
+            this.GameMode = mode;
             this.CurrentDeck = this.GameDeck.Deck.ToList<Card>();
-            for (int i = 0; i < 7; i++)
+            if (this.GameMode == Mode.TwoPlayers)
             {
-                this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
-                this.CurrentDeck.RemoveAt(0);
-                this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
-                this.CurrentDeck.RemoveAt(0);
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
             }
+            else if (this.GameMode == Mode.ThreePlayers)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
+            }
+            
 
             this.CentralPile = new List<Card>();
             int index = 0;
@@ -206,20 +232,80 @@ namespace Uno_Game
         /// <param name="n">Returns the integer n.</param>
         public void DrawTwoOrFour(int n)
         {
-            if (this.PlayerTurn == 1)
+            if (this.GameMode == Mode.ThreePlayers)
             {
-                for (int i = 0; i < n; i++)
+                if (this.Clockwise)
                 {
-                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
-                    this.CurrentDeck.RemoveAt(0);
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
                 }
             }
             else
             {
-                for (int i = 0; i < n; i++)
+                if (this.PlayerTurn == 1)
                 {
-                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
-                    this.CurrentDeck.RemoveAt(0);
+                    for (int i = 0; i < n; i++)
+                    {
+                        this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                        this.CurrentDeck.RemoveAt(0);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < n; i++)
+                    {
+                        this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                        this.CurrentDeck.RemoveAt(0);
+                    }
                 }
             }
         }

@@ -27,10 +27,10 @@ namespace Uno_Game
         /// </summary>
         public int Score = 0;
 
-        /// <summary>
-        /// Used to determine if player is a computer or actual person.
-        /// </summary>
-        public bool IsComputer;
+        ///// <summary>
+        ///// Used to determine if player is a computer or actual person.
+        ///// </summary>
+        //public bool IsComputer;
 
         /// <summary>
         /// The cards in the player's hand.
