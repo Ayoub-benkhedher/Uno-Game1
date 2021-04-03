@@ -30,7 +30,7 @@ namespace Uno_Game
         ///// <summary>
         ///// Used to determine if player is a computer or actual person.
         ///// </summary>
-        //public bool IsComputer;
+        ////public bool IsComputer;
 
         /// <summary>
         /// The cards in the player's hand.

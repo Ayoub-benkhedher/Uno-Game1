@@ -52,13 +52,20 @@ namespace Uno_Game
         /// </summary>
         public int PlayerTurn;
 
+        /// <summary>
+        /// Used to determine the type of game mode.
+        /// </summary>
         public Mode GameMode;
 
+        /// <summary>
+        /// Used to determine the rotation in which turns take place.
+        /// </summary>
         public bool Clockwise;
 
         /// <summary>
         /// The method used to deal cards to the players.
         /// </summary>
+        /// <param name="mode">The mode of the game.</param>
         public void DealCards(Mode mode)
         {
             this.GameMode = mode;
@@ -85,7 +92,6 @@ namespace Uno_Game
                     this.CurrentDeck.RemoveAt(0);
                 }
             }
-            
 
             this.CentralPile = new List<Card>();
             int index = 0;
