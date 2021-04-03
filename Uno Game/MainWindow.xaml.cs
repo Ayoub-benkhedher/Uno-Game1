@@ -164,6 +164,7 @@ namespace Uno_Game
                         break;
                     }
                 }
+                //This is just a test
 
                 if (this.UnoGame.CanPlaceCard(checkCard))
                 {
