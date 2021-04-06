@@ -1334,6 +1334,7 @@ namespace Uno_Game
                     ////this.imgDeckPile.IsEnabled = false;
                     this.UnoGame.PlayerTurn = 0;
                 }
+
                 this.BtnChooseDealer.IsEnabled = true;
             }
             else
@@ -1502,6 +1503,7 @@ namespace Uno_Game
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);
                 }
+
                 this.imgDeckPile.IsEnabled = true;
             }
         }
