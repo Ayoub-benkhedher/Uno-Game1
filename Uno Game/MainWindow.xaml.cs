@@ -84,6 +84,7 @@ namespace Uno_Game
             this.BtnChooseDealer.Visibility = Visibility.Visible;
             this.imgDeckPile.Visibility = Visibility.Hidden;
             this.DataContext = this;
+            this.lblDrawCard.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -851,6 +852,7 @@ namespace Uno_Game
                 this.imgDeckPile.IsEnabled = true;
                 this.BtnChooseDealer.Visibility = Visibility.Visible;
                 this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
 
                 //// display player's hand
                 foreach (Card crd in this.UnoGame.Player1.PlayerHand)
@@ -912,6 +914,7 @@ namespace Uno_Game
                 this.imgDeckPile.IsEnabled = true;
                 this.BtnChooseDealer.Visibility = Visibility.Visible;
                 this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
                 //// display player's hand
                 foreach (Card crd in this.UnoGame.Player1.PlayerHand)
                 {
@@ -982,6 +985,7 @@ namespace Uno_Game
         {
             if (this.UnoGame.InGame)
             {
+                this.BtnChooseDealer.IsEnabled = false;
                 await Task.Delay(1000);
                 if (this.UnoGame.PlayerTurn == 2)
                 {
@@ -1323,14 +1327,14 @@ namespace Uno_Game
                     }
                 }
 
+                this.DisplayPlayerTurn();
                 if (this.UnoGame.Player2.PlayerHand.Count == 0)
                 {
                     MessageBox.Show("Game over. Computer won");
                     ////this.imgDeckPile.IsEnabled = false;
                     this.UnoGame.PlayerTurn = 0;
                 }
-
-                this.DisplayPlayerTurn();
+                this.BtnChooseDealer.IsEnabled = true;
             }
             else
             {
@@ -1353,23 +1357,29 @@ namespace Uno_Game
 
                     if (this.gameMode == Mode.ThreePlayers)
                     {
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.lblDrawCard.Content = "Player 3, draw a card.";
                         this.UnoGame.PlayerTurn = 3;
                         this.DisplayPlayerTurn();
                     }
                     else
                     {
-                        if (card2.MyNumber > this.UnoGame.Player1.PlayerHand[this.UnoGame.Player1.PlayerHand.Count - 1].MyNumber)
+                        if (card2.MyNumber < this.UnoGame.Player1.PlayerHand[this.UnoGame.Player1.PlayerHand.Count - 1].MyNumber)
                         {
-                            this.UnoGame.PlayerTurn = 2;
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 2 is the dealer, and Player 1 gets to play first.");
                         }
                         else
                         {
-                            this.UnoGame.PlayerTurn = 1;
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, and Player 2 gets to play first.");
                         }
 
                         this.BtnChooseDealer.Content = "New Game";
                         this.BtnChooseDealer.Visibility = Visibility.Hidden;
-                        this.BtnNewGame.Visibility = Visibility.Visible;
+                        this.BtnNewGame_Click(sender, e);
                     }
                 }
             }
@@ -1430,6 +1440,7 @@ namespace Uno_Game
             }
             else
             {
+                this.lblDrawCard.Visibility = Visibility.Hidden;
                 this.imgDeckPile.IsEnabled = false;
                 bool isNumber = false;
                 if (this.UnoGame.PlayerTurn == 1)
@@ -1446,14 +1457,10 @@ namespace Uno_Game
                         }
                     }
 
-                    await Task.Delay(500);
                     this.UnoGame.PlayerTurn = 2;
                     this.DisplayPlayerTurn();
+                    await Task.Delay(500);
                     this.NextPlayerButton_Click(sender, e);
-                    if (this.gameMode == Mode.ThreePlayers)
-                    {
-                        this.imgDeckPile.IsEnabled = true;
-                    }
                 }
                 else if (this.gameMode == Mode.ThreePlayers && this.UnoGame.PlayerTurn == 3)
                 {
@@ -1474,22 +1481,28 @@ namespace Uno_Game
 
                     if (card3.MyNumber < this.UnoGame.Player1.PlayerHand[this.UnoGame.Player1.PlayerHand.Count - 1].MyNumber && card3.MyNumber < this.UnoGame.Player2.PlayerHand[this.UnoGame.Player2.PlayerHand.Count - 1].MyNumber)
                     {
+                        await Task.Delay(500);
                         this.UnoGame.PlayerTurn = 1;
+                        MessageBox.Show("Player 3 is the dealer, so Player 1 begins play.");
                     }
                     else if (this.UnoGame.Player2.PlayerHand[this.UnoGame.Player2.PlayerHand.Count - 1].MyNumber < this.UnoGame.Player1.PlayerHand[this.UnoGame.Player1.PlayerHand.Count - 1].MyNumber && this.UnoGame.Player2.PlayerHand[this.UnoGame.Player2.PlayerHand.Count - 1].MyNumber <= card3.MyNumber)
                     {
+                        await Task.Delay(500);
                         this.UnoGame.PlayerTurn = 3;
+                        MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
                     }
                     else
                     {
+                        await Task.Delay(500);
                         this.UnoGame.PlayerTurn = 2;
-                        this.DisplayPlayerTurn();
+                        MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
-                    this.BtnNewGame.Visibility = Visibility.Visible;
+                    this.BtnNewGame_Click(sender, e);
                 }
+                this.imgDeckPile.IsEnabled = true;
             }
         }
 
@@ -1503,6 +1516,7 @@ namespace Uno_Game
             if (this.gameMode == Mode.TwoPlayers)
             {
                 this.UnoGame = new Gameflow();
+                this.UnoGame.InGame = false;
                 this.UnoGame.GameDeck = new DeckOfCards();
                 this.UnoGame.Player1 = new Player();
                 ////this.UnoGame.Player1.IsComputer = false;
@@ -1510,7 +1524,6 @@ namespace Uno_Game
                 ////this.UnoGame.Player2.IsComputer = true;
                 this.UnoGame.Player1.PlayerHand.Clear();
                 this.UnoGame.Player2.PlayerHand.Clear();
-                this.UnoGame.InGame = false;
                 this.UnoGame.PlayerTurn = 1;
                 this.UnoGame.Clockwise = true;
                 this.UnoGame.GameDeck.SetUpDeck();
@@ -1521,11 +1534,14 @@ namespace Uno_Game
                 this.grdMainWindow.Children.Add(this.BtnClose);
                 this.grdMainWindow.Children.Add(this.NextPlayerButton);
                 this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.grdMainWindow.Children.Add(this.lblDrawCard);
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.BtnChooseDealer.IsEnabled = false;
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.DisplayPlayerTurn();
+                this.lblDrawCard.Visibility = Visibility.Visible;
+                this.lblDrawCard.Content = "Player 1, draw a card.";
             }
             else if (this.gameMode == Mode.ThreePlayers)
             {
@@ -1556,6 +1572,8 @@ namespace Uno_Game
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
+                this.lblDrawCard.Visibility = Visibility.Visible;
+                this.lblDrawCard.Content = "Player 1, draw a card.";
             }
         }
     }

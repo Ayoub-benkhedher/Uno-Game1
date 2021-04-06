@@ -33,5 +33,6 @@
                 <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
             </Button.Effect>
         </Button>
+        <Label x:Name="lblDrawCard" Content="Player 1, draw a card." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="597,148,0,0" Width="151" BorderBrush="Black" Foreground="White"/>
     </Grid>
 </Window>
