@@ -63,6 +63,11 @@ namespace Uno_Game
         public bool Clockwise;
 
         /// <summary>
+        /// determines whether we are currently in game
+        /// </summary>
+        public bool InGame = false;
+
+        /// <summary>
         /// The method used to deal cards to the players.
         /// </summary>
         /// <param name="mode">The mode of the game.</param>
@@ -118,8 +123,21 @@ namespace Uno_Game
         /// <param name="player">The player who is drawing the card.</param>
         public void DrawCard(Player player)
         {
-            player.PlayerHand.Add(this.CurrentDeck[0]);
-            this.CurrentDeck.RemoveAt(0);
+            if (this.InGame)
+            {
+                player.PlayerHand.Add(this.CurrentDeck[0]);
+                this.CurrentDeck.RemoveAt(0);
+            }
+            else
+            {
+                if (this.CurrentDeck == null)
+                {
+                    this.CurrentDeck = this.GameDeck.Deck.ToList<Card>();
+                }
+
+                player.PlayerHand.Add(this.CurrentDeck[0]);
+                this.CurrentDeck.RemoveAt(0);
+            }
         }
 
         /// <summary>

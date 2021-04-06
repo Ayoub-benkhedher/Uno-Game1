@@ -36,5 +36,10 @@ namespace Uno_Game
         /// The cards in the player's hand.
         /// </summary>
         public List<Card> PlayerHand = new List<Card>();
+
+        /// <summary>
+        /// Used to determine if player is dealer
+        /// </summary>
+        public bool IsDealer;
     }
 }

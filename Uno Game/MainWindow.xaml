@@ -28,5 +28,10 @@
         <Button x:Name="NextPlayerButton" Content="Next Player" HorizontalAlignment="Left" Margin="780,233,0,0" VerticalAlignment="Top" Width="64" Height="38" Click="NextPlayerButton_Click" Visibility="Hidden"/>
         <Image x:Name="imgDeckPile" HorizontalAlignment="Left" Height="96" Margin="635,200,0,0" VerticalAlignment="Top" Width="69" Source="UnoDeck.png" MouseLeftButtonUp="ImgDeckPile_MouseLeftButtonUp"/>
         <Label x:Name="lblPlayer" Content="Turn" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1454,32,0,0" Width="151" BorderBrush="Black" Foreground="White"/>
+        <Button x:Name="BtnChooseDealer" Content="Choose Dealer" HorizontalAlignment="Left" Margin="1241,63,0,0" VerticalAlignment="Top" Width="158" Height="49" Click="BtnChooseDealer_Click" RenderTransformOrigin="0.45,1.905" Background="White">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
     </Grid>
 </Window>
