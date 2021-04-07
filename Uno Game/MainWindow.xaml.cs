@@ -1565,6 +1565,7 @@ namespace Uno_Game
                 this.grdMainWindow.Children.Add(this.BtnClose);
                 this.grdMainWindow.Children.Add(this.NextPlayerButton);
                 this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.grdMainWindow.Children.Add(this.lblDrawCard);
                 this.imgDeckPile.IsEnabled = true;
                 this.BtnChooseDealer.IsEnabled = false;
                 this.BtnChooseDealer.Content = "Draw Card";
