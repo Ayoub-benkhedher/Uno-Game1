@@ -72,7 +72,6 @@ namespace Uno_Game
         /// </summary>
         public Player Player10;
 
-
         /// <summary>
         /// The current deck as cards are removed.
         /// </summary>
@@ -133,7 +132,146 @@ namespace Uno_Game
                     this.CurrentDeck.RemoveAt(0);
                 }
             }
-            else if (this.GameMode == Mode)
+            else if (this.GameMode == Mode.FourPlayers)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
+            }
+            else if (this.GameMode == Mode.FivePlayers)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
+            }
+            else if (this.GameMode == Mode.SixPlayers)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
+            }
+            else if (this.GameMode == Mode.SevenPlayers)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
+            }
+            else if (this.GameMode == Mode.EightPlayers)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
+            }
+            else if (this.GameMode == Mode.NinePlayers)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player9.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
+            }
+            else if (this.GameMode == Mode.TenPlayers)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player9.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                    this.Player10.PlayerHand.Add(this.CurrentDeck[0]);
+                    this.CurrentDeck.RemoveAt(0);
+                }
+            }
 
             this.CentralPile = new List<Card>();
             int index = 0;
@@ -293,7 +431,854 @@ namespace Uno_Game
         /// <param name="n">Returns the integer n.</param>
         public void DrawTwoOrFour(int n)
         {
-            if (this.GameMode == Mode.ThreePlayers)
+            if (this.GameMode == Mode.TenPlayers)
+            {
+                if (this.Clockwise)
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 6)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 7)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 8)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player9.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 9)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player10.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player10.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 6)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 7)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 8)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 9)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player9.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+            }
+            else if (this.GameMode == Mode.NinePlayers)
+            {
+                if (this.Clockwise)
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 6)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 7)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 8)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player9.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player9.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 6)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 7)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 8)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+            }
+            else if (this.GameMode == Mode.EightPlayers)
+            {
+                if (this.Clockwise)
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 6)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 7)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 6)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 7)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+            }
+            else if (this.GameMode == Mode.SevenPlayers)
+            {
+                if (this.Clockwise)
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 6)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 6)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+            }
+            else if (this.GameMode == Mode.SixPlayers)
+            {
+                if (this.Clockwise)
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 5)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+            }
+            else if (this.GameMode == Mode.FivePlayers)
+            {
+                if (this.Clockwise)
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+            }
+            else if (this.GameMode == Mode.FourPlayers)
+            {
+                if (this.Clockwise)
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+                else
+                {
+                    if (this.PlayerTurn == 1)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 2)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else if (this.PlayerTurn == 3)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
+                            this.CurrentDeck.RemoveAt(0);
+                        }
+                    }
+                }
+            }
+            else if (this.GameMode == Mode.ThreePlayers)
             {
                 if (this.Clockwise)
                 {

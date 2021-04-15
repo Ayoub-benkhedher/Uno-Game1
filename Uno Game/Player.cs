@@ -45,7 +45,7 @@ namespace Uno_Game
         /// <summary>
         /// Used to determine total hand value of player
         /// </summary>
-        public int totalHand;
+        public int TotalHand;
 
         /// <summary>
         /// Method to calculate total player hand
@@ -58,7 +58,7 @@ namespace Uno_Game
                 result += c.MyValue;
             }
 
-            this.totalHand = result;
+            this.TotalHand = result;
         }
     }
 }
