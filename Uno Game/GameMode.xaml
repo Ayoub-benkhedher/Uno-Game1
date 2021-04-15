@@ -14,7 +14,14 @@
         <Grid.Background>
             <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/UnoBackground.jpg"/>
         </Grid.Background>
-        <Button x:Name="btnTwoPlayerMode" Content="Computer" Margin="59,117,331,234" Click="BtnTwoPlayer_Click" RenderTransformOrigin="0.435,-1.965" Background="#FFFF1212" BorderBrush="Black" BorderThickness="3"/>
-        <Button x:Name="btnThreePlayersMode" Content="Computer and two other players" Margin="59,250,331,101" Click="BtnThreePlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnTwoPlayerMode" Content="Computer" Margin="37,35,408,316" Click="BtnTwoPlayer_Click" RenderTransformOrigin="0.435,-1.965" Background="#FFFF1212" BorderBrush="Black" BorderThickness="3"/>
+        <Button x:Name="btnThreePlayersMode" Content="Computer and two other players" Margin="37,108,408,243" Click="BtnThreePlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnFourPlayersMode" Content="Computer and three other players" Margin="37,181,408,170" Click="BtnFourPlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnFivePlayersMode" Content="Computer and four other players" Margin="37,254,408,97" Click="BtnFivePlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnSixPlayersMode" Content="Computer and five other players" Margin="249,35,196,316" Click="BtnSixPlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnSevenPlayersMode" Content="Computer and six other players" Margin="249,108,196,243" Click="BtnSevenPlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnEightPlayersMode" Content="Computer and seven other players" Margin="249,181,196,170" Click="BtnEightPlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnNinePlayersMode" Content="Computer and eight other players" Margin="249,254,196,97" Click="BtnNinePlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnTenPlayersMode" Content="Computer and nine other players" Margin="461,35,139,316" Click="BtnTenPlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

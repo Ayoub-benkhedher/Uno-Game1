@@ -33,9 +33,45 @@ namespace Uno_Game
         public Player Player2;
 
         /// <summary>
-        /// A computer opponent.
+        /// Another player
         /// </summary>
         public Player Player3;
+
+        /// <summary>
+        /// Another player
+        /// </summary>
+        public Player Player4;
+
+        /// <summary>
+        /// Another player
+        /// </summary>
+        public Player Player5;
+
+        /// <summary>
+        /// Another player
+        /// </summary>
+        public Player Player6;
+
+        /// <summary>
+        /// Another player
+        /// </summary>
+        public Player Player7;
+
+        /// <summary>
+        /// Another player
+        /// </summary>
+        public Player Player8;
+
+        /// <summary>
+        /// Another player
+        /// </summary>
+        public Player Player9;
+
+        /// <summary>
+        /// Another player
+        /// </summary>
+        public Player Player10;
+
 
         /// <summary>
         /// The current deck as cards are removed.
@@ -97,6 +133,7 @@ namespace Uno_Game
                     this.CurrentDeck.RemoveAt(0);
                 }
             }
+            else if (this.GameMode == Mode)
 
             this.CentralPile = new List<Card>();
             int index = 0;
