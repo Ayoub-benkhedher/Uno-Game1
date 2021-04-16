@@ -50,7 +50,7 @@ namespace Uno_Game
         /// <summary>
         /// Method to calculate total player hand
         /// </summary>
-        public void TotalCardValue()
+        public int TotalCardValue()
         {
             int result = 0;
             foreach (Card c in this.PlayerHand)
@@ -58,7 +58,7 @@ namespace Uno_Game
                 result += c.MyValue;
             }
 
-            this.TotalHand = result;
+            return result;
         }
     }
 }

@@ -426,6 +426,50 @@ namespace Uno_Game
         }
 
         /// <summary>
+        /// Get current player based on playercount
+        /// </summary>
+        /// <param name="num">number of current player</param>
+        /// <returns>current player</returns>
+        public Player GetCurrentPlayer(int num)
+        {
+            Player player = null;
+            switch (num)
+            {
+                case 1:
+                    player = this.Player1;
+                    break;
+                case 2:
+                    player = this.Player2;
+                    break;
+                case 3:
+                    player = this.Player3;
+                    break;
+                case 4:
+                    player = this.Player4;
+                    break;
+                case 5:
+                    player = this.Player5;
+                    break;
+                case 6:
+                    player = this.Player6;
+                    break;
+                case 7:
+                    player = this.Player7;
+                    break;
+                case 8:
+                    player = this.Player8;
+                    break;
+                case 9:
+                    player = this.Player9;
+                    break;
+                case 10:
+                    player = this.Player10;
+                    break;
+            }
+            return player;
+        }
+
+        /// <summary>
         /// Uses the draw two or four method.
         /// </summary>
         /// <param name="n">Returns the integer n.</param>
@@ -442,6 +486,7 @@ namespace Uno_Game
                             this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 3;
                     }
                     else if (this.PlayerTurn == 2)
                     {
@@ -450,6 +495,7 @@ namespace Uno_Game
                             this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 4;
                     }
                     else if (this.PlayerTurn == 3)
                     {
@@ -458,6 +504,7 @@ namespace Uno_Game
                             this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 5;
                     }
                     else if (this.PlayerTurn == 4)
                     {
@@ -466,6 +513,7 @@ namespace Uno_Game
                             this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 6;
                     }
                     else if (this.PlayerTurn == 5)
                     {
@@ -474,6 +522,7 @@ namespace Uno_Game
                             this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 7;
                     }
                     else if (this.PlayerTurn == 6)
                     {
@@ -482,6 +531,7 @@ namespace Uno_Game
                             this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 8;
                     }
                     else if (this.PlayerTurn == 7)
                     {
@@ -490,6 +540,7 @@ namespace Uno_Game
                             this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 9;
                     }
                     else if (this.PlayerTurn == 8)
                     {
@@ -498,6 +549,7 @@ namespace Uno_Game
                             this.Player9.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 10;
                     }
                     else if (this.PlayerTurn == 9)
                     {
@@ -506,6 +558,7 @@ namespace Uno_Game
                             this.Player10.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 1;
                     }
                     else
                     {
@@ -514,6 +567,7 @@ namespace Uno_Game
                             this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 2;
                     }
                 }
                 else
@@ -525,6 +579,7 @@ namespace Uno_Game
                             this.Player10.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 9;
                     }
                     else if (this.PlayerTurn == 2)
                     {
@@ -533,6 +588,7 @@ namespace Uno_Game
                             this.Player1.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 10;
                     }
                     else if (this.PlayerTurn == 3)
                     {
@@ -541,6 +597,7 @@ namespace Uno_Game
                             this.Player2.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 1;
                     }
                     else if (this.PlayerTurn == 4)
                     {
@@ -549,6 +606,7 @@ namespace Uno_Game
                             this.Player3.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 2;
                     }
                     else if (this.PlayerTurn == 5)
                     {
@@ -557,6 +615,7 @@ namespace Uno_Game
                             this.Player4.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 3;
                     }
                     else if (this.PlayerTurn == 6)
                     {
@@ -565,6 +624,7 @@ namespace Uno_Game
                             this.Player5.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 4;
                     }
                     else if (this.PlayerTurn == 7)
                     {
@@ -573,6 +633,7 @@ namespace Uno_Game
                             this.Player6.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 5;
                     }
                     else if (this.PlayerTurn == 8)
                     {
@@ -581,6 +642,7 @@ namespace Uno_Game
                             this.Player7.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 6;
                     }
                     else if (this.PlayerTurn == 9)
                     {
@@ -589,6 +651,7 @@ namespace Uno_Game
                             this.Player8.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 7;
                     }
                     else
                     {
@@ -597,6 +660,7 @@ namespace Uno_Game
                             this.Player9.PlayerHand.Add(this.CurrentDeck[0]);
                             this.CurrentDeck.RemoveAt(0);
                         }
+                        this.PlayerTurn = 8;
                     }
                 }
             }
