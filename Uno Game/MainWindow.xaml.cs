@@ -386,7 +386,7 @@ namespace Uno_Game
                     if (path.Substring(0, 4) == "Draw")
                     {
                         int n = int.Parse(path.Substring(4, 1));
-                        if (this.gameMode != Mode.TwoPlayers)
+                        if (this.gameMode == Mode.ThreePlayers)
                         {
                             if (this.UnoGame.Clockwise)
                             {
@@ -399,7 +399,49 @@ namespace Uno_Game
                             }
                             else
                             {
+                                //// used to determine how many images have been already removed
+                                int count1 = 0;
+
+                                //// used to determine index in grid
+                                int currentIndex1 = 0;
+
+                                while (count1 < this.UnoGame.Player3.PlayerHand.Count)
+                                {
+                                    UIElement element = grdMainWindow.Children[currentIndex1];
+
+                                    //// checks to see if the element is of an image
+                                    if (element.GetType().Equals(typeof(Image)))
+                                    {
+                                        Image image = element as Image;
+                                        if ((int)image.Margin.Top == 250)
+                                        {
+                                            //// we remove every image in PlayerHand (where margin.top == 400)
+                                            grdMainWindow.Children.Remove(image);
+
+                                            //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
+                                            count1++;
+                                        }
+                                        else
+                                        {
+                                            //// if element is not image in PlayerHand, we increment index
+                                            currentIndex1++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //// If element is not an image, we increment index
+                                        currentIndex1++;
+                                    }
+                                }
+
                                 this.UnoGame.DrawTwoOrFour(n);
+                                this.X2 = 800;
+
+                                //// display player's hand
+                                foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                                {
+                                    this.CreateViewImageDynamically2(crd.MyImagePath);
+                                }
                             }
                         }
                         else
@@ -444,7 +486,48 @@ namespace Uno_Game
                         }
                         else
                         {
+                            //// used to determine how many images have been already removed
+                            int count2 = 0;
+
+                            //// used to determine index in grid
+                            int currentIndex2 = 0;
+                            while (count2 < this.UnoGame.Player3.PlayerHand.Count)
+                            {
+                                UIElement element = grdMainWindow.Children[currentIndex2];
+
+                                //// checks to see if the element is of an image
+                                if (element.GetType().Equals(typeof(Image)))
+                                {
+                                    Image image = element as Image;
+                                    if ((int)image.Margin.Top == 250)
+                                    {
+                                        //// we remove every image in PlayerHand (where margin.top == 400)
+                                        grdMainWindow.Children.Remove(image);
+
+                                        //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
+                                        count2++;
+                                    }
+                                    else
+                                    {
+                                        //// if element is not image in PlayerHand, we increment index
+                                        currentIndex2++;
+                                    }
+                                }
+                                else
+                                {
+                                    //// If element is not an image, we increment index
+                                    currentIndex2++;
+                                }
+                            }
+
                             this.UnoGame.DrawTwoOrFour(n);
+                            this.X2 = 800;
+
+                            //// display player's hand
+                            foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                            {
+                                this.CreateViewImageDynamically2(crd.MyImagePath);
+                            }
                         }
 
                         new Colors(checkCard).ShowDialog();
@@ -460,7 +543,7 @@ namespace Uno_Game
                     //// If the card is Reverse or Skip player stays the same 
                     if ((path.Substring(0, 7) != "Reverse") && (path.Substring(0, 4) != "Skip"))
                     {
-                        if (this.playerCount > 2)
+                        if (this.gameMode == Mode.ThreePlayers)
                         {
                             if (this.UnoGame.Clockwise)
                             {
@@ -473,51 +556,8 @@ namespace Uno_Game
                             }
                             else
                             {
-                                this.UnoGame.PlayerTurn = this.playerCount;
-                                Player currentPlayer = this.UnoGame.GetCurrentPlayer(this.UnoGame.PlayerTurn);
+                                this.UnoGame.PlayerTurn = 3;
                                 ////this.imgDeckPile.IsEnabled = true;
-                                if (this.UnoGame.Player1.PlayerHand.Count != 0)
-                                {
-                                    /////// used to determine how many images have been already removed
-                                    count = 0;
-
-                                    //// used to determine index in grid
-                                    currentIndex = 0;
-
-                                    //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                                    while (count < this.UnoGame.Player1.PlayerHand.Count - 1)
-                                    {
-                                        UIElement element = grdMainWindow.Children[currentIndex];
-
-                                        //// checks to see if the element is of an image
-                                        if (element.GetType().Equals(typeof(Image)))
-                                        {
-                                            Image image = element as Image;
-                                            if ((int)image.Margin.Top == 400)
-                                            {
-                                                //// we remove every image in PlayerHand (where margin.top == 400)
-                                                grdMainWindow.Children.Remove(image);
-
-                                                //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                                count++;
-                                            }
-                                            else
-                                            {
-                                                //// if element is not image in PlayerHand, we increment index
-                                                currentIndex++;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            //// if element is not an image, we increment index
-                                            currentIndex++;
-                                        }
-                                    }
-                                }
-                                foreach (Card c in currentPlayer.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                         }
                         else
@@ -532,238 +572,25 @@ namespace Uno_Game
                     }
                     else
                     {
-                        if (this.playerCount > 2)
+                        if (this.gameMode == Mode.ThreePlayers)
                         {
-                            ////this.imgDeckPile.IsEnabled = true;
-                            if (this.UnoGame.Player1.PlayerHand.Count != 0)
-                            {
-                                /////// used to determine how many images have been already removed
-                                count = 0;
-
-                                //// used to determine index in grid
-                                currentIndex = 0;
-
-                                //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                                while (count < this.UnoGame.Player1.PlayerHand.Count - 1)
-                                {
-                                    UIElement element = grdMainWindow.Children[currentIndex];
-
-                                    //// checks to see if the element is of an image
-                                    if (element.GetType().Equals(typeof(Image)))
-                                    {
-                                        Image image = element as Image;
-                                        if ((int)image.Margin.Top == 400)
-                                        {
-                                            //// we remove every image in PlayerHand (where margin.top == 400)
-                                            grdMainWindow.Children.Remove(image);
-
-                                            //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                            count++;
-                                        }
-                                        else
-                                        {
-                                            //// if element is not image in PlayerHand, we increment index
-                                            currentIndex++;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //// if element is not an image, we increment index
-                                        currentIndex++;
-                                    }
-                                }
-                            }
                             if (this.UnoGame.Clockwise)
                             {
                                 if (path.Substring(0, 7) == "Reverse")
                                 {
                                     this.UnoGame.Clockwise = !this.UnoGame.Clockwise;
-                                    this.UnoGame.PlayerTurn = this.playerCount;
-                                    Player currentPlayer = this.UnoGame.GetCurrentPlayer(this.UnoGame.PlayerTurn);
-                                    foreach (Card c in currentPlayer.PlayerHand)
-                                    {
-                                        this.CreateViewImageDynamically(c.MyImagePath);
-                                    }
+                                }
 
-                                }
-                                else
-                                {
-                                    this.UnoGame.PlayerTurn = 3;
-                                    Player currentPlayer = this.UnoGame.GetCurrentPlayer(this.UnoGame.PlayerTurn);
-                                    foreach (Card c in currentPlayer.PlayerHand)
-                                    {
-                                        this.CreateViewImageDynamically(c.MyImagePath);
-                                    }
-                                }
+                                this.UnoGame.PlayerTurn = 3;
+                                ////this.imgDeckPile.IsEnabled = true;
                             }
                             else
                             {
                                 if (path.Substring(0, 7) == "Reverse")
                                 {
                                     this.UnoGame.Clockwise = !this.UnoGame.Clockwise;
-                                    this.UnoGame.PlayerTurn = 2;
-                                    ////this.imgDeckPile.IsEnabled = false;
-                                    if (this.UnoGame.Player1.PlayerHand.Count != 0)
-                                    {
-                                        this.NextPlayerButton_Click(sender, e);
-                                    }
                                 }
-                                else
-                                {
-                                    this.UnoGame.PlayerTurn = this.playerCount - 1;
-                                    Player currentPlayer = this.UnoGame.GetCurrentPlayer(this.UnoGame.PlayerTurn);
-                                    foreach (Card c in currentPlayer.PlayerHand)
-                                    {
-                                        this.CreateViewImageDynamically(c.MyImagePath);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            ////this.imgDeckPile.IsEnabled = true;
-                        }
-                    }
-                }
 
-                this.DisplayPlayerTurn();
-            }
-            else if (this.UnoGame.PlayerTurn == 3)
-            {
-                Image dynamicImage = sender as Image;
-
-                string path = dynamicImage.Source.ToString();
-                path = path.Remove(0, 34);
-                Card checkCard = new Card();
-
-                foreach (Card c in this.UnoGame.Player3.PlayerHand)
-                {
-                    if (c.MyImagePath == path)
-                    {
-                        checkCard = c;
-                        break;
-                    }
-                }
-
-                if (this.UnoGame.CanPlaceCard(checkCard))
-                {
-                    //// removes the image of the card we selected to play
-                    grdMainWindow.Children.Remove(dynamicImage);
-
-                    //// used to determine how many images have been already removed
-                    int count = 0;
-
-                    //// used to determine index in grid
-                    int currentIndex = 0;
-
-                    //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                    while (count < this.UnoGame.Player3.PlayerHand.Count - 1)
-                    {
-                        UIElement element = grdMainWindow.Children[currentIndex];
-
-                        //// checks to see if the element is of an image
-                        if (element.GetType().Equals(typeof(Image)))
-                        {
-                            Image image = element as Image;
-                            if ((int)image.Margin.Top == 400)
-                            {
-                                //// we remove every image in PlayerHand (where margin.top == 400)
-                                grdMainWindow.Children.Remove(image);
-
-                                //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                count++;
-                            }
-                            else
-                            {
-                                //// if element is not image in PlayerHand, we increment index
-                                currentIndex++;
-                            }
-                        }
-                        else
-                        {
-                            //// if element is not an image, we increment index
-                            currentIndex++;
-                        }
-                    }
-
-                    imgMainPile.Source = dynamicImage.Source;
-
-                    //// update actual PlayerHand and Center Pile
-                    for (int i = 0; i < this.UnoGame.Player3.PlayerHand.Count; i++)
-                    {
-                        if (path == this.UnoGame.Player3.PlayerHand[i].MyImagePath)
-                        {
-                            this.UnoGame.CentralPile.Add(this.UnoGame.Player3.PlayerHand[i]);
-                            this.UnoGame.Player3.PlayerHand.RemoveAt(i);
-                            break;
-                        }
-                    }
-
-                    this.X = 70;
-
-                    //// Recreate Playerhand now that images are updated
-                    foreach (Card crd in this.UnoGame.Player3.PlayerHand)
-                    {
-                        this.CreateViewImageDynamically(crd.MyImagePath);
-                    }
-
-                    //// Perform the draw two card
-                    //// Else performs the wilddraw4 card
-                    if (path.Substring(0, 4) == "Draw")
-                    {
-                        int n = int.Parse(path.Substring(4, 1));
-                        if (this.gameMode != Mode.TwoPlayers)
-                        {
-                            if (this.UnoGame.Clockwise)
-                            {
-                                this.UnoGame.DrawTwoOrFour(n);
-                            }
-                            else
-                            {
-                                this.UnoGame.DrawTwoOrFour(n);
-                                for (int i = 0; i < n; i++)
-                                {
-                                    this.RebindComputerCards();
-                                    this.CompX += 70;
-                                }
-                            }
-                        }
-                    }
-                    else if (path.Substring(0, 8) == "WildDraw")
-                    {
-                        int n = int.Parse(path.Substring(8, 1));
-
-                        if (this.UnoGame.Clockwise)
-                        {
-                            this.UnoGame.DrawTwoOrFour(n);
-                            for (int i = 0; i < n; i++)
-                            {
-                                this.RebindComputerCards();
-                                this.CompX += 70;
-                            }
-                        }
-                        else
-                        {
-                            this.UnoGame.DrawTwoOrFour(n);
-                        }
-
-                        new Colors(checkCard).ShowDialog();
-                        MessageBox.Show(checkCard.MyColor.ToString());
-                    }
-                    else if (path.Substring(0, 4) == "Wild")
-                    {
-                        new Colors(checkCard).ShowDialog();
-                        MessageBox.Show(checkCard.MyColor.ToString());
-                    }
-
-                    //// If the card is Reverse or Skip player stays the same 
-                    //// If the card is Reverse or Skip player stays the same 
-                    if ((path.Substring(0, 7) != "Reverse") && (path.Substring(0, 4) != "Skip"))
-                    {
-                        if (this.playerCount > 2)
-                        {
-                            if (this.UnoGame.Clockwise)
-                            {
                                 this.UnoGame.PlayerTurn = 2;
                                 ////this.imgDeckPile.IsEnabled = false;
                                 if (this.UnoGame.Player1.PlayerHand.Count != 0)
@@ -771,153 +598,6 @@ namespace Uno_Game
                                     this.NextPlayerButton_Click(sender, e);
                                 }
                             }
-                            else
-                            {
-                                this.UnoGame.PlayerTurn = this.playerCount;
-                                Player currentPlayer = this.UnoGame.GetCurrentPlayer(this.UnoGame.PlayerTurn);
-                                ////this.imgDeckPile.IsEnabled = true;
-                                if (this.UnoGame.Player1.PlayerHand.Count != 0)
-                                {
-                                    /////// used to determine how many images have been already removed
-                                    count = 0;
-
-                                    //// used to determine index in grid
-                                    currentIndex = 0;
-
-                                    //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                                    while (count < this.UnoGame.Player1.PlayerHand.Count - 1)
-                                    {
-                                        UIElement element = grdMainWindow.Children[currentIndex];
-
-                                        //// checks to see if the element is of an image
-                                        if (element.GetType().Equals(typeof(Image)))
-                                        {
-                                            Image image = element as Image;
-                                            if ((int)image.Margin.Top == 400)
-                                            {
-                                                //// we remove every image in PlayerHand (where margin.top == 400)
-                                                grdMainWindow.Children.Remove(image);
-
-                                                //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                                count++;
-                                            }
-                                            else
-                                            {
-                                                //// if element is not image in PlayerHand, we increment index
-                                                currentIndex++;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            //// if element is not an image, we increment index
-                                            currentIndex++;
-                                        }
-                                    }
-                                }
-                                foreach (Card c in currentPlayer.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            this.UnoGame.PlayerTurn = 2;
-                            ////this.imgDeckPile.IsEnabled = false;
-                            if (this.UnoGame.Player1.PlayerHand.Count != 0)
-                            {
-                                this.NextPlayerButton_Click(sender, e);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (this.playerCount > 2)
-                        {
-                            ////this.imgDeckPile.IsEnabled = true;
-                            if (this.UnoGame.Player1.PlayerHand.Count != 0)
-                            {
-                                /////// used to determine how many images have been already removed
-                                count = 0;
-
-                                //// used to determine index in grid
-                                currentIndex = 0;
-
-                                //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                                while (count < this.UnoGame.Player1.PlayerHand.Count - 1)
-                                {
-                                    UIElement element = grdMainWindow.Children[currentIndex];
-
-                                    //// checks to see if the element is of an image
-                                    if (element.GetType().Equals(typeof(Image)))
-                                    {
-                                        Image image = element as Image;
-                                        if ((int)image.Margin.Top == 400)
-                                        {
-                                            //// we remove every image in PlayerHand (where margin.top == 400)
-                                            grdMainWindow.Children.Remove(image);
-
-                                            //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                            count++;
-                                        }
-                                        else
-                                        {
-                                            //// if element is not image in PlayerHand, we increment index
-                                            currentIndex++;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //// if element is not an image, we increment index
-                                        currentIndex++;
-                                    }
-                                }
-                            }
-                            if (this.UnoGame.Clockwise)
-                            {
-                                if (path.Substring(0, 7) == "Reverse")
-                                {
-                                    this.UnoGame.Clockwise = !this.UnoGame.Clockwise;
-                                    this.UnoGame.PlayerTurn = this.playerCount;
-                                    Player currentPlayer = this.UnoGame.GetCurrentPlayer(this.UnoGame.PlayerTurn);
-                                    foreach (Card c in currentPlayer.PlayerHand)
-                                    {
-                                        this.CreateViewImageDynamically(c.MyImagePath);
-                                    }
-
-                                }
-                                else
-                                {
-                                    this.UnoGame.PlayerTurn = 3;
-                                    Player currentPlayer = this.UnoGame.GetCurrentPlayer(this.UnoGame.PlayerTurn);
-                                    foreach (Card c in currentPlayer.PlayerHand)
-                                    {
-                                        this.CreateViewImageDynamically(c.MyImagePath);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (path.Substring(0, 7) == "Reverse")
-                                {
-                                    this.UnoGame.Clockwise = !this.UnoGame.Clockwise;
-                                    this.UnoGame.PlayerTurn = 2;
-                                    ////this.imgDeckPile.IsEnabled = false;
-                                    if (this.UnoGame.Player1.PlayerHand.Count != 0)
-                                    {
-                                        this.NextPlayerButton_Click(sender, e);
-                                    }
-                                }
-                                else
-                                {
-                                    this.UnoGame.PlayerTurn = this.playerCount - 1;
-                                    Player currentPlayer = this.UnoGame.GetCurrentPlayer(this.UnoGame.PlayerTurn);
-                                    foreach (Card c in currentPlayer.PlayerHand)
-                                    {
-                                        this.CreateViewImageDynamically(c.MyImagePath);
-                                    }
-                                }
-                            }
                         }
                         else
                         {
@@ -925,137 +605,13 @@ namespace Uno_Game
                         }
                     }
                 }
-
+              
                 this.DisplayPlayerTurn();
             }
 
             if (this.UnoGame.Player1.PlayerHand.Count == 0)
             {
                 MessageBox.Show("Congrats! Player1 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player2.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player2 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player3.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player3 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player4.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player4 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player5.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player5 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player6.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player6 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player7.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player7 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player8.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player8 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player9.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player9 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
-                ////this.imgDeckPile.IsEnabled = false;
-                this.UnoGame.PlayerTurn = 0;
-            }
-            else if (this.UnoGame.Player10.PlayerHand.Count == 0)
-            {
-                MessageBox.Show("Congrats! Player10 win!");
-                string scoreList = "";
-                for (int i = 1; i <= playerCount; i++)
-                {
-                    this.UnoGame.GetCurrentPlayer(i).TotalHand = this.UnoGame.GetCurrentPlayer(i).TotalCardValue();
-                    scoreList = "# " + i + " value of cards left = " + this.UnoGame.GetCurrentPlayer(i).TotalHand + Environment.NewLine;
-                }
-                MessageBox.Show(scoreList);
                 ////this.imgDeckPile.IsEnabled = false;
                 this.UnoGame.PlayerTurn = 0;
             }
@@ -2926,97 +2482,6 @@ namespace Uno_Game
                             {
                                 this.NextPlayerButton_Click(sender, e);
                             }
-                            else
-                            {
-                                //// used to determine how many images have been already removed
-                                int count = 0;
-
-                                //// used to determine index in grid
-                                int currentIndex = 0;
-
-
-                                //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                                while (count < this.UnoGame.Player1.PlayerHand.Count - 1)
-                                {
-                                    UIElement element = grdMainWindow.Children[currentIndex];
-
-                                    //// checks to see if the element is of an image
-                                    if (element.GetType().Equals(typeof(Image)))
-                                    {
-                                        Image image = element as Image;
-                                        if ((int)image.Margin.Top == 400)
-                                        {
-                                            //// we remove every image in PlayerHand (where margin.top == 400)
-                                            grdMainWindow.Children.Remove(image);
-
-                                            //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                            count++;
-                                        }
-                                        else
-                                        {
-                                            //// if element is not image in PlayerHand, we increment index
-                                            currentIndex++;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //// if element is not an image, we increment index
-                                        currentIndex++;
-                                    }
-                                }
-                                switch (playerCount)
-                                {
-                                    case 3:
-                                        foreach (Card c in this.UnoGame.Player3.PlayerHand)
-                                        {
-                                            this.CreateViewImageDynamically(c.MyImagePath);
-                                        }
-                                        break;
-                                    case 4:
-                                        foreach (Card c in this.UnoGame.Player4.PlayerHand)
-                                        {
-                                            this.CreateViewImageDynamically(c.MyImagePath);
-                                        }
-                                        break;
-                                    case 5:
-                                        foreach (Card c in this.UnoGame.Player5.PlayerHand)
-                                        {
-                                            this.CreateViewImageDynamically(c.MyImagePath);
-                                        }
-                                        break;
-                                    case 6:
-                                        foreach (Card c in this.UnoGame.Player6.PlayerHand)
-                                        {
-                                            this.CreateViewImageDynamically(c.MyImagePath);
-                                        }
-                                        break;
-                                    case 7:
-                                        foreach (Card c in this.UnoGame.Player7.PlayerHand)
-                                        {
-                                            this.CreateViewImageDynamically(c.MyImagePath);
-                                        }
-                                        break;
-                                    case 8:
-                                        foreach (Card c in this.UnoGame.Player8.PlayerHand)
-                                        {
-                                            this.CreateViewImageDynamically(c.MyImagePath);
-                                        }
-                                        break;
-                                    case 9:
-                                        foreach (Card c in this.UnoGame.Player9.PlayerHand)
-                                        {
-                                            this.CreateViewImageDynamically(c.MyImagePath);
-                                        }
-                                        break;
-                                    case 10:
-                                        foreach (Card c in this.UnoGame.Player10.PlayerHand)
-                                        {
-                                            this.CreateViewImageDynamically(c.MyImagePath);
-                                        }
-                                        break;
-                                       
-                                }
-                            }
                         }
                     }
                 }
@@ -3029,57 +2494,13 @@ namespace Uno_Game
                     {
                         if (this.UnoGame.Clockwise)
                         {
-                            //// used to determine how many images have been already removed
-                            int count = 0;
-
-                            //// used to determine index in grid
-                            int currentIndex = 0;
-
-
-                            //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                            while (count < this.UnoGame.Player3.PlayerHand.Count - 1)
-                            {
-                                UIElement element = grdMainWindow.Children[currentIndex];
-
-                                //// checks to see if the element is of an image
-                                if (element.GetType().Equals(typeof(Image)))
-                                {
-                                    Image image = element as Image;
-                                    if ((int)image.Margin.Top == 400)
-                                    {
-                                        //// we remove every image in PlayerHand (where margin.top == 400)
-                                        grdMainWindow.Children.Remove(image);
-
-                                        //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                        count++;
-                                    }
-                                    else
-                                    {
-                                        //// if element is not image in PlayerHand, we increment index
-                                        currentIndex++;
-                                    }
-                                }
-                                else
-                                {
-                                    //// if element is not an image, we increment index
-                                    currentIndex++;
-                                }
-                            }
                             if (this.playerCount > 3)
                             {
                                 this.UnoGame.PlayerTurn = 4;
-                                foreach (Card c in this.UnoGame.Player4.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                foreach (Card c in this.UnoGame.Player1.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                         }
                         else
@@ -3096,68 +2517,20 @@ namespace Uno_Game
                     ////this.imgDeckPile.IsEnabled = false;
                     if (!this.UnoGame.CheckUserHand(this.UnoGame.Player4.PlayerHand))
                     {
-                        //// used to determine how many images have been already removed
-                        int count = 0;
-
-                        //// used to determine index in grid
-                        int currentIndex = 0;
-
-
-                        //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                        while (count < this.UnoGame.Player4.PlayerHand.Count - 1)
-                        {
-                            UIElement element = grdMainWindow.Children[currentIndex];
-
-                            //// checks to see if the element is of an image
-                            if (element.GetType().Equals(typeof(Image)))
-                            {
-                                Image image = element as Image;
-                                if ((int)image.Margin.Top == 400)
-                                {
-                                    //// we remove every image in PlayerHand (where margin.top == 400)
-                                    grdMainWindow.Children.Remove(image);
-
-                                    //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                    count++;
-                                }
-                                else
-                                {
-                                    //// if element is not image in PlayerHand, we increment index
-                                    currentIndex++;
-                                }
-                            }
-                            else
-                            {
-                                //// if element is not an image, we increment index
-                                currentIndex++;
-                            }
-                        }
                         if (this.UnoGame.Clockwise)
                         {
                             if (this.playerCount > 4)
                             {
                                 this.UnoGame.PlayerTurn = 5;
-                                foreach (Card c in this.UnoGame.Player5.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                foreach (Card c in this.UnoGame.Player1.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 3;
-                            foreach (Card c in this.UnoGame.Player3.PlayerHand)
-                            {
-                                this.CreateViewImageDynamically(c.MyImagePath);
-                            }
                         }
                     }
                 }
@@ -3168,68 +2541,20 @@ namespace Uno_Game
                     ////this.imgDeckPile.IsEnabled = false;
                     if (!this.UnoGame.CheckUserHand(this.UnoGame.Player5.PlayerHand))
                     {
-                        //// used to determine how many images have been already removed
-                        int count = 0;
-
-                        //// used to determine index in grid
-                        int currentIndex = 0;
-
-
-                        //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                        while (count < this.UnoGame.Player5.PlayerHand.Count - 1)
-                        {
-                            UIElement element = grdMainWindow.Children[currentIndex];
-
-                            //// checks to see if the element is of an image
-                            if (element.GetType().Equals(typeof(Image)))
-                            {
-                                Image image = element as Image;
-                                if ((int)image.Margin.Top == 400)
-                                {
-                                    //// we remove every image in PlayerHand (where margin.top == 400)
-                                    grdMainWindow.Children.Remove(image);
-
-                                    //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                    count++;
-                                }
-                                else
-                                {
-                                    //// if element is not image in PlayerHand, we increment index
-                                    currentIndex++;
-                                }
-                            }
-                            else
-                            {
-                                //// if element is not an image, we increment index
-                                currentIndex++;
-                            }
-                        }
                         if (this.UnoGame.Clockwise)
                         {
                             if (this.playerCount > 5)
                             {
                                 this.UnoGame.PlayerTurn = 6;
-                                foreach (Card c in this.UnoGame.Player6.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                foreach (Card c in this.UnoGame.Player1.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 4;
-                            foreach (Card c in this.UnoGame.Player4.PlayerHand)
-                            {
-                                this.CreateViewImageDynamically(c.MyImagePath);
-                            }
                         }
                     }
                 }
@@ -3240,68 +2565,20 @@ namespace Uno_Game
                     ////this.imgDeckPile.IsEnabled = false;
                     if (!this.UnoGame.CheckUserHand(this.UnoGame.Player6.PlayerHand))
                     {
-                        //// used to determine how many images have been already removed
-                        int count = 0;
-
-                        //// used to determine index in grid
-                        int currentIndex = 0;
-
-
-                        //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                        while (count < this.UnoGame.Player6.PlayerHand.Count - 1)
-                        {
-                            UIElement element = grdMainWindow.Children[currentIndex];
-
-                            //// checks to see if the element is of an image
-                            if (element.GetType().Equals(typeof(Image)))
-                            {
-                                Image image = element as Image;
-                                if ((int)image.Margin.Top == 400)
-                                {
-                                    //// we remove every image in PlayerHand (where margin.top == 400)
-                                    grdMainWindow.Children.Remove(image);
-
-                                    //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                    count++;
-                                }
-                                else
-                                {
-                                    //// if element is not image in PlayerHand, we increment index
-                                    currentIndex++;
-                                }
-                            }
-                            else
-                            {
-                                //// if element is not an image, we increment index
-                                currentIndex++;
-                            }
-                        }
                         if (this.UnoGame.Clockwise)
                         {
                             if (this.playerCount > 6)
                             {
                                 this.UnoGame.PlayerTurn = 7;
-                                foreach (Card c in this.UnoGame.Player7.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                foreach (Card c in this.UnoGame.Player1.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 5;
-                            foreach (Card c in this.UnoGame.Player5.PlayerHand)
-                            {
-                                this.CreateViewImageDynamically(c.MyImagePath);
-                            }
                         }
                     }
                 }
@@ -3312,68 +2589,20 @@ namespace Uno_Game
                     ////this.imgDeckPile.IsEnabled = false;
                     if (!this.UnoGame.CheckUserHand(this.UnoGame.Player7.PlayerHand))
                     {
-                        //// used to determine how many images have been already removed
-                        int count = 0;
-
-                        //// used to determine index in grid
-                        int currentIndex = 0;
-
-
-                        //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                        while (count < this.UnoGame.Player7.PlayerHand.Count - 1)
-                        {
-                            UIElement element = grdMainWindow.Children[currentIndex];
-
-                            //// checks to see if the element is of an image
-                            if (element.GetType().Equals(typeof(Image)))
-                            {
-                                Image image = element as Image;
-                                if ((int)image.Margin.Top == 400)
-                                {
-                                    //// we remove every image in PlayerHand (where margin.top == 400)
-                                    grdMainWindow.Children.Remove(image);
-
-                                    //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                    count++;
-                                }
-                                else
-                                {
-                                    //// if element is not image in PlayerHand, we increment index
-                                    currentIndex++;
-                                }
-                            }
-                            else
-                            {
-                                //// if element is not an image, we increment index
-                                currentIndex++;
-                            }
-                        }
                         if (this.UnoGame.Clockwise)
                         {
                             if (this.playerCount > 7)
                             {
                                 this.UnoGame.PlayerTurn = 8;
-                                foreach (Card c in this.UnoGame.Player8.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                foreach (Card c in this.UnoGame.Player1.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 6;
-                            foreach (Card c in this.UnoGame.Player6.PlayerHand)
-                            {
-                                this.CreateViewImageDynamically(c.MyImagePath);
-                            }
                         }
                     }
                 }
@@ -3384,68 +2613,20 @@ namespace Uno_Game
                     ////this.imgDeckPile.IsEnabled = false;
                     if (!this.UnoGame.CheckUserHand(this.UnoGame.Player8.PlayerHand))
                     {
-                        //// used to determine how many images have been already removed
-                        int count = 0;
-
-                        //// used to determine index in grid
-                        int currentIndex = 0;
-
-
-                        //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                        while (count < this.UnoGame.Player8.PlayerHand.Count - 1)
-                        {
-                            UIElement element = grdMainWindow.Children[currentIndex];
-
-                            //// checks to see if the element is of an image
-                            if (element.GetType().Equals(typeof(Image)))
-                            {
-                                Image image = element as Image;
-                                if ((int)image.Margin.Top == 400)
-                                {
-                                    //// we remove every image in PlayerHand (where margin.top == 400)
-                                    grdMainWindow.Children.Remove(image);
-
-                                    //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                    count++;
-                                }
-                                else
-                                {
-                                    //// if element is not image in PlayerHand, we increment index
-                                    currentIndex++;
-                                }
-                            }
-                            else
-                            {
-                                //// if element is not an image, we increment index
-                                currentIndex++;
-                            }
-                        }
                         if (this.UnoGame.Clockwise)
                         {
                             if (this.playerCount > 8)
                             {
                                 this.UnoGame.PlayerTurn = 9;
-                                foreach (Card c in this.UnoGame.Player9.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                foreach (Card c in this.UnoGame.Player1.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 7;
-                            foreach (Card c in this.UnoGame.Player7.PlayerHand)
-                            {
-                                this.CreateViewImageDynamically(c.MyImagePath);
-                            }
                         }
                     }
                 }
@@ -3456,68 +2637,20 @@ namespace Uno_Game
                     ////this.imgDeckPile.IsEnabled = false;
                     if (!this.UnoGame.CheckUserHand(this.UnoGame.Player9.PlayerHand))
                     {
-                        //// used to determine how many images have been already removed
-                        int count = 0;
-
-                        //// used to determine index in grid
-                        int currentIndex = 0;
-
-
-                        //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                        while (count < this.UnoGame.Player9.PlayerHand.Count - 1)
-                        {
-                            UIElement element = grdMainWindow.Children[currentIndex];
-
-                            //// checks to see if the element is of an image
-                            if (element.GetType().Equals(typeof(Image)))
-                            {
-                                Image image = element as Image;
-                                if ((int)image.Margin.Top == 400)
-                                {
-                                    //// we remove every image in PlayerHand (where margin.top == 400)
-                                    grdMainWindow.Children.Remove(image);
-
-                                    //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                    count++;
-                                }
-                                else
-                                {
-                                    //// if element is not image in PlayerHand, we increment index
-                                    currentIndex++;
-                                }
-                            }
-                            else
-                            {
-                                //// if element is not an image, we increment index
-                                currentIndex++;
-                            }
-                        }
                         if (this.UnoGame.Clockwise)
                         {
                             if (this.playerCount > 9)
                             {
                                 this.UnoGame.PlayerTurn = 10;
-                                foreach (Card c in this.UnoGame.Player10.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                foreach (Card c in this.UnoGame.Player1.PlayerHand)
-                                {
-                                    this.CreateViewImageDynamically(c.MyImagePath);
-                                }
                             }
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 8;
-                            foreach (Card c in this.UnoGame.Player8.PlayerHand)
-                            {
-                                this.CreateViewImageDynamically(c.MyImagePath);
-                            }
                         }
                     }
                 }
@@ -3528,57 +2661,13 @@ namespace Uno_Game
                     ////this.imgDeckPile.IsEnabled = false;
                     if (!this.UnoGame.CheckUserHand(this.UnoGame.Player10.PlayerHand))
                     {
-                        //// used to determine how many images have been already removed
-                        int count = 0;
-
-                        //// used to determine index in grid
-                        int currentIndex = 0;
-
-
-                        //// since we have already removed one image, we will be completely removing the rest of the images, which is equivalent to number of cards in PlayerHand - 1
-                        while (count < this.UnoGame.Player10.PlayerHand.Count - 1)
-                        {
-                            UIElement element = grdMainWindow.Children[currentIndex];
-
-                            //// checks to see if the element is of an image
-                            if (element.GetType().Equals(typeof(Image)))
-                            {
-                                Image image = element as Image;
-                                if ((int)image.Margin.Top == 400)
-                                {
-                                    //// we remove every image in PlayerHand (where margin.top == 400)
-                                    grdMainWindow.Children.Remove(image);
-
-                                    //// increment since image has been removed.  We do not increment currentIndex, because the next element will automatically take index of the image that was removed
-                                    count++;
-                                }
-                                else
-                                {
-                                    //// if element is not image in PlayerHand, we increment index
-                                    currentIndex++;
-                                }
-                            }
-                            else
-                            {
-                                //// if element is not an image, we increment index
-                                currentIndex++;
-                            }
-                        }
                         if (this.UnoGame.Clockwise)
                         {
                             this.UnoGame.PlayerTurn = 1;
-                            foreach (Card c in this.UnoGame.Player1.PlayerHand)
-                            {
-                                this.CreateViewImageDynamically(c.MyImagePath);
-                            }
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 9;
-                            foreach (Card c in this.UnoGame.Player9.PlayerHand)
-                            {
-                                this.CreateViewImageDynamically(c.MyImagePath);
-                            }
                         }
                     }
                 }
@@ -3588,7 +2677,6 @@ namespace Uno_Game
             }
             else
             {
-                int minNum = 0;
                 this.lblDrawCard.Visibility = Visibility.Hidden;
                 this.imgDeckPile.IsEnabled = false;
                 bool isNumber = false;
@@ -3597,14 +2685,12 @@ namespace Uno_Game
                     while (!isNumber)
                     {
                         this.UnoGame.DrawCard(this.UnoGame.Player1);
-                        this.lblMinCard.Visibility = Visibility.Visible;
                         Card card1 = this.UnoGame.Player1.PlayerHand[this.UnoGame.Player1.PlayerHand.Count - 1];
                         this.X = 70;
                         this.CreateViewImageDynamically(card1.MyImagePath);
                         if (card1.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            minNum = card1.MyValue;
                         }
                     }
 
@@ -3627,11 +2713,6 @@ namespace Uno_Game
                         if (card3.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card3.MyValue < minNum)
-                            {
-                                minNum = card3.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 3 (dealer)";
-                            }
                         }
                     }
 
@@ -3654,7 +2735,6 @@ namespace Uno_Game
                         MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
-                    this.lblMinCard.Visibility = Visibility.Hidden;
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);
@@ -3673,11 +2753,6 @@ namespace Uno_Game
                         if (card3.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card3.MyValue < minNum)
-                            {
-                                minNum = card3.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 3 (dealer)";
-                            }
                         }
                     }
 
@@ -3701,11 +2776,6 @@ namespace Uno_Game
                         if (card4.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card4.MyValue < minNum)
-                            {
-                                minNum = card4.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 4 (dealer)";
-                            }
                         }
                     }
 
@@ -3734,7 +2804,6 @@ namespace Uno_Game
                         MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
-                    this.lblMinCard.Visibility = Visibility.Hidden;
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);
@@ -3753,11 +2822,6 @@ namespace Uno_Game
                         if (card4.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card4.MyValue < minNum)
-                            {
-                                minNum = card4.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 4 (dealer)";
-                            }
                         }
                     }
 
@@ -3766,6 +2830,7 @@ namespace Uno_Game
                     this.UnoGame.PlayerTurn = 5;
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
+                    this.NextPlayerButton_Click(sender, e);
                 }
                 else if (this.gameMode == Mode.FivePlayers && this.UnoGame.PlayerTurn == 5)
                 {
@@ -3781,11 +2846,6 @@ namespace Uno_Game
                         if (card5.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card5.MyValue < minNum)
-                            {
-                                minNum = card5.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 5 (dealer)";
-                            }
                         }
                     }
 
@@ -3820,7 +2880,6 @@ namespace Uno_Game
                         MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
-                    this.lblMinCard.Visibility = Visibility.Hidden;
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);
@@ -3839,11 +2898,6 @@ namespace Uno_Game
                         if (card5.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card5.MyValue < minNum)
-                            {
-                                minNum = card5.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 5 (dealer)";
-                            }
                         }
                     }
 
@@ -3852,6 +2906,7 @@ namespace Uno_Game
                     this.lblDrawCard.Content = "Player 6, draw a card.";
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
+                    this.NextPlayerButton_Click(sender, e);
                 }
                 else if (this.gameMode == Mode.SixPlayers && this.UnoGame.PlayerTurn == 6)
                 {
@@ -3867,11 +2922,6 @@ namespace Uno_Game
                         if (card6.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card6.MyValue < minNum)
-                            {
-                                minNum = card6.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 6 (dealer)";
-                            }
                         }
                     }
 
@@ -3912,7 +2962,6 @@ namespace Uno_Game
                         MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
-                    this.lblMinCard.Visibility = Visibility.Hidden;
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);
@@ -3931,11 +2980,6 @@ namespace Uno_Game
                         if (card6.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card6.MyValue < minNum)
-                            {
-                                minNum = card6.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 6 (dealer)";
-                            }
                         }
                     }
 
@@ -3944,6 +2988,7 @@ namespace Uno_Game
                     this.lblDrawCard.Content = "Player 7, draw a card.";
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
+                    this.NextPlayerButton_Click(sender, e);
                 }
                 else if (this.gameMode == Mode.SevenPlayers && this.UnoGame.PlayerTurn == 7)
                 {
@@ -3959,11 +3004,6 @@ namespace Uno_Game
                         if (card7.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card7.MyValue < minNum)
-                            {
-                                minNum = card7.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 7 (dealer)";
-                            }
                         }
                     }
 
@@ -4010,7 +3050,6 @@ namespace Uno_Game
                         MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
-                    this.lblMinCard.Visibility = Visibility.Hidden;
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);
@@ -4029,11 +3068,6 @@ namespace Uno_Game
                         if (card7.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card7.MyValue < minNum)
-                            {
-                                minNum = card7.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 7 (dealer)";
-                            }
                         }
                     }
 
@@ -4042,6 +3076,7 @@ namespace Uno_Game
                     this.lblDrawCard.Content = "Player 8, draw a card.";
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
+                    this.NextPlayerButton_Click(sender, e);
                 }
                 else if (this.gameMode == Mode.EightPlayers && this.UnoGame.PlayerTurn == 8)
                 {
@@ -4057,11 +3092,6 @@ namespace Uno_Game
                         if (card8.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card8.MyValue < minNum)
-                            {
-                                minNum = card8.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 8 (dealer)";
-                            }
                         }
                     }
 
@@ -4114,7 +3144,6 @@ namespace Uno_Game
                         MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
-                    this.lblMinCard.Visibility = Visibility.Hidden;
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);
@@ -4133,11 +3162,6 @@ namespace Uno_Game
                         if (card8.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card8.MyValue < minNum)
-                            {
-                                minNum = card8.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 8 (dealer)";
-                            }
                         }
                     }
 
@@ -4146,6 +3170,7 @@ namespace Uno_Game
                     this.lblDrawCard.Content = "Player 9, draw a card.";
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
+                    this.NextPlayerButton_Click(sender, e);
                 }
                 else if (this.gameMode == Mode.NinePlayers && this.UnoGame.PlayerTurn == 9)
                 {
@@ -4161,11 +3186,6 @@ namespace Uno_Game
                         if (card8.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card8.MyValue < minNum)
-                            {
-                                minNum = card8.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 9 (dealer)";
-                            }
                         }
                     }
 
@@ -4224,7 +3244,6 @@ namespace Uno_Game
                         MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
-                    this.lblMinCard.Visibility = Visibility.Hidden;
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);
@@ -4243,11 +3262,6 @@ namespace Uno_Game
                         if (card9.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card9.MyValue < minNum)
-                            {
-                                minNum = card9.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 9 (dealer)";
-                            }
                         }
                     }
 
@@ -4256,6 +3270,7 @@ namespace Uno_Game
                     this.UnoGame.PlayerTurn = 10;
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
+                    this.NextPlayerButton_Click(sender, e);
                 }
                 else if (this.gameMode == Mode.TenPlayers && this.UnoGame.PlayerTurn == 10)
                 {
@@ -4271,11 +3286,6 @@ namespace Uno_Game
                         if (card8.MyType == Card.Type.Number)
                         {
                             isNumber = true;
-                            if (card8.MyValue < minNum)
-                            {
-                                minNum = card8.MyValue;
-                                this.lblMinCard.Content = "Min cardholder is 10 (dealer)";
-                            }
                         }
                     }
 
@@ -4340,7 +3350,6 @@ namespace Uno_Game
                         MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
                     }
 
-                    this.lblMinCard.Visibility = Visibility.Hidden;
                     this.BtnChooseDealer.Content = "New Game";
                     this.BtnChooseDealer.Visibility = Visibility.Hidden;
                     this.BtnNewGame_Click(sender, e);

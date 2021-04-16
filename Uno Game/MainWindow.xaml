@@ -34,6 +34,5 @@
             </Button.Effect>
         </Button>
         <Label x:Name="lblDrawCard" Content="Player 1, draw a card." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="597,148,0,0" Width="151" BorderBrush="Black" Foreground="White"/>
-        <Label x:Name="lblMinCard" Content="Min cardholder is 1 (dealer)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="597,316,0,0" Width="151" BorderBrush="Black" Foreground="White" Visibility="Hidden"/>
     </Grid>
 </Window>
