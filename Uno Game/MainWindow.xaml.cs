@@ -235,6 +235,7 @@ namespace Uno_Game
             this.Close();
         }
 
+
         /// <summary>
         /// Sets up the images for the game.
         /// </summary>
@@ -264,6 +265,7 @@ namespace Uno_Game
             grdMainWindow.Children.Add(dynamicImage);
         }
 
+        /*
         /// <summary>
         /// Sets up the images for the game.
         /// </summary>
@@ -291,7 +293,7 @@ namespace Uno_Game
             this.X2 += 70;
             ////Add Image to Window  
             grdMainWindow.Children.Add(dynamicImage);
-        }
+        }*/
 
         /// <summary>
         /// Throw the card to the central pile.
@@ -615,6 +617,7 @@ namespace Uno_Game
             }
         }
 
+        /*
         /// <summary>
         /// Throw the card to the central pile.
         /// </summary>
@@ -885,7 +888,7 @@ namespace Uno_Game
                 this.imgDeckPile.IsEnabled = false;
                 this.UnoGame.PlayerTurn = 0;
             }
-        }
+        }*/
 
         /// <summary>
         /// Creates a new uno game when clicked.
@@ -973,6 +976,96 @@ namespace Uno_Game
                 this.grdMainWindow.Children.Add(this.lblPlayer);
                 this.CompX = 70;
                 this.X = 70;
+                this.imgMainPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.IsEnabled = true;
+                this.BtnChooseDealer.Visibility = Visibility.Visible;
+                this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
+
+                switch (this.UnoGame.PlayerTurn)
+                {
+                    case 1:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 2:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 3:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                }
+
+                //// creates center pile based on what is on top of the deck
+                Card centralStart = new Card();
+
+                centralStart = this.UnoGame.CentralPile[0];
+
+                //// create image for central pile
+                Image dynamicImageCentral = new Image();
+                dynamicImageCentral.Width = 150;
+                dynamicImageCentral.Height = 100;
+
+                //// Create a BitmapSource  
+                BitmapImage bitmapCentral = new BitmapImage();
+                bitmapCentral.BeginInit();
+                bitmapCentral.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/" + centralStart.MyImagePath);
+                bitmapCentral.EndInit();
+                dynamicImageCentral.Source = bitmapCentral;
+
+                imgMainPile.Source = dynamicImageCentral.Source;
+                if (this.UnoGame.PlayerTurn == 2)
+                {
+                    this.NextPlayerButton_Click(sender, e);
+                }
+            }
+            else if (this.gameMode == Mode.FourPlayers)
+            {
+                this.UnoGame.InGame = true;
+                this.UnoGame.GameDeck = new DeckOfCards();
+                this.UnoGame.Clockwise = true;
+                this.UnoGame.GameDeck.SetUpDeck();
+                this.UnoGame.Player1.PlayerHand.Clear();
+                this.UnoGame.Player2.PlayerHand.Clear();
+                this.UnoGame.Player3.PlayerHand.Clear();
+                this.UnoGame.Player4.PlayerHand.Clear();
+                this.UnoGame.DealCards(this.gameMode);
+                this.grdMainWindow.Children.Clear();
+                this.grdMainWindow.Children.Add(this.imgMainPile);
+                this.grdMainWindow.Children.Add(this.imgDeckPile);
+                this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                this.grdMainWindow.Children.Add(this.BtnClose);
+                this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.CompX = 70;
+                this.X = 70;
                 this.X2 = 800;
                 this.imgMainPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.Visibility = Visibility.Visible;
@@ -981,39 +1074,948 @@ namespace Uno_Game
                 this.BtnChooseDealer.IsEnabled = true;
                 this.lblDrawCard.Visibility = Visibility.Hidden;
                 //// display player's hand
-                foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+
+                switch (this.UnoGame.PlayerTurn)
                 {
-                    this.CreateViewImageDynamically(crd.MyImagePath);
+                    case 1:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 2:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 3:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 4:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player4.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
                 }
 
-                //// display second player's hand
-                foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                //// creates center pile based on what is on top of the deck
+                Card centralStart = new Card();
+
+                centralStart = this.UnoGame.CentralPile[0];
+
+                //// create image for central pile
+                Image dynamicImageCentral = new Image();
+                dynamicImageCentral.Width = 150;
+                dynamicImageCentral.Height = 100;
+
+                //// Create a BitmapSource  
+                BitmapImage bitmapCentral = new BitmapImage();
+                bitmapCentral.BeginInit();
+                bitmapCentral.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/" + centralStart.MyImagePath);
+                bitmapCentral.EndInit();
+                dynamicImageCentral.Source = bitmapCentral;
+
+                imgMainPile.Source = dynamicImageCentral.Source;
+                if (this.UnoGame.PlayerTurn == 2)
                 {
-                    this.CreateViewImageDynamically2(crd.MyImagePath);
+                    this.NextPlayerButton_Click(sender, e);
+                }
+            }
+            else if (this.gameMode == Mode.FivePlayers)
+            {
+                this.UnoGame.InGame = true;
+                this.UnoGame.GameDeck = new DeckOfCards();
+                this.UnoGame.Clockwise = true;
+                this.UnoGame.GameDeck.SetUpDeck();
+                this.UnoGame.Player1.PlayerHand.Clear();
+                this.UnoGame.Player2.PlayerHand.Clear();
+                this.UnoGame.Player3.PlayerHand.Clear();
+                this.UnoGame.Player4.PlayerHand.Clear();
+                this.UnoGame.Player5.PlayerHand.Clear();
+                this.UnoGame.DealCards(this.gameMode);
+                this.grdMainWindow.Children.Clear();
+                this.grdMainWindow.Children.Add(this.imgMainPile);
+                this.grdMainWindow.Children.Add(this.imgDeckPile);
+                this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                this.grdMainWindow.Children.Add(this.BtnClose);
+                this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.CompX = 70;
+                this.X = 70;
+                this.imgMainPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.IsEnabled = true;
+                this.BtnChooseDealer.Visibility = Visibility.Visible;
+                this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
+                //// display player's hand
+
+                switch (this.UnoGame.PlayerTurn)
+                {
+                    case 1:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 2:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 3:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 4:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player4.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 5:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player5.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
                 }
 
-                for (int i = 0; i < 7; i++)
+                //// creates center pile based on what is on top of the deck
+                Card centralStart = new Card();
+
+                centralStart = this.UnoGame.CentralPile[0];
+
+                //// create image for central pile
+                Image dynamicImageCentral = new Image();
+                dynamicImageCentral.Width = 150;
+                dynamicImageCentral.Height = 100;
+
+                //// Create a BitmapSource  
+                BitmapImage bitmapCentral = new BitmapImage();
+                bitmapCentral.BeginInit();
+                bitmapCentral.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/" + centralStart.MyImagePath);
+                bitmapCentral.EndInit();
+                dynamicImageCentral.Source = bitmapCentral;
+
+                imgMainPile.Source = dynamicImageCentral.Source;
+                if (this.UnoGame.PlayerTurn == 2)
                 {
-                    //// Create Image and set its width and height  
-                    Image dynamicImage1 = new Image();
-                    dynamicImage1.Width = 150;
-                    dynamicImage1.Height = 100;
+                    this.NextPlayerButton_Click(sender, e);
+                }
+            }
+            else if (this.gameMode == Mode.SixPlayers)
+            {
+                this.UnoGame.InGame = true;
+                this.UnoGame.GameDeck = new DeckOfCards();
+                this.UnoGame.Clockwise = true;
+                this.UnoGame.GameDeck.SetUpDeck();
+                this.UnoGame.Player1.PlayerHand.Clear();
+                this.UnoGame.Player2.PlayerHand.Clear();
+                this.UnoGame.Player3.PlayerHand.Clear();
+                this.UnoGame.Player4.PlayerHand.Clear();
+                this.UnoGame.Player5.PlayerHand.Clear();
+                this.UnoGame.Player6.PlayerHand.Clear();
+                this.UnoGame.DealCards(this.gameMode);
+                this.grdMainWindow.Children.Clear();
+                this.grdMainWindow.Children.Add(this.imgMainPile);
+                this.grdMainWindow.Children.Add(this.imgDeckPile);
+                this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                this.grdMainWindow.Children.Add(this.BtnClose);
+                this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.CompX = 70;
+                this.X = 70;
+                this.imgMainPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.IsEnabled = true;
+                this.BtnChooseDealer.Visibility = Visibility.Visible;
+                this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
+                //// display player's hand
 
-                    //// Create a BitmapSource  
-                    BitmapImage bitmap1 = new BitmapImage();
-                    bitmap1.BeginInit();
-                    bitmap1.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/Back.jpg");
-                    bitmap1.EndInit();
+                switch (this.UnoGame.PlayerTurn)
+                {
+                    case 1:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 2:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 3:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 4:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player4.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 5:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player5.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 6:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player6.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                }
 
-                    //// Set Image.Source  
-                    dynamicImage1.Source = bitmap1;
-                    dynamicImage1.HorizontalAlignment = HorizontalAlignment.Left;
-                    dynamicImage1.VerticalAlignment = VerticalAlignment.Top;
-                    dynamicImage1.Margin = new Thickness(this.CompX, 0, 0, 0);
-                    this.CompX += 70;
-                    //// Add Image to Window  
-                    grdMainWindow.Children.Add(dynamicImage1);
-                    this.LastImage = dynamicImage1;
+                //// creates center pile based on what is on top of the deck
+                Card centralStart = new Card();
+
+                centralStart = this.UnoGame.CentralPile[0];
+
+                //// create image for central pile
+                Image dynamicImageCentral = new Image();
+                dynamicImageCentral.Width = 150;
+                dynamicImageCentral.Height = 100;
+
+                //// Create a BitmapSource  
+                BitmapImage bitmapCentral = new BitmapImage();
+                bitmapCentral.BeginInit();
+                bitmapCentral.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/" + centralStart.MyImagePath);
+                bitmapCentral.EndInit();
+                dynamicImageCentral.Source = bitmapCentral;
+
+                imgMainPile.Source = dynamicImageCentral.Source;
+                if (this.UnoGame.PlayerTurn == 2)
+                {
+                    this.NextPlayerButton_Click(sender, e);
+                }
+            }
+            else if (this.gameMode == Mode.SevenPlayers)
+            {
+                this.UnoGame.InGame = true;
+                this.UnoGame.GameDeck = new DeckOfCards();
+                this.UnoGame.Clockwise = true;
+                this.UnoGame.GameDeck.SetUpDeck();
+                this.UnoGame.Player1.PlayerHand.Clear();
+                this.UnoGame.Player2.PlayerHand.Clear();
+                this.UnoGame.Player3.PlayerHand.Clear();
+                this.UnoGame.Player4.PlayerHand.Clear();
+                this.UnoGame.Player5.PlayerHand.Clear();
+                this.UnoGame.Player6.PlayerHand.Clear();
+                this.UnoGame.Player7.PlayerHand.Clear();
+                this.UnoGame.DealCards(this.gameMode);
+                this.grdMainWindow.Children.Clear();
+                this.grdMainWindow.Children.Add(this.imgMainPile);
+                this.grdMainWindow.Children.Add(this.imgDeckPile);
+                this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                this.grdMainWindow.Children.Add(this.BtnClose);
+                this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.CompX = 70;
+                this.X = 70;
+                this.imgMainPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.IsEnabled = true;
+                this.BtnChooseDealer.Visibility = Visibility.Visible;
+                this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
+                //// display player's hand
+
+                switch (this.UnoGame.PlayerTurn)
+                {
+                    case 1:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 2:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 3:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 4:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player4.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 5:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player5.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 6:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player6.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 7:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player7.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                }
+
+                //// creates center pile based on what is on top of the deck
+                Card centralStart = new Card();
+
+                centralStart = this.UnoGame.CentralPile[0];
+
+                //// create image for central pile
+                Image dynamicImageCentral = new Image();
+                dynamicImageCentral.Width = 150;
+                dynamicImageCentral.Height = 100;
+
+                //// Create a BitmapSource  
+                BitmapImage bitmapCentral = new BitmapImage();
+                bitmapCentral.BeginInit();
+                bitmapCentral.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/" + centralStart.MyImagePath);
+                bitmapCentral.EndInit();
+                dynamicImageCentral.Source = bitmapCentral;
+
+                imgMainPile.Source = dynamicImageCentral.Source;
+                if (this.UnoGame.PlayerTurn == 2)
+                {
+                    this.NextPlayerButton_Click(sender, e);
+                }
+            }
+            else if (this.gameMode == Mode.EightPlayers)
+            {
+                this.UnoGame.InGame = true;
+                this.UnoGame.GameDeck = new DeckOfCards();
+                this.UnoGame.Clockwise = true;
+                this.UnoGame.GameDeck.SetUpDeck();
+                this.UnoGame.Player1.PlayerHand.Clear();
+                this.UnoGame.Player2.PlayerHand.Clear();
+                this.UnoGame.Player3.PlayerHand.Clear();
+                this.UnoGame.Player4.PlayerHand.Clear();
+                this.UnoGame.Player5.PlayerHand.Clear();
+                this.UnoGame.Player6.PlayerHand.Clear();
+                this.UnoGame.Player7.PlayerHand.Clear();
+                this.UnoGame.Player8.PlayerHand.Clear();
+                this.UnoGame.DealCards(this.gameMode);
+                this.grdMainWindow.Children.Clear();
+                this.grdMainWindow.Children.Add(this.imgMainPile);
+                this.grdMainWindow.Children.Add(this.imgDeckPile);
+                this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                this.grdMainWindow.Children.Add(this.BtnClose);
+                this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.CompX = 70;
+                this.X = 70;
+                this.imgMainPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.IsEnabled = true;
+                this.BtnChooseDealer.Visibility = Visibility.Visible;
+                this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
+                //// display player's hand
+
+                switch (this.UnoGame.PlayerTurn)
+                {
+                    case 1:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 2:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 3:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 4:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player4.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 5:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player5.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 6:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player6.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 7:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player7.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 8:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player8.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                }
+
+                //// creates center pile based on what is on top of the deck
+                Card centralStart = new Card();
+
+                centralStart = this.UnoGame.CentralPile[0];
+
+                //// create image for central pile
+                Image dynamicImageCentral = new Image();
+                dynamicImageCentral.Width = 150;
+                dynamicImageCentral.Height = 100;
+
+                //// Create a BitmapSource  
+                BitmapImage bitmapCentral = new BitmapImage();
+                bitmapCentral.BeginInit();
+                bitmapCentral.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/" + centralStart.MyImagePath);
+                bitmapCentral.EndInit();
+                dynamicImageCentral.Source = bitmapCentral;
+
+                imgMainPile.Source = dynamicImageCentral.Source;
+                if (this.UnoGame.PlayerTurn == 2)
+                {
+                    this.NextPlayerButton_Click(sender, e);
+                }
+            }
+            else if (this.gameMode == Mode.NinePlayers)
+            {
+                this.UnoGame.InGame = true;
+                this.UnoGame.GameDeck = new DeckOfCards();
+                this.UnoGame.Clockwise = true;
+                this.UnoGame.GameDeck.SetUpDeck();
+                this.UnoGame.Player1.PlayerHand.Clear();
+                this.UnoGame.Player2.PlayerHand.Clear();
+                this.UnoGame.Player3.PlayerHand.Clear();
+                this.UnoGame.Player4.PlayerHand.Clear();
+                this.UnoGame.Player5.PlayerHand.Clear();
+                this.UnoGame.Player6.PlayerHand.Clear();
+                this.UnoGame.Player7.PlayerHand.Clear();
+                this.UnoGame.Player8.PlayerHand.Clear();
+                this.UnoGame.Player9.PlayerHand.Clear();
+                this.UnoGame.DealCards(this.gameMode);
+                this.grdMainWindow.Children.Clear();
+                this.grdMainWindow.Children.Add(this.imgMainPile);
+                this.grdMainWindow.Children.Add(this.imgDeckPile);
+                this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                this.grdMainWindow.Children.Add(this.BtnClose);
+                this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.CompX = 70;
+                this.X = 70;
+                this.imgMainPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.IsEnabled = true;
+                this.BtnChooseDealer.Visibility = Visibility.Visible;
+                this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
+                //// display player's hand
+
+                switch (this.UnoGame.PlayerTurn)
+                {
+                    case 1:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 2:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 3:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 4:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player4.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 5:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player5.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 6:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player6.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 7:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player7.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 8:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player8.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 9:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player9.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                }
+
+                //// creates center pile based on what is on top of the deck
+                Card centralStart = new Card();
+
+                centralStart = this.UnoGame.CentralPile[0];
+
+                //// create image for central pile
+                Image dynamicImageCentral = new Image();
+                dynamicImageCentral.Width = 150;
+                dynamicImageCentral.Height = 100;
+
+                //// Create a BitmapSource  
+                BitmapImage bitmapCentral = new BitmapImage();
+                bitmapCentral.BeginInit();
+                bitmapCentral.UriSource = new Uri(@"pack://siteoforigin:,,,/Resources/" + centralStart.MyImagePath);
+                bitmapCentral.EndInit();
+                dynamicImageCentral.Source = bitmapCentral;
+
+                imgMainPile.Source = dynamicImageCentral.Source;
+                if (this.UnoGame.PlayerTurn == 2)
+                {
+                    this.NextPlayerButton_Click(sender, e);
+                }
+            }
+            else if (this.gameMode == Mode.TenPlayers)
+            {
+                this.UnoGame.InGame = true;
+                this.UnoGame.GameDeck = new DeckOfCards();
+                this.UnoGame.Clockwise = true;
+                this.UnoGame.GameDeck.SetUpDeck();
+                this.UnoGame.Player1.PlayerHand.Clear();
+                this.UnoGame.Player2.PlayerHand.Clear();
+                this.UnoGame.Player3.PlayerHand.Clear();
+                this.UnoGame.Player4.PlayerHand.Clear();
+                this.UnoGame.Player5.PlayerHand.Clear();
+                this.UnoGame.Player6.PlayerHand.Clear();
+                this.UnoGame.Player7.PlayerHand.Clear();
+                this.UnoGame.Player8.PlayerHand.Clear();
+                this.UnoGame.Player9.PlayerHand.Clear();
+                this.UnoGame.Player10.PlayerHand.Clear();
+                this.UnoGame.DealCards(this.gameMode);
+                this.grdMainWindow.Children.Clear();
+                this.grdMainWindow.Children.Add(this.imgMainPile);
+                this.grdMainWindow.Children.Add(this.imgDeckPile);
+                this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                this.grdMainWindow.Children.Add(this.BtnClose);
+                this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                this.grdMainWindow.Children.Add(this.lblPlayer);
+                this.CompX = 70;
+                this.X = 70;
+                this.imgMainPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.Visibility = Visibility.Visible;
+                this.imgDeckPile.IsEnabled = true;
+                this.BtnChooseDealer.Visibility = Visibility.Visible;
+                this.BtnChooseDealer.IsEnabled = true;
+                this.lblDrawCard.Visibility = Visibility.Hidden;
+                //// display player's hand
+
+                switch (this.UnoGame.PlayerTurn)
+                {
+                    case 1:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 2:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player1.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 3:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player3.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 4:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player4.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 5:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player5.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 6:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player6.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 7:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player7.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 8:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player8.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 9:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player9.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
+                    case 10:
+                        //// display player's hand
+                        foreach (Card crd in this.UnoGame.Player10.PlayerHand)
+                        {
+                            this.CreateViewImageDynamically(crd.MyImagePath);
+                        }
+                        foreach (Card crd in this.UnoGame.Player2.PlayerHand)
+                        {
+                            this.RebindComputerCards();
+                            this.CompX += 70;
+                        }
+                        break;
                 }
 
                 //// creates center pile based on what is on top of the deck
@@ -1421,7 +2423,7 @@ namespace Uno_Game
                         }
                     }
 
-                    if (this.gameMode == Mode.ThreePlayers)
+                    if (this.playerCount > 2)
                     {
                         this.lblDrawCard.Visibility = Visibility.Visible;
                         this.lblDrawCard.Content = "Player 3, draw a card.";
@@ -1754,10 +2756,11 @@ namespace Uno_Game
                         }
                     }
 
+                    this.lblDrawCard.Visibility = Visibility.Visible;
+                    this.lblDrawCard.Content = "Player 4, draw a card.";
                     this.UnoGame.PlayerTurn = 4;
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
-                    this.NextPlayerButton_Click(sender, e);
                 }
                 else if (this.gameMode == Mode.FourPlayers && this.UnoGame.PlayerTurn == 4)
                 {
@@ -1822,7 +2825,9 @@ namespace Uno_Game
                         }
                     }
 
-                    this.UnoGame.PlayerTurn = 4;
+                    this.lblDrawCard.Visibility = Visibility.Visible;
+                    this.lblDrawCard.Content = "Player 5, draw a card.";
+                    this.UnoGame.PlayerTurn = 5;
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
                     this.NextPlayerButton_Click(sender, e);
@@ -1896,7 +2901,9 @@ namespace Uno_Game
                         }
                     }
 
-                    this.UnoGame.PlayerTurn = 5;
+                    this.UnoGame.PlayerTurn = 6;
+                    this.lblDrawCard.Visibility = Visibility.Visible;
+                    this.lblDrawCard.Content = "Player 6, draw a card.";
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
                     this.NextPlayerButton_Click(sender, e);
@@ -1976,7 +2983,9 @@ namespace Uno_Game
                         }
                     }
 
-                    this.UnoGame.PlayerTurn = 6;
+                    this.UnoGame.PlayerTurn = 7;
+                    this.lblDrawCard.Visibility = Visibility.Visible;
+                    this.lblDrawCard.Content = "Player 7, draw a card.";
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
                     this.NextPlayerButton_Click(sender, e);
@@ -2062,7 +3071,9 @@ namespace Uno_Game
                         }
                     }
 
-                    this.UnoGame.PlayerTurn = 7;
+                    this.UnoGame.PlayerTurn = 8;
+                    this.lblDrawCard.Visibility = Visibility.Visible;
+                    this.lblDrawCard.Content = "Player 8, draw a card.";
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
                     this.NextPlayerButton_Click(sender, e);
@@ -2154,7 +3165,9 @@ namespace Uno_Game
                         }
                     }
 
-                    this.UnoGame.PlayerTurn = 8;
+                    this.UnoGame.PlayerTurn = 9;
+                    this.lblDrawCard.Visibility = Visibility.Visible;
+                    this.lblDrawCard.Content = "Player 9, draw a card.";
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
                     this.NextPlayerButton_Click(sender, e);
@@ -2252,7 +3265,9 @@ namespace Uno_Game
                         }
                     }
 
-                    this.UnoGame.PlayerTurn = 9;
+                    this.lblDrawCard.Visibility = Visibility.Visible;
+                    this.lblDrawCard.Content = "Player 10, draw a card.";
+                    this.UnoGame.PlayerTurn = 10;
                     this.DisplayPlayerTurn();
                     await Task.Delay(500);
                     this.NextPlayerButton_Click(sender, e);
@@ -2409,6 +3424,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.CompX = 70;
                 this.X = 70;
+                this.X2 = 800;
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
@@ -2444,6 +3460,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.CompX = 70;
                 this.X = 70;
+                this.X2 = 800;
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
@@ -2481,6 +3498,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.CompX = 70;
                 this.X = 70;
+                this.X2 = 800;
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
@@ -2520,6 +3538,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.CompX = 70;
                 this.X = 70;
+                this.X2 = 800;
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
@@ -2561,6 +3580,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.CompX = 70;
                 this.X = 70;
+                this.X2 = 800;
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
@@ -2604,6 +3624,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.CompX = 70;
                 this.X = 70;
+                this.X2 = 800;
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
@@ -2649,6 +3670,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.CompX = 70;
                 this.X = 70;
+                this.X2 = 800;
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
@@ -2696,6 +3718,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.Content = "Draw Card";
                 this.CompX = 70;
                 this.X = 70;
+                this.X2 = 800;
                 this.imgDeckPile.Visibility = Visibility.Visible;
                 this.imgDeckPile.IsEnabled = true;
                 this.DisplayPlayerTurn();
