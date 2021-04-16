@@ -41,24 +41,5 @@ namespace Uno_Game
         /// Used to determine if player is dealer
         /// </summary>
         public bool IsDealer;
-
-        /// <summary>
-        /// Used to determine total hand value of player
-        /// </summary>
-        public int totalHand;
-
-        /// <summary>
-        /// Method to calculate total player hand
-        /// </summary>
-        public void TotalCardValue()
-        {
-            int result = 0;
-            foreach (Card c in this.PlayerHand)
-            {
-                result += c.MyValue;
-            }
-
-            this.totalHand = result;
-        }
     }
 }

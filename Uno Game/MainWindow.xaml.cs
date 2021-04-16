@@ -33,42 +33,7 @@ namespace Uno_Game
         /// <summary>
         /// Theme that is a sport.
         /// </summary>
-        ThreePlayers = 2,
-
-        /// <summary>
-        /// Four player mode
-        /// </summary>
-        FourPlayers = 3,
-
-        /// <summary>
-        /// Five player mode
-        /// </summary>
-        FivePlayers = 4,
-
-        /// <summary>
-        /// Six player mode
-        /// </summary>
-        SixPlayers = 5,
-
-        /// <summary>
-        /// Seven player mode
-        /// </summary>
-        SevenPlayers = 6,
-
-        /// <summary>
-        /// Eight player mode
-        /// </summary>
-        EightPlayers = 7,
-
-        /// <summary>
-        /// Nine player mode
-        /// </summary>
-        NinePlayers = 8,
-
-        /// <summary>
-        /// Ten player mode
-        /// </summary>
-        TenPlayers = 9
+        ThreePlayers = 2
     }
 
     /// <summary>
