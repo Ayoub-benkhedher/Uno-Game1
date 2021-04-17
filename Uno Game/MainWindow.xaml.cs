@@ -313,6 +313,7 @@ namespace Uno_Game
                     {
                         this.CreateViewImageDynamically(crd.MyImagePath);
                     }
+
                     this.UnoGame.Player1.TotalHand = this.UnoGame.Player1.TotalCardValue();
 
                     //// Perform the draw two card
