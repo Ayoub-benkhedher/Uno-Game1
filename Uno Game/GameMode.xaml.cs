@@ -31,6 +31,9 @@ namespace Uno_Game
         public GameMode()
         {
             this.InitializeComponent();
+            cboSelectionMode.Visibility = Visibility.Hidden;
+            lblPick.Visibility = Visibility.Hidden;
+
         }
 
         /// <summary>
@@ -40,7 +43,7 @@ namespace Uno_Game
         /// <param name="e">The event arguments for the event.</param>
         private void BtnTwoPlayer_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow(Mode.TwoPlayers).ShowDialog();
+            new MainWindow(Mode.TwoPlayers, 2).ShowDialog();
         }
 
         /// <summary>
@@ -48,9 +51,15 @@ namespace Uno_Game
         /// </summary>
         /// <param name="sender">The object that initiated the event.</param>
         /// <param name="e">The event arguments for the event.</param>
-        private void BtnThreePlayers_Click(object sender, RoutedEventArgs e)
+        private void BtnMultiplePlayers_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow(Mode.ThreePlayers).ShowDialog();
+            cboSelectionMode.Visibility = Visibility.Visible;
+            lblPick.Visibility = Visibility.Visible;
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            new MainWindow(Mode.MultiplePlayers, cboSelectionMode.SelectedIndex + 3).ShowDialog();
         }
     }
 }
