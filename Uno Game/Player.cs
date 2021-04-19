@@ -50,7 +50,6 @@ namespace Uno_Game
         /// <summary>
         /// Method to calculate total player hand
         /// </summary>
-        /// <returns>Result of total card value.</returns>
         public int TotalCardValue()
         {
             int result = 0;

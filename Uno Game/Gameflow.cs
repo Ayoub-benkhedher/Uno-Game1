@@ -268,7 +268,6 @@ namespace Uno_Game
                             this.Player2.TotalHand = this.Player2.TotalCardValue();
                             this.CurrentDeck.RemoveAt(0);
                         }
-
                         this.PlayerTurn = 3;
                         this.Player3.TotalHand = this.Player3.TotalCardValue();
                     }
@@ -280,7 +279,6 @@ namespace Uno_Game
                             this.Player3.TotalHand = this.Player3.TotalCardValue();
                             this.CurrentDeck.RemoveAt(0);
                         }
-
                         this.PlayerTurn = 1;
                         this.Player1.TotalHand = this.Player1.TotalCardValue();
                     }
@@ -292,7 +290,6 @@ namespace Uno_Game
                             this.Player1.TotalHand = this.Player1.TotalCardValue();
                             this.CurrentDeck.RemoveAt(0);
                         }
-
                         this.PlayerTurn = 2;
                         this.Player2.TotalHand = this.Player2.TotalCardValue();
                     }
@@ -307,7 +304,6 @@ namespace Uno_Game
                             this.Player3.TotalHand = this.Player3.TotalCardValue();
                             this.CurrentDeck.RemoveAt(0);
                         }
-
                         this.PlayerTurn = 2;
                         this.Player2.TotalHand = this.Player2.TotalCardValue();
                     }
@@ -319,7 +315,6 @@ namespace Uno_Game
                             this.Player1.TotalHand = this.Player1.TotalCardValue();
                             this.CurrentDeck.RemoveAt(0);
                         }
-
                         this.PlayerTurn = 3;
                         this.Player3.TotalHand = this.Player3.TotalCardValue();
                     }
@@ -331,7 +326,6 @@ namespace Uno_Game
                             this.Player2.TotalHand = this.Player2.TotalCardValue();
                             this.CurrentDeck.RemoveAt(0);
                         }
-
                         this.PlayerTurn = 1;
                         this.Player1.TotalHand = this.Player1.TotalCardValue();
                     }
