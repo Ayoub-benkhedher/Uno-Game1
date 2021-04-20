@@ -597,25 +597,10 @@ namespace Uno_Game
                             if (playerNumber != this.numberOfPlayers - 1)
                             {
                                 this.UnoGame.PlayerTurn = playerNumber + 2;
-                                if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
-                                {
-                                    if ((playerNumber + 1) != this.numberOfPlayers - 1)
-                                    {
-                                        this.UnoGame.PlayerTurn = playerNumber + 3;
-                                    }
-                                    else
-                                    {
-                                        this.UnoGame.PlayerTurn = 1;
-                                    }
-                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
-                                {
-                                    this.UnoGame.PlayerTurn = 2;
-                                }
                             }
                             ////this.imgDeckPile.IsEnabled = false;
                             ////if ((PlayerNumber == 0) && (this.UnoGame.Players[PlayerNumber].PlayerHand.Count != 0))
@@ -630,25 +615,11 @@ namespace Uno_Game
                             if (playerNumber != 0)
                             {
                                 this.UnoGame.PlayerTurn = playerNumber;
-                                if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
-                                {
-                                    if (playerNumber - 1 != 0)
-                                    {
-                                        this.UnoGame.PlayerTurn = playerNumber - 1;
-                                    }
-                                    else
-                                    {
-                                        this.UnoGame.PlayerTurn = this.numberOfPlayers;
-                                    }
-                                }
+
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = this.numberOfPlayers;
-                                if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
-                                {
-                                    this.UnoGame.PlayerTurn = this.numberOfPlayers - 1;
-                                }
                             }
                             ////this.imgDeckPile.IsEnabled = false;
                             ////if ((PlayerNumber == 2) && (this.UnoGame.Players[PlayerNumber].PlayerHand.Count != 0))
@@ -662,19 +633,12 @@ namespace Uno_Game
                         if (playerNumber == 0)
                         {
                             this.UnoGame.PlayerTurn = 2;
-                            if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
-                            {
-                                this.UnoGame.PlayerTurn = 1;
-                            }
                             ////this.imgDeckPile.IsEnabled = false;
+
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 1;
-                            if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
-                            {
-                                this.UnoGame.PlayerTurn = 2;
-                            }
                         }
                     }
                 }
@@ -834,7 +798,7 @@ namespace Uno_Game
                     }
                     else
                     {
-                        this.CreatePlayerHandCardImages(this.UnoGame.Players[playerNumber]);
+                        this.CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
                         BtnNoticeMissedUno.Visibility = Visibility.Visible;
                         if (playerNumber == 0)
                         {
@@ -849,14 +813,7 @@ namespace Uno_Game
                 }
                 else
                 {
-                    if (this.gameMode == Mode.MultiplePlayers)
-                    {
-                        this.CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
-                    }
-                    else
-                    {
-                        this.CreatePlayerHandCardImages(this.UnoGame.Players[playerNumber]);
-                    }
+                     this.CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
                 }
 
                 if (BtnPlayer1Uno.Visibility == Visibility.Visible && this.UnoGame.Players[0].PlayerHand.Count > 1)
@@ -1703,31 +1660,17 @@ namespace Uno_Game
                                 if (!this.UnoGame.Clockwise)
                                 {
                                     this.UnoGame.PlayerTurn = 1;
-                                    if (findCard.MyType == Card.Type.Draw2 || findCard.MyType == Card.Type.WildDraw4)
-                                    {
-                                        this.UnoGame.PlayerTurn = 3;
-                                    }
                                     ////this.imgDeckPile.IsEnabled = true;
                                 }
                                 else
                                 {
                                     this.UnoGame.PlayerTurn = 3;
-                                    if (findCard.MyType == Card.Type.Draw2 || findCard.MyType == Card.Type.WildDraw4)
-                                    {
-                                        this.UnoGame.PlayerTurn = 1;
-                                    }
                                     ////this.imgDeckPile.IsEnabled = true;
                                 }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
-                                if (findCard.MyType == Card.Type.Draw2 || findCard.MyType == Card.Type.WildDraw4)
-                                {
-                                    this.UnoGame.PlayerTurn = 2;
-                                    await Task.Delay(500);
-                                    this.NextPlayerButton_Click(sender, e);
-                                }
                                 ////this.imgDeckPile.IsEnabled = true;
                             }
                         }
