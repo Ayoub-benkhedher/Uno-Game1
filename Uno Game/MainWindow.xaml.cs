@@ -90,7 +90,7 @@ namespace Uno_Game
             this.imgDeckPile.Visibility = Visibility.Hidden;
             this.DataContext = this;
             this.lblDrawCard.Visibility = Visibility.Hidden;
-            for(int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 Console.WriteLine((i + 1) % 10 + 1);
             }
@@ -257,9 +257,9 @@ namespace Uno_Game
         private void Playershandscount()
         {
             lstPlayers.Items.Clear();
-            for (int i =1; i<NumberOfPlayers+1; i++)
+            for (int i = 1; i < NumberOfPlayers + 1; i++)
             {
-                lstPlayers.Items.Add("Player " + i + " has " + this.UnoGame.Players[i-1].PlayerHand.Count + " cards");
+                lstPlayers.Items.Add("Player " + i + " has " + this.UnoGame.Players[i - 1].PlayerHand.Count + " cards");
             }
         }
         /// <summary>
@@ -320,6 +320,7 @@ namespace Uno_Game
                     break;
                 }
             }
+            this.UnoGame.Players[PlayerNumber].Score = this.UnoGame.Players[PlayerNumber].TotalCardValue();
 
             if (this.UnoGame.CanPlaceCard(checkCard))
             {
@@ -373,6 +374,7 @@ namespace Uno_Game
                         break;
                     }
                 }
+
                 DeleteCardImages(this.UnoGame.Players[PlayerNumber]);
 
                 //this.X = 70;
@@ -534,7 +536,7 @@ namespace Uno_Game
                         }
                         else
                         {
-                            if(this.UnoGame.PlayerTurn == 3)
+                            if (this.UnoGame.PlayerTurn == 3)
                             {
                                 for (int i = 0; i < n; i++)
                                 {
@@ -581,10 +583,25 @@ namespace Uno_Game
                             if (PlayerNumber != NumberOfPlayers - 1)
                             {
                                 this.UnoGame.PlayerTurn = PlayerNumber + 2;
+                                if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
+                                {
+                                    if ((PlayerNumber + 1) != NumberOfPlayers - 1)
+                                    {
+                                        this.UnoGame.PlayerTurn = PlayerNumber + 3;
+                                    }
+                                    else
+                                    {
+                                        this.UnoGame.PlayerTurn = 1;
+                                    }
+                                }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
+                                if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
+                                {
+                                    this.UnoGame.PlayerTurn = 2;
+                                }
                             }
                             ////this.imgDeckPile.IsEnabled = false;
                             //if ((PlayerNumber == 0) && (this.UnoGame.Players[PlayerNumber].PlayerHand.Count != 0))
@@ -599,11 +616,26 @@ namespace Uno_Game
                             if (PlayerNumber != 0)
                             {
                                 this.UnoGame.PlayerTurn = PlayerNumber;
+                                if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
+                                {
+                                    if (PlayerNumber - 1 != 0)
+                                    {
+                                        this.UnoGame.PlayerTurn = PlayerNumber - 1;
+                                    }
+                                    else
+                                    {
+                                        this.UnoGame.PlayerTurn = NumberOfPlayers;
+                                    }
+                                }
 
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = NumberOfPlayers;
+                                if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
+                                {
+                                    this.UnoGame.PlayerTurn = NumberOfPlayers - 1;
+                                }
                             }
                             //this.imgDeckPile.IsEnabled = false;
                             //if ((PlayerNumber == 2) && (this.UnoGame.Players[PlayerNumber].PlayerHand.Count != 0))
@@ -617,12 +649,20 @@ namespace Uno_Game
                         if (PlayerNumber == 0)
                         {
                             this.UnoGame.PlayerTurn = 2;
+                            if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
+                            {
+                                this.UnoGame.PlayerTurn = 1;
+                            }
                             ////this.imgDeckPile.IsEnabled = false;
 
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = 1;
+                            if (path.Substring(0, 8) == "WildDraw" || path.Substring(0, 4) == "Draw")
+                            {
+                                this.UnoGame.PlayerTurn = 2;
+                            }
                         }
                     }
                 }
@@ -717,17 +757,177 @@ namespace Uno_Game
                         ////this.imgDeckPile.IsEnabled = true;
                     }
                 }
+                this.UnoGame.Players[PlayerNumber].Score = this.UnoGame.Players[PlayerNumber].TotalCardValue();
 
                 //DeleteCardImages(UnoGame.Players[PlayerNumber]);
                 if (this.UnoGame.Players[PlayerNumber].PlayerHand.Count == 0)
                 {
                     MessageBox.Show("Congrats! Player " + (PlayerNumber + 1) + " win!");
-                    ////this.imgDeckPile.IsEnabled = false;
+                    this.DisplayValues();
+                    this.imgDeckPile.IsEnabled = false;
                     this.UnoGame.PlayerTurn = 0;
+                }
+                else if (this.UnoGame.Players[PlayerNumber].PlayerHand.Count == 1)
+                {
+                    if (this.gameMode == Mode.MultiplePlayers)
+                    {
+                        CreatePlayerHandCardImages(UnoGame.Players[UnoGame.PlayerTurn - 1]);
+                        BtnNoticeMissedUno.Visibility = Visibility.Visible;
+                        if (PlayerNumber == 0)
+                        {
+                            BtnPlayer1Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 1)
+                        {
+                            BtnPlayer2Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 2)
+                        {
+                            BtnPlayer3Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 3)
+                        {
+                            BtnPlayer4Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 4)
+                        {
+                            BtnPlayer5Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 5)
+                        {
+                            BtnPlayer6Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 6)
+                        {
+                            BtnPlayer7Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 7)
+                        {
+                            BtnPlayer8Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 8)
+                        {
+                            BtnPlayer9Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 9)
+                        {
+                            BtnPlayer10Uno.Visibility = Visibility.Visible;
+                        }
+                    }
+                    else
+                    {
+                        CreatePlayerHandCardImages(UnoGame.Players[PlayerNumber]);
+                        BtnNoticeMissedUno.Visibility = Visibility.Visible;
+                        if (PlayerNumber == 0)
+                        {
+                            BtnPlayer1Uno.Visibility = Visibility.Visible;
+                        }
+                        if (PlayerNumber == 1)
+                        {
+                            BtnPlayer2Uno.Visibility = Visibility.Visible;
+                        }
+                    }
                 }
                 else
                 {
-                    CreatePlayerHandCardImages(UnoGame.Players[UnoGame.PlayerTurn - 1]);
+                    if (this.gameMode == Mode.MultiplePlayers)
+                    {
+                        CreatePlayerHandCardImages(UnoGame.Players[UnoGame.PlayerTurn - 1]);
+                    }
+                    else
+                    {
+                        CreatePlayerHandCardImages(UnoGame.Players[PlayerNumber]);
+                    }
+                }
+
+                if (BtnPlayer1Uno.Visibility == Visibility.Visible && this.UnoGame.Players[0].PlayerHand.Count > 1)
+                {
+                    BtnPlayer1Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer2Uno.Visibility == Visibility.Visible && this.UnoGame.Players[1].PlayerHand.Count > 1)
+                {
+                    BtnPlayer2Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer3Uno.Visibility == Visibility.Visible && this.UnoGame.Players[2].PlayerHand.Count > 1)
+                {
+                    BtnPlayer3Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer4Uno.Visibility == Visibility.Visible && this.UnoGame.Players[3].PlayerHand.Count > 1)
+                {
+                    BtnPlayer4Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer5Uno.Visibility == Visibility.Visible && this.UnoGame.Players[4].PlayerHand.Count > 1)
+                {
+                    BtnPlayer5Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer6Uno.Visibility == Visibility.Visible && this.UnoGame.Players[5].PlayerHand.Count > 1)
+                {
+                    BtnPlayer6Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer7Uno.Visibility == Visibility.Visible && this.UnoGame.Players[6].PlayerHand.Count > 1)
+                {
+                    BtnPlayer7Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer8Uno.Visibility == Visibility.Visible && this.UnoGame.Players[7].PlayerHand.Count > 1)
+                {
+                    BtnPlayer8Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer9Uno.Visibility == Visibility.Visible && this.UnoGame.Players[8].PlayerHand.Count > 1)
+                {
+                    BtnPlayer9Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer10Uno.Visibility == Visibility.Visible && this.UnoGame.Players[9].PlayerHand.Count > 1)
+                {
+                    BtnPlayer10Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
                 }
             }
 
@@ -1043,6 +1243,8 @@ namespace Uno_Game
                 this.UnoGame.Players[0].PlayerHand.Clear();
                 this.UnoGame.Players[1].PlayerHand.Clear();
                 this.UnoGame.DealCards(this.gameMode);
+                this.UnoGame.Players[0].Score = this.UnoGame.Players[0].TotalCardValue();
+                this.UnoGame.Players[1].Score = this.UnoGame.Players[1].TotalCardValue();
                 this.grdMainWindow.Children.Clear();
                 this.grdMainWindow.Children.Add(this.imgMainPile);
                 this.grdMainWindow.Children.Add(this.imgDeckPile);
@@ -1051,6 +1253,17 @@ namespace Uno_Game
                 this.grdMainWindow.Children.Add(this.NextPlayerButton);
                 this.grdMainWindow.Children.Add(this.lblPlayer);
                 this.grdMainWindow.Children.Add(this.lstPlayers);
+                this.grdMainWindow.Children.Add(this.BtnPlayer1Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer2Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer3Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer4Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer5Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer6Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer7Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer8Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer9Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer10Uno);
+                this.grdMainWindow.Children.Add(this.BtnNoticeMissedUno);
                 this.CompX = 70;
                 this.X = 70;
                 this.imgMainPile.Visibility = Visibility.Visible;
@@ -1060,6 +1273,7 @@ namespace Uno_Game
                 this.BtnChooseDealer.IsEnabled = true;
                 this.lblDrawCard.Visibility = Visibility.Hidden;
 
+                Playershandscount();
                 //// display player's hand
                 CreatePlayerHandCardImages(UnoGame.Players[0]);
 
@@ -1106,6 +1320,10 @@ namespace Uno_Game
                     this.UnoGame.Players[i].PlayerHand.Clear();
                 }
                 this.UnoGame.DealCards(this.gameMode);
+                for (int i = 0; i < this.NumberOfPlayers; i++)
+                {
+                    this.UnoGame.Players[i].Score = this.UnoGame.Players[i].TotalCardValue();
+                }
                 this.grdMainWindow.Children.Clear();
                 this.grdMainWindow.Children.Add(this.imgMainPile);
                 this.grdMainWindow.Children.Add(this.imgDeckPile);
@@ -1168,7 +1386,7 @@ namespace Uno_Game
                 Console.WriteLine("Player index: " + (UnoGame.PlayerTurn - 1));
                 Playershandscount();
                 DisplayPlayerTurn();
-                
+
 
                 //// creates center pile based on what is on top of the deck
                 Card centralStart = new Card();
@@ -1208,6 +1426,7 @@ namespace Uno_Game
                 await Task.Delay(1000);
                 if (this.UnoGame.PlayerTurn == 2)
                 {
+                    this.UnoGame.Players[1].Score = this.UnoGame.Players[1].TotalCardValue();
                     Card findCard = this.UnoGame.CheckCompHand(this.UnoGame.Players[1].PlayerHand);
                     foreach (UIElement element in grdMainWindow.Children)
                     {
@@ -1476,17 +1695,31 @@ namespace Uno_Game
                                 if (!this.UnoGame.Clockwise)
                                 {
                                     this.UnoGame.PlayerTurn = 1;
+                                    if (findCard.MyType == Card.Type.Draw2 || findCard.MyType == Card.Type.WildDraw4)
+                                    {
+                                        this.UnoGame.PlayerTurn = 3;
+                                    }
                                     ////this.imgDeckPile.IsEnabled = true;
                                 }
                                 else
                                 {
                                     this.UnoGame.PlayerTurn = 3;
+                                    if (findCard.MyType == Card.Type.Draw2 || findCard.MyType == Card.Type.WildDraw4)
+                                    {
+                                        this.UnoGame.PlayerTurn = 1;
+                                    }
                                     ////this.imgDeckPile.IsEnabled = true;
                                 }
                             }
                             else
                             {
                                 this.UnoGame.PlayerTurn = 1;
+                                if (findCard.MyType == Card.Type.Draw2 || findCard.MyType == Card.Type.WildDraw4)
+                                {
+                                    this.UnoGame.PlayerTurn = 2;
+                                    await Task.Delay(500);
+                                    this.NextPlayerButton_Click(sender, e);
+                                }
                                 ////this.imgDeckPile.IsEnabled = true;
                             }
                         }
@@ -1534,6 +1767,7 @@ namespace Uno_Game
                             else
                             {
                                 this.UnoGame.PlayerTurn = 2;
+                                await Task.Delay(500);
                                 ////this.imgDeckPile.IsEnabled = false;
                                 this.NextPlayerButton_Click(sender, e);
                             }
@@ -1564,16 +1798,24 @@ namespace Uno_Game
                     if (findCard != null && (findCard.MyType == Card.Type.Wild || findCard.MyType == Card.Type.WildDraw4))
                     {
                         MessageBox.Show("The computer has chosen color: " + findCard.MyColor.ToString());
+                        await Task.Delay(500);
                     }
                 }
 
+                this.UnoGame.Players[1].Score = this.UnoGame.Players[1].TotalCardValue();
                 this.DisplayPlayerTurn();
                 this.Playershandscount();
                 if (this.UnoGame.Players[1].PlayerHand.Count == 0)
                 {
                     MessageBox.Show("Game over. Computer won");
+                    this.DisplayValues();
                     ////this.imgDeckPile.IsEnabled = false;
                     this.UnoGame.PlayerTurn = 0;
+                }
+                else if (this.UnoGame.Players[1].PlayerHand.Count == 1)
+                {
+                    MessageBox.Show("Player2 has called Uno!");
+                    CreatePlayerHandCardImages(UnoGame.Players[UnoGame.PlayerTurn - 1]);
                 }
                 else
                 {
@@ -1589,7 +1831,7 @@ namespace Uno_Game
                     bool isFalse = false;
                     while (!isFalse)
                     {
-                        await Task.Delay(1000);
+                        await Task.Delay(500);
                         this.UnoGame.DrawCard(this.UnoGame.Players[1]);
                         card2 = this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1];
                         Console.WriteLine("Number of cards: " + (this.UnoGame.Players[1].PlayerHand.Count - 1));
@@ -1643,31 +1885,25 @@ namespace Uno_Game
             {
                 if (this.gameMode == Mode.TwoPlayers && this.UnoGame.PlayerTurn == 1 && !this.UnoGame.CheckUserHand(this.UnoGame.Players[0].PlayerHand))
                 {
+                    this.UnoGame.Players[0].Score = this.UnoGame.Players[0].TotalCardValue();
                     this.UnoGame.DrawCard(this.UnoGame.Players[0]);
                     Card card = this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1];
+                    this.UnoGame.Players[0].Score = this.UnoGame.Players[0].TotalCardValue();
                     this.CreateViewImageDynamically(card.MyImagePath);
                     ////this.imgDeckPile.IsEnabled = false;
                     if (!this.UnoGame.CheckUserHand(this.UnoGame.Players[0].PlayerHand))
                     {
                         await Task.Delay(1000);
                         DeleteCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
-                        if (this.UnoGame.Clockwise)
-                        {
-                            this.UnoGame.PlayerTurn = 2;
-                            this.NextPlayerButton_Click(sender, e);
-                        }
-                        else
-                        {
-                            this.UnoGame.PlayerTurn = 3;
-                            MessageBox.Show("The turn goes to player " + this.UnoGame.PlayerTurn);
-                            CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
-                            ////this.imgDeckPile.IsEnabled = true;
-                        }
+                        this.UnoGame.PlayerTurn = 2;
+                        this.NextPlayerButton_Click(sender, e);
                     }
                 }
                 else if (this.gameMode == Mode.MultiplePlayers && (this.UnoGame.PlayerTurn != 2 && !this.UnoGame.CheckUserHand(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1].PlayerHand)))
                 {
+                    this.UnoGame.Players[this.UnoGame.PlayerTurn - 1].Score = this.UnoGame.Players[this.UnoGame.PlayerTurn - 1].TotalCardValue();
                     this.UnoGame.DrawCard(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
+                    this.UnoGame.Players[this.UnoGame.PlayerTurn - 1].Score = this.UnoGame.Players[this.UnoGame.PlayerTurn - 1].TotalCardValue();
                     Card card = this.UnoGame.Players[this.UnoGame.PlayerTurn - 1].PlayerHand[this.UnoGame.Players[this.UnoGame.PlayerTurn - 1].PlayerHand.Count - 1];
                     //this.CreateViewImageDynamically2(card.MyImagePath);
                     this.CreateViewImageDynamically(card.MyImagePath);
@@ -1682,13 +1918,28 @@ namespace Uno_Game
                         {
                             this.UnoGame.PlayerTurn = this.UnoGame.PlayerTurn % NumberOfPlayers + 1;
                             MessageBox.Show("The turn goes to player " + this.UnoGame.PlayerTurn);
-                            CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
+                            if (this.UnoGame.PlayerTurn == 2)
+                            {
+                                this.NextPlayerButton_Click(sender, e);
+                            }
+                            else
+                            {
+                                CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
+                            }
                             ////this.imgDeckPile.IsEnabled = true;
                         }
                         else
                         {
                             this.UnoGame.PlayerTurn = (this.UnoGame.PlayerTurn - 2) % NumberOfPlayers + 1;
-                            this.NextPlayerButton_Click(sender, e);
+                            MessageBox.Show("The turn goes to player " + this.UnoGame.PlayerTurn);
+                            if (this.UnoGame.PlayerTurn == 2)
+                            {
+                                this.NextPlayerButton_Click(sender, e);
+                            }
+                            else
+                            {
+                                CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
+                            }
                         }
                     }
                 }
@@ -1731,6 +1982,7 @@ namespace Uno_Game
 
                     while (!isNumber)
                     {
+                        this.X = 140;
                         this.UnoGame.DrawCard(this.UnoGame.Players[2]);
                         card3 = this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1];
                         //this.X2 = 800;
@@ -1742,29 +1994,578 @@ namespace Uno_Game
                         }
                     }
 
+                    if (this.UnoGame.PlayerTurn == this.UnoGame.Players.Count)
+                    {
+                        if (card3.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card3.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 3 is the dealer, so Player 1 begins play.");
+                        }
+                        else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card3.MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 3;
+                            MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        }
+                        else
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                        }
 
-                    if (card3.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card3.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber)
-                    {
-                        await Task.Delay(500);
-                        this.UnoGame.PlayerTurn = 1;
-                        MessageBox.Show("Player 3 is the dealer, so Player 1 begins play.");
-                    }
-                    else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card3.MyNumber)
-                    {
-                        await Task.Delay(500);
-                        this.UnoGame.PlayerTurn = 3;
-                        MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        this.BtnChooseDealer.Content = "New Game";
+                        this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                        this.BtnNewGame_Click(sender, e);
                     }
                     else
                     {
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.lblDrawCard.Content = "Player 4, draw a card.";
+                        this.UnoGame.PlayerTurn = 4;
+                        this.DisplayPlayerTurn();
+                        this.Playershandscount();
                         await Task.Delay(500);
-                        this.UnoGame.PlayerTurn = 2;
-                        MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                    }
+                }
+                else if (this.gameMode == Mode.MultiplePlayers && this.UnoGame.PlayerTurn == 4)
+                {
+                    isNumber = false;
+                    Card card4 = null;
+
+                    while (!isNumber)
+                    {
+                        this.X = 140;
+                        this.UnoGame.DrawCard(this.UnoGame.Players[3]);
+                        card4 = this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1];
+                        //this.X2 = 800;
+
+                        if (card4.MyType == Card.Type.Number)
+                        {
+                            this.CreateComputerDrawCard(card4.MyImagePath);
+                            isNumber = true;
+                        }
                     }
 
-                    this.BtnChooseDealer.Content = "New Game";
-                    this.BtnChooseDealer.Visibility = Visibility.Hidden;
-                    this.BtnNewGame_Click(sender, e);
+                    if (this.UnoGame.PlayerTurn == this.UnoGame.Players.Count)
+                    {
+                        if (card4.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card4.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && card4.MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 4 is the dealer, so Player 1 begins play.");
+                        }
+                        else if (this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= card4.MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 4;
+                            MessageBox.Show("Player 3 is the dealer, so Player 4 begins play.");
+                        }
+                        else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card4.MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 3;
+                            MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        }
+                        else
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                        }
+
+                        this.BtnChooseDealer.Content = "New Game";
+                        this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                        this.BtnNewGame_Click(sender, e);
+                    }
+                    else
+                    {
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.lblDrawCard.Content = "Player 5, draw a card.";
+                        this.UnoGame.PlayerTurn = 5;
+                        this.DisplayPlayerTurn();
+                        this.Playershandscount();
+                        await Task.Delay(500);
+                    }
+                }
+                else if (this.gameMode == Mode.MultiplePlayers && this.UnoGame.PlayerTurn == 5)
+                {
+                    isNumber = false;
+                    Card card5 = null;
+
+                    while (!isNumber)
+                    {
+                        this.X = 210;
+                        this.UnoGame.DrawCard(this.UnoGame.Players[4]);
+                        card5 = this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1];
+                        //this.X2 = 800;
+
+                        if (card5.MyType == Card.Type.Number)
+                        {
+                            this.CreateViewImageDynamically(card5.MyImagePath);
+                            isNumber = true;
+                        }
+                    }
+
+                    if (this.UnoGame.PlayerTurn == this.UnoGame.Players.Count)
+                    {
+                        if (card5.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card5.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && card5.MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && card5.MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 5 is the dealer, so Player 1 begins play.");
+                        }
+                        else if (this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= card5.MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 5;
+                            MessageBox.Show("Player 4 is the dealer, so Player 5 begins play.");
+                        }
+                        else if (this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= card5.MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 4;
+                            MessageBox.Show("Player 3 is the dealer, so Player 4 begins play.");
+                        }
+                        else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card5.MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 3;
+                            MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        }
+                        else
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                        }
+
+                        this.BtnChooseDealer.Content = "New Game";
+                        this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                        this.BtnNewGame_Click(sender, e);
+                    }
+                    else
+                    {
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.lblDrawCard.Content = "Player 6, draw a card.";
+                        this.UnoGame.PlayerTurn = 6;
+                        this.DisplayPlayerTurn();
+                        this.Playershandscount();
+                        await Task.Delay(500);
+                    }
+                }
+                else if (this.gameMode == Mode.MultiplePlayers && this.UnoGame.PlayerTurn == 6)
+                {
+                    isNumber = false;
+                    Card card6 = null;
+
+                    while (!isNumber)
+                    {
+                        this.X = 210;
+                        this.UnoGame.DrawCard(this.UnoGame.Players[5]);
+                        card6 = this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1];
+                        //this.X2 = 800;
+
+                        if (card6.MyType == Card.Type.Number)
+                        {
+                            this.CreateComputerDrawCard(card6.MyImagePath);
+                            isNumber = true;
+                        }
+                    }
+
+                    if (this.UnoGame.PlayerTurn == this.UnoGame.Players.Count)
+                    {
+                        if (card6.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card6.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && card6.MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && card6.MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && card6.MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 6 is the dealer, so Player 1 begins play.");
+                        }
+                        else if (this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= card6.MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 6;
+                            MessageBox.Show("Player 5 is the dealer, so Player 6 begins play.");
+                        }
+                        else if (this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= card6.MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 5;
+                            MessageBox.Show("Player 4 is the dealer, so Player 5 begins play.");
+                        }
+                        else if (this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= card6.MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 4;
+                            MessageBox.Show("Player 3 is the dealer, so Player 4 begins play.");
+                        }
+                        else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card6.MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 3;
+                            MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        }
+                        else
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                        }
+
+                        this.BtnChooseDealer.Content = "New Game";
+                        this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                        this.BtnNewGame_Click(sender, e);
+                    }
+                    else
+                    {
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.lblDrawCard.Content = "Player 7, draw a card.";
+                        this.UnoGame.PlayerTurn = 7;
+                        this.DisplayPlayerTurn();
+                        this.Playershandscount();
+                        await Task.Delay(500);
+                    }
+                }
+                else if (this.gameMode == Mode.MultiplePlayers && this.UnoGame.PlayerTurn == 7)
+                {
+                    isNumber = false;
+                    Card card7 = null;
+
+                    while (!isNumber)
+                    {
+                        this.X = 280;
+                        this.UnoGame.DrawCard(this.UnoGame.Players[6]);
+                        card7 = this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1];
+                        //this.X2 = 800;
+
+                        if (card7.MyType == Card.Type.Number)
+                        {
+                            this.CreateViewImageDynamically(card7.MyImagePath);
+                            isNumber = true;
+                        }
+                    }
+
+                    if (this.UnoGame.PlayerTurn == this.UnoGame.Players.Count)
+                    {
+                        if (card7.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card7.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && card7.MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && card7.MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && card7.MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && card7.MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 7 is the dealer, so Player 1 begins play.");
+                        }
+                        else if (this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= card7.MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 7;
+                            MessageBox.Show("Player 6 is the dealer, so Player 7 begins play.");
+                        }
+                        else if (this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= card7.MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 6;
+                            MessageBox.Show("Player 5 is the dealer, so Player 6 begins play.");
+                        }
+                        else if (this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= card7.MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 5;
+                            MessageBox.Show("Player 4 is the dealer, so Player 5 begins play.");
+                        }
+                        else if (this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= card7.MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 4;
+                            MessageBox.Show("Player 3 is the dealer, so Player 4 begins play.");
+                        }
+                        else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card7.MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 3;
+                            MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        }
+                        else
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                        }
+
+                        this.BtnChooseDealer.Content = "New Game";
+                        this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                        this.BtnNewGame_Click(sender, e);
+                    }
+                    else
+                    {
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.lblDrawCard.Content = "Player 8, draw a card.";
+                        this.UnoGame.PlayerTurn = 8;
+                        this.DisplayPlayerTurn();
+                        this.Playershandscount();
+                        await Task.Delay(500);
+                    }
+                }
+                else if (this.gameMode == Mode.MultiplePlayers && this.UnoGame.PlayerTurn == 8)
+                {
+                    isNumber = false;
+                    Card card8 = null;
+
+                    while (!isNumber)
+                    {
+                        this.X = 280;
+                        this.UnoGame.DrawCard(this.UnoGame.Players[7]);
+                        card8 = this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1];
+                        //this.X2 = 800;
+
+                        if (card8.MyType == Card.Type.Number)
+                        {
+                            this.CreateComputerDrawCard(card8.MyImagePath);
+                            isNumber = true;
+                        }
+                    }
+
+                    if (this.UnoGame.PlayerTurn == this.UnoGame.Players.Count)
+                    {
+                        if (card8.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 8 is the dealer, so Player 1 begins play.");
+                        }
+                        else if (this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 8;
+                            MessageBox.Show("Player 7 is the dealer, so Player 8 begins play.");
+                        }
+                        else if (this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 7;
+                            MessageBox.Show("Player 6 is the dealer, so Player 7 begins play.");
+                        }
+                        else if (this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 6;
+                            MessageBox.Show("Player 5 is the dealer, so Player 6 begins play.");
+                        }
+                        else if (this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 5;
+                            MessageBox.Show("Player 4 is the dealer, so Player 5 begins play.");
+                        }
+                        else if (this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 4;
+                            MessageBox.Show("Player 3 is the dealer, so Player 4 begins play.");
+                        }
+                        else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 3;
+                            MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        }
+                        else
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                        }
+
+                        this.BtnChooseDealer.Content = "New Game";
+                        this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                        this.BtnNewGame_Click(sender, e);
+                    }
+                    else
+                    {
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.lblDrawCard.Content = "Player 9, draw a card.";
+                        this.UnoGame.PlayerTurn = 9;
+                        this.DisplayPlayerTurn();
+                        this.Playershandscount();
+                        await Task.Delay(500);
+                    }
+                }
+                else if (this.gameMode == Mode.MultiplePlayers && this.UnoGame.PlayerTurn == 9)
+                {
+                    isNumber = false;
+                    Card card8 = null;
+
+                    while (!isNumber)
+                    {
+                        this.X = 350;
+                        this.UnoGame.DrawCard(this.UnoGame.Players[8]);
+                        card8 = this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1];
+                        //this.X2 = 800;
+
+                        if (card8.MyType == Card.Type.Number)
+                        {
+                            this.CreateViewImageDynamically(card8.MyImagePath);
+                            isNumber = true;
+                        }
+                    }
+
+                    if (this.UnoGame.PlayerTurn == this.UnoGame.Players.Count)
+                    {
+                        if (card8.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 9 is the dealer, so Player 1 begins play.");
+                        }
+                        else if (this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 9;
+                            MessageBox.Show("Player 8 is the dealer, so Player 9 begins play.");
+                        }
+                        else if (this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 8;
+                            MessageBox.Show("Player 7 is the dealer, so Player 8 begins play.");
+                        }
+                        else if (this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 7;
+                            MessageBox.Show("Player 6 is the dealer, so Player 7 begins play.");
+                        }
+                        else if (this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 6;
+                            MessageBox.Show("Player 5 is the dealer, so Player 6 begins play.");
+                        }
+                        else if (this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 5;
+                            MessageBox.Show("Player 4 is the dealer, so Player 5 begins play.");
+                        }
+                        else if (this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 4;
+                            MessageBox.Show("Player 3 is the dealer, so Player 4 begins play.");
+                        }
+                        else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 3;
+                            MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        }
+                        else
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                        }
+
+                        this.BtnChooseDealer.Content = "New Game";
+                        this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                        this.BtnNewGame_Click(sender, e);
+                    }
+                    else
+                    {
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.lblDrawCard.Content = "Player 10, draw a card.";
+                        this.UnoGame.PlayerTurn = 10;
+                        this.DisplayPlayerTurn();
+                        this.Playershandscount();
+                        await Task.Delay(500);
+                    }
+                }
+                else if (this.gameMode == Mode.MultiplePlayers && this.UnoGame.PlayerTurn == 10)
+                {
+                    isNumber = false;
+                    Card card8 = null;
+
+                    while (!isNumber)
+                    {
+                        this.X = 350;
+                        this.UnoGame.DrawCard(this.UnoGame.Players[9]);
+                        card8 = this.UnoGame.Players[9].PlayerHand[this.UnoGame.Players[9].PlayerHand.Count - 1];
+                        //this.X2 = 800;
+
+                        if (card8.MyType == Card.Type.Number)
+                        {
+                            this.CreateComputerDrawCard(card8.MyImagePath);
+                            isNumber = true;
+                        }
+                    }
+
+                    if (this.UnoGame.PlayerTurn == this.UnoGame.Players.Count)
+                    {
+                        if (card8.MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber && card8.MyNumber < this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 1;
+                            MessageBox.Show("Player 10 is the dealer, so Player 1 begins play.");
+                        }
+                        else if (this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 10;
+                            MessageBox.Show("Player 9 is the dealer, so Player 10 begins play.");
+                        }
+                        else if (this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 9;
+                            MessageBox.Show("Player 8 is the dealer, so Player 9 begins play.");
+                        }
+                        else if (this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 8;
+                            MessageBox.Show("Player 7 is the dealer, so Player 8 begins play.");
+                        }
+                        else if (this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 7;
+                            MessageBox.Show("Player 6 is the dealer, so Player 7 begins play.");
+                        }
+                        else if (this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 6;
+                            MessageBox.Show("Player 5 is the dealer, so Player 6 begins play.");
+                        }
+                        else if (this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 5;
+                            MessageBox.Show("Player 4 is the dealer, so Player 5 begins play.");
+                        }
+                        else if (this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 4;
+                            MessageBox.Show("Player 3 is the dealer, so Player 4 begins play.");
+                        }
+                        else if (this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[0].PlayerHand[this.UnoGame.Players[0].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[2].PlayerHand[this.UnoGame.Players[2].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= card8.MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[3].PlayerHand[this.UnoGame.Players[3].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[4].PlayerHand[this.UnoGame.Players[4].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber < this.UnoGame.Players[5].PlayerHand[this.UnoGame.Players[5].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[6].PlayerHand[this.UnoGame.Players[6].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[7].PlayerHand[this.UnoGame.Players[7].PlayerHand.Count - 1].MyNumber && this.UnoGame.Players[1].PlayerHand[this.UnoGame.Players[1].PlayerHand.Count - 1].MyNumber <= this.UnoGame.Players[8].PlayerHand[this.UnoGame.Players[8].PlayerHand.Count - 1].MyNumber)
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 3;
+                            MessageBox.Show("Player 2 is the dealer, so Player 3 begins play.");
+                        }
+                        else
+                        {
+                            await Task.Delay(500);
+                            this.UnoGame.PlayerTurn = 2;
+                            MessageBox.Show("Player 1 is the dealer, so Player 2 begins play.");
+                        }
+
+                        this.lblDrawCard.Visibility = Visibility.Visible;
+                        this.BtnChooseDealer.Content = "New Game";
+                        this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                        this.BtnNewGame_Click(sender, e);
+                    }
                 }
 
                 this.imgDeckPile.IsEnabled = true;
@@ -1860,6 +2661,265 @@ namespace Uno_Game
                 this.Playershandscount();
                 this.lblDrawCard.Visibility = Visibility.Visible;
                 this.lblDrawCard.Content = "Player 1, draw a card.";
+            }
+        }
+
+        /// <summary>
+        /// Displays the values of each player in the game
+        /// </summary>
+        private void DisplayValues()
+        {
+            int i = 1;
+            string last = "";
+            string recent = "";
+            foreach (Player p in this.UnoGame.Players)
+            {
+                last = recent;
+                p.Score = p.TotalCardValue();
+                recent = "Player " + i + " score is: " + p.Score + Environment.NewLine + last;
+                i++;
+            }
+            MessageBox.Show(recent);
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer1Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player1 called Uno!");
+            BtnPlayer1Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer2Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player2 called Uno!");
+            BtnPlayer2Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call out those who haven't called Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnNoticeMissedUno_Click(object sender, RoutedEventArgs e)
+        {
+            if (BtnPlayer1Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer1Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 1;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer2Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer2Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 2;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer3Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer3Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 3;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer4Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer4Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 4;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer5Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer5Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 5;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer6Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer6Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 6;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer7Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer7Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 7;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer8Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer8Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 8;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer9Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer9Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 9;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+            if (BtnPlayer10Uno.Visibility == Visibility.Visible)
+            {
+                BtnPlayer10Uno.Visibility = Visibility.Hidden;
+                int saveTurn = this.UnoGame.PlayerTurn;
+                this.UnoGame.PlayerTurn = 10;
+                this.UnoGame.DrawTwoOrFour(2);
+                this.UnoGame.PlayerTurn = saveTurn;
+            }
+
+            BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer3Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player3 called Uno!");
+            BtnPlayer3Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer4Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player4 called Uno!");
+            BtnPlayer4Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer5Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player5 called Uno!");
+            BtnPlayer5Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer6Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player6 called Uno!");
+            BtnPlayer6Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer7Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player7 called Uno!");
+            BtnPlayer7Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer8Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player8 called Uno!");
+            BtnPlayer8Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer9Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player9 called Uno!");
+            BtnPlayer9Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// Button for player to call Uno
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnPlayer10Uno_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Player10 called Uno!");
+            BtnPlayer10Uno.Visibility = Visibility.Hidden;
+            if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+            {
+                BtnNoticeMissedUno.Visibility = Visibility.Hidden;
             }
         }
     }

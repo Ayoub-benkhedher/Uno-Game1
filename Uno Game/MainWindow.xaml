@@ -35,5 +35,60 @@
         </Button>
         <Label x:Name="lblDrawCard" Content="Player 1, draw a card." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="597,148,0,0" Width="151" BorderBrush="Black" Foreground="White"/>
         <ListBox x:Name="lstPlayers" HorizontalAlignment="Left" Height="187" Margin="1505,109,0,0" VerticalAlignment="Top" Width="175"/>
+        <Button x:Name="BtnPlayer1Uno" Content="Say Uno Player1" HorizontalAlignment="Left" Margin="1267,153,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer1Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer2Uno" Content="Say Uno Player2" HorizontalAlignment="Left" Margin="1267,184,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer2Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer3Uno" Content="Say Uno Player3" HorizontalAlignment="Left" Margin="1267,215,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer3Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer4Uno" Content="Say Uno Player4" HorizontalAlignment="Left" Margin="1267,246,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer4Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer5Uno" Content="Say Uno Player5" HorizontalAlignment="Left" Margin="1267,278,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer5Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer6Uno" Content="Say Uno Player6" HorizontalAlignment="Left" Margin="1267,309,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer6Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer7Uno" Content="Say Uno Player7" HorizontalAlignment="Left" Margin="1267,340,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer7Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer8Uno" Content="Say Uno Player8" HorizontalAlignment="Left" Margin="1267,371,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer8Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer9Uno" Content="Say Uno Player9" HorizontalAlignment="Left" Margin="1267,402,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer9Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnPlayer10Uno" Content="Say Uno Player10" HorizontalAlignment="Left" Margin="1267,433,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="BtnPlayer10Uno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="BtnNoticeMissedUno" Content="Notice missed Uno call" HorizontalAlignment="Left" Margin="1107,291,0,0" VerticalAlignment="Top" Width="129" Height="26" Click="BtnNoticeMissedUno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
     </Grid>
 </Window>
