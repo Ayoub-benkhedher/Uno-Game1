@@ -33,7 +33,6 @@ namespace Uno_Game
             this.InitializeComponent();
             cboSelectionMode.Visibility = Visibility.Hidden;
             lblPick.Visibility = Visibility.Hidden;
-
         }
 
         /// <summary>
@@ -57,6 +56,11 @@ namespace Uno_Game
             lblPick.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Determines whether player selection has changed
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             new MainWindow(Mode.MultiplePlayers, cboSelectionMode.SelectedIndex + 3).ShowDialog();

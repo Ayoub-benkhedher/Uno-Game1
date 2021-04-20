@@ -25,12 +25,12 @@ namespace Uno_Game
         ///// <summary>
         ///// A player in the game.
         ///// </summary>
-        //public Player Player1;
+        // public Player Player1;
 
         ///// <summary>
         ///// A computer opponent.
         ///// </summary>
-        //public Player Player2;
+        // public Player Player2;
 
         /// <summary>
         /// list of players in the game.
@@ -73,9 +73,8 @@ namespace Uno_Game
         /// <param name="mode">The mode of the game.</param>
         public void DealCards(Mode mode)
         {
-            
-                this.GameMode = mode;
-                this.CurrentDeck = this.GameDeck.Deck.ToList<Card>();
+            this.GameMode = mode;
+            this.CurrentDeck = this.GameDeck.Deck.ToList<Card>();
             if (this.GameMode == Mode.TwoPlayers)
             {
                 for (int i = 0; i < 7; i++)
@@ -84,7 +83,6 @@ namespace Uno_Game
                     this.CurrentDeck.RemoveAt(0);
                     this.Players[1].PlayerHand.Add(this.CurrentDeck[0]);
                     this.CurrentDeck.RemoveAt(0);
-               
                 }
             }
             else if (this.GameMode == Mode.MultiplePlayers)
@@ -96,59 +94,57 @@ namespace Uno_Game
                         p.PlayerHand.Add(this.CurrentDeck[0]);
                         this.CurrentDeck.RemoveAt(0);
                     }
+
                     Console.WriteLine("p cards = " + p.PlayerHand.Count);
                 });
-                
-
             }
-        
-                this.CentralPile = new List<Card>();
-                int index = 0;
 
-                while (true)
+            this.CentralPile = new List<Card>();
+            int index = 0;
+
+            while (true)
+            {
+                Card c = this.CurrentDeck[index];
+                if (c.MyType == Card.Type.Number)
                 {
-                    Card c = this.CurrentDeck[index];
-                    if (c.MyType == Card.Type.Number)
-                    {
-                        this.CentralPile.Add(this.CurrentDeck[index]);
-                        this.CurrentDeck.RemoveAt(index);
-                        break;
-                    }
-                    else
-                    {
-                        index++;
-                    }
+                    this.CentralPile.Add(this.CurrentDeck[index]);
+                    this.CurrentDeck.RemoveAt(index);
+                    break;
                 }
-               
+                else
+                {
+                    index++;
+                }
+            }
         }
 
-        //public void DealCards(Mode mode, Player p)
-        //{
-        //    Console.WriteLine("fi wast dealCards ");
-        //    this.GameMode = mode;
-        //    this.CurrentDeck = this.GameDeck.Deck.ToList<Card>();
-        //    Console.WriteLine("chouf mode  " + this.GameMode);
-        //    //if (this.GameMode == Mode.MultiplePlayers)
-        //    //{
-        //        Console.WriteLine("dalit wast hedhi " );
-        //        for (int i = 0; i < 7; i++)
-        //        {
-        //        if (this.CurrentDeck[0] == null)
-        //            Console.WriteLine("c null");
-        //        else
-        //            Console.WriteLine("c not null");
+        // public void DealCards(Mode mode, Player p)
+        // {
+        ////    Console.WriteLine("fi wast dealCards ");
+        ////    this.GameMode = mode;
+        ////    this.CurrentDeck = this.GameDeck.Deck.ToList<Card>();
+        ////    Console.WriteLine("chouf mode  " + this.GameMode);
+        ////    // if (this.GameMode == Mode.MultiplePlayers)
+        ////    // {
+        ////        Console.WriteLine("dalit wast hedhi " );
+        ////        for (int i = 0; i < 7; i++)
+        ////        {
+        ////        if (this.CurrentDeck[0] == null)
+        ////            Console.WriteLine("c null");
+        ////        else
+        ////           Console.WriteLine("c not null");
 
-        //            p.PlayerHand.Add(this.CurrentDeck[0]);
-        //            this.CurrentDeck.RemoveAt(0);
-        //            Console.WriteLine("currentt deck now has " + this.CurrentDeck.Count);
+        ////            p.PlayerHand.Add(this.CurrentDeck[0]);
+        ////            this.CurrentDeck.RemoveAt(0);
+        ////            Console.WriteLine("currentt deck now has " + this.CurrentDeck.Count);
         //        }
         //        Console.WriteLine("p after dealCards " + p.PlayerHand.ToString());
-        //    //}
-        //        //this.CentralPile = new List<Card>();
-        //        //int index = 0;
+        //    // }
+        //        // this.CentralPile = new List<Card>();
+        //        // int index = 0;
 
-        //        //while (true)
-        //        //{
+        ////        // while (true)
+        //        // {
         //        //    Card c = this.CurrentDeck[index];
         //        //    if (c.MyType == Card.Type.Number)
         //        //    {
@@ -160,9 +156,9 @@ namespace Uno_Game
         //        //    {
         //        //        index++;
         //        //    }
-        //        //}
+        //        // }
             
-        //}
+        // }
 
         /// <summary>
         /// Draws a card.
@@ -308,13 +304,14 @@ namespace Uno_Game
                 int receiverIndex = -1;
                 if (this.Clockwise)
                 {
-                    receiverIndex = (PlayerTurn % Players.Count);
+                    receiverIndex = this.PlayerTurn % this.Players.Count;
                 }
                 else
                 {
-                    receiverIndex = (PlayerTurn - 2 + Players.Count) % Players.Count;
+                    receiverIndex = (this.PlayerTurn - 2 + this.Players.Count) % this.Players.Count;
                 }
-                for(int i = 0; i < n; i++)
+
+                for (int i = 0; i < n; i++)
                 {
                     this.Players[receiverIndex].PlayerHand.Add(this.CurrentDeck[0]);
                     this.CurrentDeck.RemoveAt(0);
