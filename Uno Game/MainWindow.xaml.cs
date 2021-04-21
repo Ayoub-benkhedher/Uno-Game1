@@ -1813,7 +1813,14 @@ namespace Uno_Game
                                     //// //if it is skip
                                     if ((findCard.MyType == Card.Type.Skip) || (findCard.MyType == Card.Type.Draw2) || (findCard.MyType == Card.Type.WildDraw4))
                                     {
-                                        this.UnoGame.PlayerTurn = 4 % this.numberOfPlayers;
+                                        if (this.numberOfPlayers == 4)
+                                        {
+                                            this.UnoGame.PlayerTurn = 4;
+                                        }
+                                        else
+                                        {
+                                            this.UnoGame.PlayerTurn = 4 % this.numberOfPlayers;
+                                        }
                                     }
                                 }
 
