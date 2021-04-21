@@ -621,7 +621,7 @@ namespace Uno_Game
 
                 //// If the card is Reverse or Skip player stays the same 
                 //// If the card is Reverse or Skip player stays the same 
-                if ((path.Substring(0, 7) != "Reverse") && (path.Substring(0, 4) != "Skip"))
+                if ((path.Substring(0, 7) != "Reverse") && (path.Substring(0, 4) != "Skip") && (path.Substring(0, 4) != "Draw") && (path.Substring(0, 8) != "WildDraw"))
                 {
                     if (this.gameMode == Mode.MultiplePlayers)
                     {
@@ -692,7 +692,7 @@ namespace Uno_Game
                                     this.UnoGame.PlayerTurn = this.numberOfPlayers;
                                 }
                             }
-                            else if (path.Substring(0, 4) == "Skip")
+                            else if ((path.Substring(0, 4) == "Skip")|| (path.Substring(0, 4) == "Draw") || (path.Substring(0, 8) == "WildDraw"))
                             {
                                 this.UnoGame.PlayerTurn = ((this.UnoGame.PlayerTurn + 1) % this.numberOfPlayers) + 1;
                                 ////if ((PlayerNumber != NumberOfPlayers - 2) && (PlayerNumber != NumberOfPlayers - 1))
@@ -729,7 +729,7 @@ namespace Uno_Game
                                     this.UnoGame.PlayerTurn = 1;
                                 }
                             }
-                            else if (path.Substring(0, 4) == "Skip")
+                            else if ((path.Substring(0, 4) == "Skip")|| (path.Substring(0, 4) == "Draw") || (path.Substring(0, 8) == "WildDraw"))
                             {
                                 this.UnoGame.PlayerTurn = ((this.numberOfPlayers + this.UnoGame.PlayerTurn - 3) % this.numberOfPlayers) + 1;
                                 ////if (PlayerNumber != 0 && PlayerNumber != 1)
@@ -1761,7 +1761,7 @@ namespace Uno_Game
                         }
 
                         //// If the card is Reverse or Skip Player stays the same 
-                        if ((findCard.MyType != Card.Type.Reverse) && (findCard.MyType != Card.Type.Skip))
+                        if ((findCard.MyType != Card.Type.Reverse) && (findCard.MyType != Card.Type.Skip) && (findCard.MyType != Card.Type.Draw2) && (findCard.MyType != Card.Type.WildDraw4))
                         {
                             if (this.gameMode == Mode.MultiplePlayers)
                             {
@@ -1796,7 +1796,7 @@ namespace Uno_Game
                                     this.UnoGame.PlayerTurn = 3;
                                     ////this.imgDeckPile.IsEnabled = true;
                                     ////if it is skip
-                                    if (findCard.MyType == Card.Type.Skip)
+                                    if ((findCard.MyType == Card.Type.Skip) || (findCard.MyType == Card.Type.Draw2) || (findCard.MyType == Card.Type.WildDraw4))
                                     {
                                         this.UnoGame.PlayerTurn = this.numberOfPlayers;
                                     }
@@ -1811,7 +1811,7 @@ namespace Uno_Game
                                     this.UnoGame.PlayerTurn = 1;
                                     ////this.imgDeckPile.IsEnabled = true;
                                     //// //if it is skip
-                                    if (findCard.MyType == Card.Type.Skip)
+                                    if ((findCard.MyType == Card.Type.Skip) || (findCard.MyType == Card.Type.Draw2) || (findCard.MyType == Card.Type.WildDraw4))
                                     {
                                         this.UnoGame.PlayerTurn = 4 % this.numberOfPlayers;
                                     }
