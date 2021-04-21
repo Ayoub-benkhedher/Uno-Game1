@@ -14,8 +14,8 @@
         <Grid.Background>
             <ImageBrush ImageSource="pack://siteoforigin:,,,/Resources/UnoBackground.jpg"/>
         </Grid.Background>
-        <Button x:Name="btnTwoPlayerMode" Content="Computer" Margin="59,117,331,234" Click="BtnTwoPlayer_Click" RenderTransformOrigin="0.435,-1.965" Background="#FFFF1212" BorderBrush="Black" BorderThickness="3"/>
-        <Button x:Name="btnThreePlayersMode" Content="Multiple Players" Margin="59,250,331,101" Click="BtnMultiplePlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
+        <Button x:Name="btnTwoPlayerMode" Content="Computer" Margin="59,78,331,273" Click="BtnTwoPlayer_Click" RenderTransformOrigin="0.435,-1.965" Background="#FFFF1212" BorderBrush="Black" BorderThickness="3"/>
+        <Button x:Name="btnThreePlayersMode" Content="Multiple Players" Margin="59,169,331,182" Click="BtnMultiplePlayers_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
         <ComboBox x:Name="cboSelectionMode" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="622,265,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="3 Players"></ComboBoxItem>
             <ComboBoxItem Content="4 Players"></ComboBoxItem>
@@ -27,5 +27,6 @@
             <ComboBoxItem Content="10 Players"></ComboBoxItem>
         </ComboBox>
         <Label x:Name="lblPick" Content="Pick Players:" HorizontalAlignment="Left" Margin="622,223,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="156" FontSize="20" Background="#FFCB1A1A"/>
+        <Button x:Name="btnTutorialMode" Content="Tutorial" Margin="59,265,331,86" Click="BtnTutorialMode_Click" RenderTransformOrigin="1.039,-4.242" Background="#FFFF2222" BorderThickness="3" BorderBrush="Black"/>
     </Grid>
 </Window>

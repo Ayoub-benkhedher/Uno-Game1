@@ -68,6 +68,11 @@ namespace Uno_Game
         public Image LastImage;
 
         /// <summary>
+        /// Determines whether we are in tutorial
+        /// </summary>
+        private bool tutorial;
+
+        /// <summary>
         /// The type of Game Mode.
         /// </summary>
         private Mode gameMode;
@@ -82,13 +87,25 @@ namespace Uno_Game
         /// </summary>
         /// <param name="mode">The game mode.</param>
         /// <param name="p">The number of players</param>
-        public MainWindow(Mode mode, int p)
+        /// <param name="tut">Whether we are in tutorial</param>
+        public MainWindow(Mode mode, int p, bool tut)
         {
             this.gameMode = mode;
             this.InitializeComponent();
             this.numberOfPlayers = p;
+            this.tutorial = tut;
+            if (tut)
+            {
+                this.lblTutorialStep1.Visibility = Visibility.Visible;
+                this.stepOneCircle.Visibility = Visibility.Visible;
+                this.BtnChooseDealerTutorial.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.BtnChooseDealer.Visibility = Visibility.Visible;
+            }
+
             this.BtnNewGame.Visibility = Visibility.Hidden;
-            this.BtnChooseDealer.Visibility = Visibility.Visible;
             this.imgDeckPile.Visibility = Visibility.Hidden;
             this.DataContext = this;
             this.lblDrawCard.Visibility = Visibility.Hidden;
@@ -312,6 +329,22 @@ namespace Uno_Game
         /// <param name="e">The event arguments for the event.</param>
         private void DynamicImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (this.tutorial)
+            {
+                if (this.UnoGame.Players[0].PlayerHand.Count == 2)
+                {
+                    this.lblTutorialStep4.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    this.lblTutorialStep4.Visibility = Visibility.Hidden;
+                }
+
+                this.lblTutorialStep6.Visibility = Visibility.Visible;
+                this.lblTutorialStep3.Visibility = Visibility.Hidden;
+                this.BtnEndTutorial.Visibility = Visibility.Visible;
+            }
+
             int playerNumber = -1;
             for (int i = 1; i <= this.numberOfPlayers; i++)
             {
@@ -615,7 +648,6 @@ namespace Uno_Game
                             if (playerNumber != 0)
                             {
                                 this.UnoGame.PlayerTurn = playerNumber;
-
                             }
                             else
                             {
@@ -634,7 +666,6 @@ namespace Uno_Game
                         {
                             this.UnoGame.PlayerTurn = 2;
                             ////this.imgDeckPile.IsEnabled = false;
-
                         }
                         else
                         {
@@ -799,7 +830,6 @@ namespace Uno_Game
                     else
                     {
                         this.CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
-                        BtnNoticeMissedUno.Visibility = Visibility.Visible;
                         if (playerNumber == 0)
                         {
                             BtnPlayer1Uno.Visibility = Visibility.Visible;
@@ -1209,42 +1239,115 @@ namespace Uno_Game
         {
             if (this.gameMode == Mode.TwoPlayers)
             {
-                this.UnoGame.InGame = true;
-                this.UnoGame.GameDeck = new DeckOfCards();
-                this.UnoGame.Clockwise = true;
-                this.UnoGame.GameDeck.SetUpDeck();
-                this.UnoGame.Players[0].PlayerHand.Clear();
-                this.UnoGame.Players[1].PlayerHand.Clear();
-                this.UnoGame.DealCards(this.gameMode);
-                this.UnoGame.Players[0].Score = this.UnoGame.Players[0].TotalCardValue();
-                this.UnoGame.Players[1].Score = this.UnoGame.Players[1].TotalCardValue();
-                this.grdMainWindow.Children.Clear();
-                this.grdMainWindow.Children.Add(this.imgMainPile);
-                this.grdMainWindow.Children.Add(this.imgDeckPile);
-                this.grdMainWindow.Children.Add(this.BtnChooseDealer);
-                this.grdMainWindow.Children.Add(this.BtnClose);
-                this.grdMainWindow.Children.Add(this.NextPlayerButton);
-                this.grdMainWindow.Children.Add(this.lblPlayer);
-                this.grdMainWindow.Children.Add(this.lstPlayers);
-                this.grdMainWindow.Children.Add(this.BtnPlayer1Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer2Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer3Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer4Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer5Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer6Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer7Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer8Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer9Uno);
-                this.grdMainWindow.Children.Add(this.BtnPlayer10Uno);
-                this.grdMainWindow.Children.Add(this.BtnNoticeMissedUno);
-                this.CompX = 70;
-                this.X = 70;
-                this.imgMainPile.Visibility = Visibility.Visible;
-                this.imgDeckPile.Visibility = Visibility.Visible;
-                this.imgDeckPile.IsEnabled = true;
-                this.BtnChooseDealer.Visibility = Visibility.Visible;
-                this.BtnChooseDealer.IsEnabled = true;
-                this.lblDrawCard.Visibility = Visibility.Hidden;
+                if (this.tutorial)
+                {
+                    this.UnoGame.InGame = true;
+                    this.UnoGame.GameDeck = new DeckOfCards();
+                    this.UnoGame.Clockwise = true;
+                    this.UnoGame.GameDeck.SetUpDeck();
+                    this.UnoGame.Players[0].PlayerHand.Clear();
+                    this.UnoGame.Players[1].PlayerHand.Clear();
+                    this.UnoGame.CurrentDeck = this.UnoGame.GameDeck.Deck.ToList<Card>();
+                    for (int i = 0; i < 2; i++)
+                    {
+                        this.UnoGame.Players[0].PlayerHand.Add(this.UnoGame.CurrentDeck[0]);
+                        this.UnoGame.CurrentDeck.RemoveAt(0);
+                        this.UnoGame.Players[1].PlayerHand.Add(this.UnoGame.CurrentDeck[0]);
+                        this.UnoGame.CurrentDeck.RemoveAt(0);
+                    }
+
+                    this.UnoGame.CentralPile = new List<Card>();
+                    if (this.UnoGame.Players[0].PlayerHand[0].MyType != Card.Type.Wild && this.UnoGame.Players[0].PlayerHand[0].MyType != Card.Type.WildDraw4)
+                    {
+                        this.UnoGame.CentralPile.Add(this.UnoGame.Players[0].PlayerHand[0]);
+                    }
+                    else
+                    {
+                        this.UnoGame.CentralPile.Add(this.UnoGame.Players[0].PlayerHand[1]);
+                    }
+
+                    this.UnoGame.Players[0].Score = this.UnoGame.Players[0].TotalCardValue();
+                    this.UnoGame.Players[1].Score = this.UnoGame.Players[1].TotalCardValue();
+                    this.grdMainWindow.Children.Clear();
+                    this.grdMainWindow.Children.Add(this.imgMainPile);
+                    this.grdMainWindow.Children.Add(this.imgDeckPile);
+                    this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                    this.grdMainWindow.Children.Add(this.BtnClose);
+                    this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                    this.grdMainWindow.Children.Add(this.lblPlayer);
+                    this.grdMainWindow.Children.Add(this.lstPlayers);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer1Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer2Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer3Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer4Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer5Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer6Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer7Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer8Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer9Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer10Uno);
+                    this.grdMainWindow.Children.Add(this.BtnNoticeMissedUno);
+                    this.grdMainWindow.Children.Add(this.lblTutorialStep3);
+                    this.grdMainWindow.Children.Add(this.lblTutorialStep4);
+                    this.grdMainWindow.Children.Add(this.lblTutorialStep5);
+                    this.grdMainWindow.Children.Add(this.lblTutorialStep6);
+                    this.grdMainWindow.Children.Add(this.BtnEndTutorial);
+                    this.BtnEndTutorial.Visibility = Visibility.Hidden;
+                    this.lblTutorialStep3.Visibility = Visibility.Visible;
+                    this.lblTutorialStep5.Visibility = Visibility.Visible;
+                    this.lblTutorialStep6.Visibility = Visibility.Hidden;
+                    this.lblTutorialStep4.Visibility = Visibility.Hidden;
+                    this.CompX = 70;
+                    this.X = 70;
+                    this.imgMainPile.Visibility = Visibility.Visible;
+                    this.imgDeckPile.Visibility = Visibility.Visible;
+                    this.imgDeckPile.IsEnabled = true;
+                    this.BtnChooseDealer.Visibility = Visibility.Hidden;
+                    this.BtnChooseDealer.IsEnabled = true;
+                    this.lblDrawCard.Visibility = Visibility.Hidden;
+                    this.UnoGame.PlayerTurn = 1;
+                    this.DisplayPlayerTurn();
+                }
+                else
+                {
+                    this.UnoGame.InGame = true;
+                    this.UnoGame.GameDeck = new DeckOfCards();
+                    this.UnoGame.Clockwise = true;
+                    this.UnoGame.GameDeck.SetUpDeck();
+                    this.UnoGame.Players[0].PlayerHand.Clear();
+                    this.UnoGame.Players[1].PlayerHand.Clear();
+                    this.UnoGame.DealCards(this.gameMode);
+                    this.UnoGame.Players[0].Score = this.UnoGame.Players[0].TotalCardValue();
+                    this.UnoGame.Players[1].Score = this.UnoGame.Players[1].TotalCardValue();
+                    this.grdMainWindow.Children.Clear();
+                    this.grdMainWindow.Children.Add(this.imgMainPile);
+                    this.grdMainWindow.Children.Add(this.imgDeckPile);
+                    this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+                    this.grdMainWindow.Children.Add(this.BtnClose);
+                    this.grdMainWindow.Children.Add(this.NextPlayerButton);
+                    this.grdMainWindow.Children.Add(this.lblPlayer);
+                    this.grdMainWindow.Children.Add(this.lstPlayers);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer1Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer2Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer3Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer4Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer5Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer6Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer7Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer8Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer9Uno);
+                    this.grdMainWindow.Children.Add(this.BtnPlayer10Uno);
+                    this.grdMainWindow.Children.Add(this.BtnNoticeMissedUno);
+                    this.CompX = 70;
+                    this.X = 70;
+                    this.imgMainPile.Visibility = Visibility.Visible;
+                    this.imgDeckPile.Visibility = Visibility.Visible;
+                    this.imgDeckPile.IsEnabled = true;
+                    this.BtnChooseDealer.Visibility = Visibility.Visible;
+                    this.BtnChooseDealer.IsEnabled = true;
+                    this.lblDrawCard.Visibility = Visibility.Hidden;
+                    this.DisplayPlayerTurn();
+                }
 
                 this.Playershandscount();
                 //// display player's hand
@@ -1392,6 +1495,11 @@ namespace Uno_Game
         /// <param name="e">The event arguments for the event.</param>
         private async void NextPlayerButton_Click(object sender, RoutedEventArgs e)
         {
+            if (this.tutorial)
+            {
+                this.lblTutorialStep3.Visibility = Visibility.Hidden;
+            }
+
             if (this.UnoGame.InGame)
             {
                 this.BtnChooseDealer.IsEnabled = false;
@@ -1773,6 +1881,96 @@ namespace Uno_Game
                 }
 
                 this.BtnChooseDealer.IsEnabled = true;
+                if (BtnPlayer1Uno.Visibility == Visibility.Visible && this.UnoGame.Players[0].PlayerHand.Count > 1)
+                {
+                    BtnPlayer1Uno.Visibility = Visibility.Hidden;
+                    this.lblTutorialStep4.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer2Uno.Visibility == Visibility.Visible && this.UnoGame.Players[1].PlayerHand.Count > 1)
+                {
+                    BtnPlayer2Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer3Uno.Visibility == Visibility.Visible && this.UnoGame.Players[2].PlayerHand.Count > 1)
+                {
+                    BtnPlayer3Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer4Uno.Visibility == Visibility.Visible && this.UnoGame.Players[3].PlayerHand.Count > 1)
+                {
+                    BtnPlayer4Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer5Uno.Visibility == Visibility.Visible && this.UnoGame.Players[4].PlayerHand.Count > 1)
+                {
+                    BtnPlayer5Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer6Uno.Visibility == Visibility.Visible && this.UnoGame.Players[5].PlayerHand.Count > 1)
+                {
+                    BtnPlayer6Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer7Uno.Visibility == Visibility.Visible && this.UnoGame.Players[6].PlayerHand.Count > 1)
+                {
+                    BtnPlayer7Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer8Uno.Visibility == Visibility.Visible && this.UnoGame.Players[7].PlayerHand.Count > 1)
+                {
+                    BtnPlayer8Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer9Uno.Visibility == Visibility.Visible && this.UnoGame.Players[8].PlayerHand.Count > 1)
+                {
+                    BtnPlayer9Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer10Uno.Visibility == Visibility.Visible && this.UnoGame.Players[9].PlayerHand.Count > 1)
+                {
+                    BtnPlayer10Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
             }
             else
             {
@@ -1833,7 +2031,7 @@ namespace Uno_Game
         private async void ImgDeckPile_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (this.UnoGame.InGame)
-            {
+            { 
                 if (this.gameMode == Mode.TwoPlayers && this.UnoGame.PlayerTurn == 1 && !this.UnoGame.CheckUserHand(this.UnoGame.Players[0].PlayerHand))
                 {
                     this.UnoGame.Players[0].Score = this.UnoGame.Players[0].TotalCardValue();
@@ -1892,6 +2090,97 @@ namespace Uno_Game
                                 this.CreatePlayerHandCardImages(this.UnoGame.Players[this.UnoGame.PlayerTurn - 1]);
                             }
                         }
+                    }
+                }
+
+                if (BtnPlayer1Uno.Visibility == Visibility.Visible && this.UnoGame.Players[0].PlayerHand.Count > 1)
+                {
+                    BtnPlayer1Uno.Visibility = Visibility.Hidden;
+                    this.lblTutorialStep4.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer2Uno.Visibility == Visibility.Visible && this.UnoGame.Players[1].PlayerHand.Count > 1)
+                {
+                    BtnPlayer2Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer3Uno.Visibility == Visibility.Visible && this.UnoGame.Players[2].PlayerHand.Count > 1)
+                {
+                    BtnPlayer3Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer4Uno.Visibility == Visibility.Visible && this.UnoGame.Players[3].PlayerHand.Count > 1)
+                {
+                    BtnPlayer4Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer5Uno.Visibility == Visibility.Visible && this.UnoGame.Players[4].PlayerHand.Count > 1)
+                {
+                    BtnPlayer5Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer6Uno.Visibility == Visibility.Visible && this.UnoGame.Players[5].PlayerHand.Count > 1)
+                {
+                    BtnPlayer6Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer7Uno.Visibility == Visibility.Visible && this.UnoGame.Players[6].PlayerHand.Count > 1)
+                {
+                    BtnPlayer7Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer8Uno.Visibility == Visibility.Visible && this.UnoGame.Players[7].PlayerHand.Count > 1)
+                {
+                    BtnPlayer8Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer9Uno.Visibility == Visibility.Visible && this.UnoGame.Players[8].PlayerHand.Count > 1)
+                {
+                    BtnPlayer9Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
+                    }
+                }
+
+                if (BtnPlayer10Uno.Visibility == Visibility.Visible && this.UnoGame.Players[9].PlayerHand.Count > 1)
+                {
+                    BtnPlayer10Uno.Visibility = Visibility.Hidden;
+                    if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
+                    {
+                        BtnNoticeMissedUno.Visibility = Visibility.Hidden;
                     }
                 }
 
@@ -2641,6 +2930,7 @@ namespace Uno_Game
         private void BtnPlayer1Uno_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Player1 called Uno!");
+            this.lblTutorialStep4.Visibility = Visibility.Hidden;
             BtnPlayer1Uno.Visibility = Visibility.Hidden;
             if (BtnPlayer1Uno.Visibility == Visibility.Hidden && BtnPlayer2Uno.Visibility == Visibility.Hidden && BtnPlayer3Uno.Visibility == Visibility.Hidden && BtnPlayer4Uno.Visibility == Visibility.Hidden && BtnPlayer5Uno.Visibility == Visibility.Hidden && BtnPlayer6Uno.Visibility == Visibility.Hidden && BtnPlayer7Uno.Visibility == Visibility.Hidden && BtnPlayer8Uno.Visibility == Visibility.Hidden && BtnPlayer9Uno.Visibility == Visibility.Hidden && BtnPlayer10Uno.Visibility == Visibility.Hidden)
             {
@@ -2881,6 +3171,60 @@ namespace Uno_Game
             {
                 BtnNoticeMissedUno.Visibility = Visibility.Hidden;
             }
+        }
+
+        /// <summary>
+        /// Chooses the dealer before game starts for tutorial
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnChooseDealerTutorial_Click(object sender, RoutedEventArgs e)
+        {
+            this.UnoGame = new Gameflow();
+            this.UnoGame.InGame = false;
+            this.UnoGame.GameDeck = new DeckOfCards();
+            this.UnoGame.Players = new List<Player>();
+            this.UnoGame.Players.Add(new Player());
+            this.UnoGame.Players.Add(new Player());
+            ////this.UnoGame.Players[0] = new Player();
+            ////this.UnoGame.Players[0].IsComputer = false;
+            ////this.UnoGame.Players[1] = new Player();
+            ////this.UnoGame.Players[1].IsComputer = true;
+            this.UnoGame.Players[0].PlayerHand.Clear();
+            this.UnoGame.Players[1].PlayerHand.Clear();
+            this.UnoGame.PlayerTurn = 1;
+            this.UnoGame.Clockwise = true;
+            this.UnoGame.GameDeck.SetUpDeck();
+            this.grdMainWindow.Children.Clear();
+            this.grdMainWindow.Children.Add(this.stepTwoCircle);
+            this.grdMainWindow.Children.Add(this.imgDeckPile);
+            this.grdMainWindow.Children.Add(this.BtnNewGame);
+            this.grdMainWindow.Children.Add(this.BtnChooseDealer);
+            this.grdMainWindow.Children.Add(this.BtnClose);
+            this.grdMainWindow.Children.Add(this.NextPlayerButton);
+            this.grdMainWindow.Children.Add(this.lblPlayer);
+            this.grdMainWindow.Children.Add(this.lblDrawCard);
+            this.grdMainWindow.Children.Add(this.lblTutorialStep2);
+            this.stepTwoCircle.Visibility = Visibility.Visible;
+            this.lblTutorialStep2.Visibility = Visibility.Visible;
+            this.imgDeckPile.Visibility = Visibility.Visible;
+            this.imgDeckPile.IsEnabled = true;
+            this.BtnChooseDealer.IsEnabled = false;
+            this.BtnChooseDealer.Content = "Draw Card";
+            this.DisplayPlayerTurn();
+            this.Playershandscount();
+            this.lblDrawCard.Visibility = Visibility.Visible;
+            this.lblDrawCard.Content = "Player 1, draw a card.";
+        }
+
+        /// <summary>
+        /// Ends tutorial
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnEndTutorial_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

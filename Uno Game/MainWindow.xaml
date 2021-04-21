@@ -26,8 +26,10 @@
         </Button>
 
         <Button x:Name="NextPlayerButton" Content="Next Player" HorizontalAlignment="Left" Margin="780,233,0,0" VerticalAlignment="Top" Width="64" Height="38" Click="NextPlayerButton_Click" Visibility="Hidden"/>
+        <Ellipse x:Name="stepTwoCircle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Stroke="Black" VerticalAlignment="Top" Width="236" Margin="544,196,0,0" Opacity="0.7" Visibility="Hidden"/>
         <Image x:Name="imgDeckPile" HorizontalAlignment="Left" Height="96" Margin="635,200,0,0" VerticalAlignment="Top" Width="69" Source="UnoDeck.png" MouseLeftButtonUp="ImgDeckPile_MouseLeftButtonUp"/>
         <Label x:Name="lblPlayer" Content="Turn" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1454,32,0,0" Width="151" BorderBrush="Black" Foreground="White"/>
+        <Ellipse x:Name="stepOneCircle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="100" Stroke="Black" VerticalAlignment="Top" Width="319" Margin="1156,43,0,0" Opacity="0.7" Visibility="Hidden"/>
         <Button x:Name="BtnChooseDealer" Content="Choose Dealer" HorizontalAlignment="Left" Margin="1241,63,0,0" VerticalAlignment="Top" Width="158" Height="49" Click="BtnChooseDealer_Click" RenderTransformOrigin="0.45,1.905" Background="White">
             <Button.Effect>
                 <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
@@ -88,6 +90,22 @@
         <Button x:Name="BtnNoticeMissedUno" Content="Notice missed Uno call" HorizontalAlignment="Left" Margin="1107,291,0,0" VerticalAlignment="Top" Width="129" Height="26" Click="BtnNoticeMissedUno_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
             <Button.Effect>
                 <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Label x:Name="lblTutorialStep1" Content="You begin by choosing a dealer with the button above." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1156,148,0,0" Width="319" BorderBrush="Black" Foreground="White" Visibility="Hidden"/>
+        <Button x:Name="BtnChooseDealerTutorial" Content="Choose Dealer" HorizontalAlignment="Left" Margin="1241,63,0,0" VerticalAlignment="Top" Width="158" Height="49" Click="BtnChooseDealerTutorial_Click" RenderTransformOrigin="0.45,1.905" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF181C56" Opacity="0.5" BlurRadius="10"/>
+            </Button.Effect>
+        </Button>
+        <Label x:Name="lblTutorialStep2" Content="To choose a dealer, each player must pick a card.&#xD;&#xA;The lowest card is the dealer.  Draw a card by&#xD;&#xA;clicking the deck." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,317,0,0" Width="290" BorderBrush="Black" Foreground="White" Height="80" Visibility="Hidden"/>
+        <Label x:Name="lblTutorialStep3" Content="For the tutorial, we will let you start.  To play a card, &#xD;&#xA;it must match the type (or number) of card or color &#xD;&#xA;of card in the center pile.  You can play a Wild card &#xD;&#xA;any time to choose a color.  Click the first card in&#xD;&#xA;your hand to play it.&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,317,0,0" Width="290" BorderBrush="Black" Foreground="White" Height="111" Visibility="Hidden"/>
+        <Label x:Name="lblTutorialStep4" Content="Now that you only have one card, you must call Uno&#xD;&#xA;by pressing the button above.  If you don't, other &#xD;&#xA;players can call you out for not saying it, and you &#xD;&#xA;will be required to draw two cards.&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1185,335,0,0" Width="290" BorderBrush="Black" Foreground="White" Height="111" Visibility="Hidden"/>
+        <Label x:Name="lblTutorialStep5" Content="The info to the right tells us the player turn&#xD;&#xA;and the number of cards in each player's&#xD;&#xA;hand.&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1195,54,0,0" Width="254" BorderBrush="Black" Foreground="White" Height="89" Visibility="Hidden"/>
+        <Label x:Name="lblTutorialStep6" Content="If you do not have any playable cards, you&#xD;&#xA;can draw a card by clicking the deck.  If a &#xD;&#xA;player runs out of cards, they win the round&#xD;&#xA;and the other's cards are tallied up.&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="527,322,0,0" Width="254" BorderBrush="Black" Foreground="White" Height="89" Visibility="Hidden"/>
+        <Button x:Name="BtnEndTutorial" Content="Finish Tutorial" HorizontalAlignment="Left" Margin="870,233,0,0" VerticalAlignment="Top" Width="158" Height="45" Click="BtnEndTutorial_Click" Background="White" Visibility="Hidden">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="10" Color="#FF192254" Opacity="0.5"/>
             </Button.Effect>
         </Button>
     </Grid>

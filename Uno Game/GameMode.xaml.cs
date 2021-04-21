@@ -42,7 +42,17 @@ namespace Uno_Game
         /// <param name="e">The event arguments for the event.</param>
         private void BtnTwoPlayer_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow(Mode.TwoPlayers, 2).ShowDialog();
+            new MainWindow(Mode.TwoPlayers, 2, false).ShowDialog();
+        }
+
+        /// <summary>
+        /// Creates a tutorial game
+        /// </summary>
+        /// <param name="sender">The object that initiated the event.</param>
+        /// <param name="e">The event arguments for the event.</param>
+        private void BtnTutorialMode_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow(Mode.TwoPlayers, 2, true).ShowDialog();
         }
 
         /// <summary>
@@ -63,7 +73,7 @@ namespace Uno_Game
         /// <param name="e">The event arguments for the event.</param>
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            new MainWindow(Mode.MultiplePlayers, cboSelectionMode.SelectedIndex + 3).ShowDialog();
+            new MainWindow(Mode.MultiplePlayers, cboSelectionMode.SelectedIndex + 3, false).ShowDialog();
         }
     }
 }
