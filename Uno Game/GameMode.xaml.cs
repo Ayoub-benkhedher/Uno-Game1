@@ -42,6 +42,8 @@ namespace Uno_Game
         /// <param name="e">The event arguments for the event.</param>
         private void BtnTwoPlayer_Click(object sender, RoutedEventArgs e)
         {
+            cboSelectionMode.Visibility = Visibility.Hidden;
+            lblPick.Visibility = Visibility.Hidden;
             new MainWindow(Mode.TwoPlayers, 2, false).ShowDialog();
         }
 

@@ -692,7 +692,7 @@ namespace Uno_Game
                                     this.UnoGame.PlayerTurn = this.numberOfPlayers;
                                 }
                             }
-                            else if ((path.Substring(0, 4) == "Skip")|| (path.Substring(0, 4) == "Draw") || (path.Substring(0, 8) == "WildDraw"))
+                            else if ((path.Substring(0, 4) == "Skip") || (path.Substring(0, 4) == "Draw") || (path.Substring(0, 8) == "WildDraw"))
                             {
                                 this.UnoGame.PlayerTurn = ((this.UnoGame.PlayerTurn + 1) % this.numberOfPlayers) + 1;
                                 ////if ((PlayerNumber != NumberOfPlayers - 2) && (PlayerNumber != NumberOfPlayers - 1))
@@ -729,7 +729,7 @@ namespace Uno_Game
                                     this.UnoGame.PlayerTurn = 1;
                                 }
                             }
-                            else if ((path.Substring(0, 4) == "Skip")|| (path.Substring(0, 4) == "Draw") || (path.Substring(0, 8) == "WildDraw"))
+                            else if ((path.Substring(0, 4) == "Skip") || (path.Substring(0, 4) == "Draw") || (path.Substring(0, 8) == "WildDraw"))
                             {
                                 this.UnoGame.PlayerTurn = ((this.numberOfPlayers + this.UnoGame.PlayerTurn - 3) % this.numberOfPlayers) + 1;
                                 ////if (PlayerNumber != 0 && PlayerNumber != 1)
