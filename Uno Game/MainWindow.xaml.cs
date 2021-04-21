@@ -1408,6 +1408,17 @@ namespace Uno_Game
                 this.grdMainWindow.Children.Add(this.NextPlayerButton);
                 this.grdMainWindow.Children.Add(this.lblPlayer);
                 this.grdMainWindow.Children.Add(this.lstPlayers);
+                this.grdMainWindow.Children.Add(this.BtnPlayer1Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer2Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer3Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer4Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer5Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer6Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer7Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer8Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer9Uno);
+                this.grdMainWindow.Children.Add(this.BtnPlayer10Uno);
+                this.grdMainWindow.Children.Add(this.BtnNoticeMissedUno);
                 this.CompX = 70;
                 this.X = 70;
                 this.X2 = 800;
@@ -2970,91 +2981,61 @@ namespace Uno_Game
             if (BtnPlayer1Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer1Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 1;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[0]);
             }
 
             if (BtnPlayer2Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer2Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 2;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[1]);
             }
 
             if (BtnPlayer3Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer3Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 3;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[2]);
             }
 
             if (BtnPlayer4Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer4Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 4;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[3]);
             }
 
             if (BtnPlayer5Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer5Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 5;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[4]);
             }
 
             if (BtnPlayer6Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer6Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 6;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[5]);
             }
 
             if (BtnPlayer7Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer7Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 7;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[6]);
             }
 
             if (BtnPlayer8Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer8Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 8;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[7]);
             }
 
             if (BtnPlayer9Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer9Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 9;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[8]);
             }
 
             if (BtnPlayer10Uno.Visibility == Visibility.Visible)
             {
                 BtnPlayer10Uno.Visibility = Visibility.Hidden;
-                int saveTurn = this.UnoGame.PlayerTurn;
-                this.UnoGame.PlayerTurn = 10;
-                this.UnoGame.DrawTwoOrFour(2);
-                this.UnoGame.PlayerTurn = saveTurn;
+                this.DrawTwoMissedCall(this.UnoGame.Players[9]);
             }
 
             BtnNoticeMissedUno.Visibility = Visibility.Hidden;
@@ -3232,6 +3213,18 @@ namespace Uno_Game
         private void BtnEndTutorial_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// Uses the draw two method for a missed Uno call.
+        /// </summary>
+        /// <param name="player">Current player to draw cards</param>
+        private void DrawTwoMissedCall(Player player)
+        {
+            player.PlayerHand.Add(this.UnoGame.CurrentDeck[0]);
+            this.UnoGame.CurrentDeck.RemoveAt(0);
+            player.PlayerHand.Add(this.UnoGame.CurrentDeck[0]);
+            this.UnoGame.CurrentDeck.RemoveAt(0);
         }
     }
 }
