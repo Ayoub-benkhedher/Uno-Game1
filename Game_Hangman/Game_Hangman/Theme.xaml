@@ -1,0 +1,42 @@
+﻿<Window x:Class="Game_Hangman.Theme"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_Hangman"
+        mc:Ignorable="d"
+        Title="Theme" Height="525.318" Width="1022.4">
+    <Grid Margin="0,0,0,4">
+        <Grid.Background>
+            <ImageBrush ImageSource="hangman_background.png"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="149*"/>
+            <ColumnDefinition Width="247*"/>
+            <ColumnDefinition Width="112*"/>
+        </Grid.ColumnDefinitions>
+        <Border x:Name="recTheme" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="220" Margin="263,184,0,0" VerticalAlignment="Top" Width="422" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblTheme" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="400,184,0,0" Width="156" RenderTransformOrigin="1.009,0.566" Grid.Column="1" Grid.ColumnSpan="2" Height="46">
+            <Label.Background>
+                <ImageBrush ImageSource="pick-a-theme.png"/>
+            </Label.Background>
+        </Label>
+        <Button x:Name="btnMix" Content="Mix" Margin="297,252,52,202" Click="BtnMix_Click" Grid.Column="1" VerticalAlignment="Top" Width="136" Height="35"/>
+        <Button x:Name="btnMovies" Content="Movies" Margin="297,318,52,136" Click="BtnMovies_Click" Grid.Column="1" VerticalAlignment="Top" Width="136" Height="35"/>
+        <Button x:Name="btnSport" Content="Sport" Margin="10,252,69,202" Click="BtnSport_Click" Grid.Column="2" VerticalAlignment="Top" Width="136" Height="35"/>
+        <Button x:Name="BtnCountries" Content="Countries" Margin="10,318,69,136" Click="BtnCountries_Click" Grid.Column="2" VerticalAlignment="Top" Width="136" Height="35" />
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="294" Margin="107,107,0,0" VerticalAlignment="Top" Width="180"/>
+        <Button x:Name="btnOnePlayerMode" Content="One Player" Margin="127,171,26,283" Click="BtnOnePlayer_Click" VerticalAlignment="Top" Width="136" Height="35"/>
+        <Button x:Name="btnTwoPlayersMode" Content="Two Players" Margin="127,287,26,167" Click="BtnTwoPlayers_Click" VerticalAlignment="Top" Width="136" Height="35"/>
+        <Label Content="Game Mode" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,115,0,0" Width="100" RenderTransformOrigin="1.009,0.566"/>
+        <Label x:Name="lblHost" Content="The Host is : " Grid.Column="1" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblIsHost" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="122,36,0,0" VerticalAlignment="Top" Width="121"/>
+        <Label x:Name="lblScoring" Content="Scoring:" Grid.Column="2" HorizontalAlignment="Left" Margin="101,21,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,1.741"/>
+        <Label x:Name="lblPlayer1" Content="Player1:" Grid.Column="2" HorizontalAlignment="Left" Margin="35,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,1.741"/>
+        <Label x:Name="lblPlayer2" Content="Player2:" Grid.Column="2" HorizontalAlignment="Left" Margin="35,115,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,1.741"/>
+        <Label x:Name="lblPlayerOneScore" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="117,67,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,1.741" Width="74"/>
+        <Label x:Name="lblPlayerTwoScore" Content="" Grid.Column="2" HorizontalAlignment="Left" Margin="117,115,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.411,1.741" Width="74"/>
+        <Button x:Name="btnAbout" Content="About" Grid.Column="2" HorizontalAlignment="Left" Margin="124,428,0,0" VerticalAlignment="Top" Width="76" Click="BtnAbout_Click"/>
+
+    </Grid>
+</Window>
