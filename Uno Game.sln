@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno Game", "Uno Game\Uno Game.csproj", "{BF00654E-742C-4DF1-B9C6-82810BB842E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_Hangman", "..\..\Game_Hangman\Part2\Game_Hangman\Game_Hangman\Game_Hangman.csproj", "{415E9270-86D7-45C5-995A-D6DB7D216615}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game Interface", "Game Interface\Game Interface.csproj", "{7EE3A7C7-2B3D-4460-914C-A15DFB7A78FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{BF00654E-742C-4DF1-B9C6-82810BB842E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF00654E-742C-4DF1-B9C6-82810BB842E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF00654E-742C-4DF1-B9C6-82810BB842E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{415E9270-86D7-45C5-995A-D6DB7D216615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{415E9270-86D7-45C5-995A-D6DB7D216615}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{415E9270-86D7-45C5-995A-D6DB7D216615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{415E9270-86D7-45C5-995A-D6DB7D216615}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EE3A7C7-2B3D-4460-914C-A15DFB7A78FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EE3A7C7-2B3D-4460-914C-A15DFB7A78FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EE3A7C7-2B3D-4460-914C-A15DFB7A78FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EE3A7C7-2B3D-4460-914C-A15DFB7A78FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

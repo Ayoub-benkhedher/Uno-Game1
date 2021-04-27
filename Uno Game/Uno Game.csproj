@@ -60,6 +60,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GameInterface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GameMode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -79,6 +83,9 @@
     <Compile Include="Computer.cs" />
     <Compile Include="DeckOfCards.cs" />
     <Compile Include="Gameflow.cs" />
+    <Compile Include="GameInterface.xaml.cs">
+      <DependentUpon>GameInterface.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameMode.xaml.cs">
       <DependentUpon>GameMode.xaml</DependentUpon>
     </Compile>

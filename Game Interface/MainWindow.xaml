@@ -1,0 +1,25 @@
+﻿<Window x:Class="Game_Interface.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_Interface"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="pick a game.jpg"/>
+        </Grid.Background>
+        <Button x:Name="btnHangman" Content="HangMan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="194" Margin="71,178,0,0" Height="66" Click="btnHangman_Click" Background="#FFA22929" BorderBrush="Black">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="btnUno" Content="UnoGame" HorizontalAlignment="Left" VerticalAlignment="Top" Width="194" Margin="513,178,0,0" Height="66" Click="btnUno_Click" Background="#FFB63636" BorderBrush="Black">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+
+    </Grid>
+</Window>
