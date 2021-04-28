@@ -81,11 +81,10 @@ namespace Game_Hangman
         {
             this.InitializeComponent();
 
-
             this.theme = thememode;
             this.game = new HangMan();
             this.thePlayers = p;
-            if (theme == ThemeMode.TwoPlayersMode)
+            if (this.theme == ThemeMode.TwoPlayersMode)
             {
                 if (this.thePlayers.Player1IsHost)
                 {
@@ -153,7 +152,7 @@ namespace Game_Hangman
 
             this.game.WordLength = this.game.SecretWord.Length;
             this.game.GuessedLetters = new string[this.game.WordLength];
-            //MessageBox.Show(this.game.SecretWord);
+            ////MessageBox.Show(this.game.SecretWord);
 
             // Filling the copy word with dashes
             for (int i = 0; i < this.game.WordLength; i++)
@@ -262,20 +261,22 @@ namespace Game_Hangman
                     imgHangMan.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resources/H" + this.game.WrongGuesses.ToString() + ".png"));
                     if (this.game.WrongGuesses >= 7)
                     {
-                        if (theme == ThemeMode.TwoPlayersMode)
+                        if (this.theme == ThemeMode.TwoPlayersMode)
                         {
                             this.HostWonIncrement(true);
                         }
+
                         MessageBox.Show("Game Over! The correct word is : " + this.game.SecretWord.ToString());
                         this.game.GameOver = true;
                     } 
 
                     if (this.game.Counter >= this.game.WordLength)
                     {
-                        if (theme == ThemeMode.TwoPlayersMode)
+                        if (this.theme == ThemeMode.TwoPlayersMode)
                         {
                             this.HostWonIncrement(false);
                         }
+
                         this.game.GameOver = true;
                         MessageBox.Show("Congrats! You Won");
                     }

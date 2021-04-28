@@ -10,12 +10,12 @@
         <Grid.Background>
             <ImageBrush ImageSource="pick a game.jpg"/>
         </Grid.Background>
-        <Button x:Name="btnHangman" Content="HangMan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="194" Margin="71,178,0,0" Height="66" Click="btnHangman_Click" Background="#FFA22929" BorderBrush="Black">
+        <Button x:Name="BtnHangman" Content="HangMan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="194" Margin="71,178,0,0" Height="66" Click="BtnHangman_Click" Background="#FFA22929" BorderBrush="Black">
             <Button.Effect>
                 <DropShadowEffect/>
             </Button.Effect>
         </Button>
-        <Button x:Name="btnUno" Content="UnoGame" HorizontalAlignment="Left" VerticalAlignment="Top" Width="194" Margin="513,178,0,0" Height="66" Click="btnUno_Click" Background="#FFB63636" BorderBrush="Black">
+        <Button x:Name="BtnUno" Content="UnoGame" HorizontalAlignment="Left" VerticalAlignment="Top" Width="194" Margin="513,178,0,0" Height="66" Click="BtnUno_Click" Background="#FFB63636" BorderBrush="Black">
             <Button.Effect>
                 <DropShadowEffect/>
             </Button.Effect>
